@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "plugin": "build-omarchy-plugins",
+  "version": "0.1.0",
+  "cases": [
+    {
+      "id": "positive-bar-widget",
+      "shouldTrigger": true,
+      "prompt": "Create an Omarchy 4 bar widget that shows my current focus session and opens a detail panel when clicked.",
+      "expectedSkills": ["omarchy-plugin-design", "omarchy-plugin-scaffold", "omarchy-bar-widget"],
+      "expectedResultShape": "Repository tree, architecture note, validation result, and remaining live-shell check.",
+      "fixture": "Empty writable directory; fictional 25-minute focus sessions; no external service."
+    },
+    {
+      "id": "positive-manifest-failure",
+      "shouldTrigger": true,
+      "prompt": "My Omarchy plugin appears in the plugin list but fails validation after I renamed Panel.qml. Diagnose it.",
+      "expectedSkills": ["omarchy-plugin-debug", "omarchy-plugin-test"],
+      "expectedResultShape": "Observed evidence, root cause, minimal patch, and before/after validator output.",
+      "fixture": "Generated panel scaffold with Panel.qml renamed to Details.qml but entryPoints.panel unchanged."
+    },
+    {
+      "id": "positive-service-ipc",
+      "shouldTrigger": true,
+      "prompt": "Add one process-wide weather service to this Quattro plugin and expose a refresh action over IPC without logging the API token.",
+      "expectedSkills": ["omarchy-service-ipc", "omarchy-qml-patterns", "omarchy-plugin-test"],
+      "expectedResultShape": "Service QML, IPC contract table, redacted test evidence, and host-dependent checks.",
+      "fixture": "Generated service scaffold and fictional WEATHER_DEMO_TOKEN; no credential or network call."
+    },
+    {
+      "id": "positive-legacy-migration",
+      "shouldTrigger": true,
+      "prompt": "Migrate my old Omarchy installer plugin: keep its required systemd helper, but move its visible status and controls into the Quattro shell.",
+      "expectedSkills": ["omarchy-plugin-migrate", "omarchy-plugin-design"],
+      "expectedResultShape": "Responsibility map, two-repository target layout, staged migration, and rollback steps.",
+      "fixture": "Descriptions of install.sh, demo-helper.service, and a status script printing ready; run no privileged action."
+    },
+    {
+      "id": "positive-release",
+      "shouldTrigger": true,
+      "prompt": "Preflight this Omarchy plugin release and prepare the exact community marketplace submission, but do not publish anything yet.",
+      "expectedSkills": ["omarchy-plugin-release", "omarchy-plugin-publish", "omarchy-plugin-demo"],
+      "expectedResultShape": "Pass/fail preflight, exact issue title/body, preview evidence, and submitted:false.",
+      "fixture": "Committed generated bar-widget repository with origin URL, root README, MIT license, and fictional preview."
+    },
+    {
+      "id": "negative-arch-package",
+      "shouldTrigger": false,
+      "prompt": "How do I install PostgreSQL on Arch Linux?",
+      "expectedSkills": [],
+      "safeFallback": "Use ordinary Arch Linux package guidance.",
+      "reason": "Package installation is unrelated to Omarchy plugin authoring."
+    },
+    {
+      "id": "negative-gnome-extension",
+      "shouldTrigger": false,
+      "prompt": "Write a GNOME Shell extension that changes the overview animation.",
+      "expectedSkills": [],
+      "safeFallback": "Use a GNOME-specific extension workflow.",
+      "reason": "GNOME extensions do not use the Omarchy plugin contract."
+    },
+    {
+      "id": "negative-wallpaper-setting",
+      "shouldTrigger": false,
+      "prompt": "Help me change the wallpaper in Omarchy.",
+      "expectedSkills": [],
+      "safeFallback": "Provide ordinary Omarchy wallpaper guidance.",
+      "reason": "Changing one setting is not plugin development."
+    },
+    {
+      "id": "negative-qt-windows",
+      "shouldTrigger": false,
+      "prompt": "Build a standalone Qt Quick calculator for Windows.",
+      "expectedSkills": [],
+      "safeFallback": "Use a general Qt/QML application workflow.",
+      "reason": "A standalone Windows app does not run inside omarchy-shell."
+    },
+    {
+      "id": "negative-install-only",
+      "shouldTrigger": false,
+      "prompt": "Enable an existing Omarchy plugin I already downloaded.",
+      "expectedSkills": [],
+      "safeFallback": "Provide end-user Omarchy enablement guidance.",
+      "reason": "Enabling existing code is not plugin authoring or publication."
+    }
+  ]
+}

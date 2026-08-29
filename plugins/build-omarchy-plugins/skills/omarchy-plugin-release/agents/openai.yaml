@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Omarchy Plugins"
+  short_description: "Preflight clean, reproducible plugin releases"
+  default_prompt: "Use $omarchy-plugin-release to preflight this Omarchy plugin and prepare an immutable release boundary."

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Build Omarchy Plugins"
+  short_description: "Build, test, debug, and publish Omarchy plugins"
+  icon_small: "./assets/build-omarchy-plugins-small.svg"
+  icon_large: "./assets/app-icon.png"
+  brand_color: "#F97316"
+  default_prompt: "Build a production-ready Omarchy plugin and verify it end to end."

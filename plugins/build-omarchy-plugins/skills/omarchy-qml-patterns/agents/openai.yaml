@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy QML Patterns"
+  short_description: "Build native hosted QML for the Omarchy shell"
+  default_prompt: "Use $omarchy-qml-patterns to implement this surface with native Omarchy QML patterns."

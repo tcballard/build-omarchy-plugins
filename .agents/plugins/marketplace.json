@@ -1,0 +1,20 @@
+{
+  "name": "tcballard-omarchy",
+  "interface": {
+    "displayName": "Tom Ballard — Omarchy Tools"
+  },
+  "plugins": [
+    {
+      "name": "build-omarchy-plugins",
+      "source": {
+        "source": "local",
+        "path": "./plugins/build-omarchy-plugins"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

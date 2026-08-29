@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Service and IPC"
+  short_description: "Build safe singleton services and stable IPC"
+  default_prompt: "Use $omarchy-service-ipc to design and implement this Omarchy service and IPC contract."

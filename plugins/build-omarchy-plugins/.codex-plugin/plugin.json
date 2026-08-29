@@ -1,0 +1,48 @@
+{
+  "name": "build-omarchy-plugins",
+  "version": "0.1.0",
+  "description": "Design, scaffold, implement, test, debug, demo, release, migrate, and publish Omarchy 4 Quattro shell plugins.",
+  "author": {
+    "name": "Tom Ballard",
+    "url": "https://github.com/tcballard"
+  },
+  "homepage": "https://github.com/tcballard/build-omarchy-plugins",
+  "repository": "https://github.com/tcballard/build-omarchy-plugins",
+  "license": "MIT",
+  "keywords": [
+    "omarchy",
+    "quattro",
+    "quickshell",
+    "qml",
+    "linux",
+    "plugin-development",
+    "developer-tools"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Build Omarchy Plugins",
+    "shortDescription": "Build, test, debug, and publish Omarchy plugins",
+    "longDescription": "A complete engineering toolkit for Omarchy 4 Quattro plugins: choose the right shell surface, generate a working repository, implement native QML patterns, validate the manifest and security boundary, exercise service and IPC behavior, create deterministic demos, prepare releases, migrate older integrations, and submit to the Omarchy community marketplace.",
+    "developerName": "Tom Ballard",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/tcballard/build-omarchy-plugins",
+    "privacyPolicyURL": "https://github.com/tcballard/build-omarchy-plugins/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/tcballard/build-omarchy-plugins/blob/main/TERMS.md",
+    "defaultPrompt": [
+      "Scaffold a production-ready Omarchy bar widget.",
+      "Debug and test this Omarchy Quickshell plugin.",
+      "Prepare this Omarchy plugin for marketplace submission."
+    ],
+    "brandColor": "#F97316",
+    "composerIcon": "./assets/build-omarchy-plugins-small.svg",
+    "logo": "./assets/app-icon.png",
+    "screenshots": [
+      "./assets/workflow.png"
+    ]
+  }
+}

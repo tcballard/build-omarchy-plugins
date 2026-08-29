@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Bar Widget"
+  short_description: "Build responsive Omarchy bar widgets and popouts"
+  default_prompt: "Use $omarchy-bar-widget to build or refine this Omarchy bar widget."

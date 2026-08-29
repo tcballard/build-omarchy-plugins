@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Build Omarchy Plugins workflow</title>
+  <desc id="desc">Five connected stages move an Omarchy plugin from design through publication.</desc>
+  <defs>
+    <linearGradient id="background" x1="140" y1="70" x2="1450" y2="850" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#211D27"/>
+      <stop offset="1" stop-color="#0F0E12"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FB923C"/>
+      <stop offset="1" stop-color="#EA580C"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#background)"/>
+  <circle cx="1410" cy="90" r="310" fill="#F97316" opacity=".07"/>
+  <circle cx="120" cy="875" r="360" fill="#F97316" opacity=".045"/>
+
+  <g transform="translate(96 78)">
+    <rect width="56" height="56" rx="14" fill="#F97316"/>
+    <path d="M18 12v10M38 12v10M15 22h26v5c0 8-5.4 14.8-13 16.6V50" fill="none" stroke="#17151B" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="21" cy="29" r="2.4" fill="#17151B"/>
+    <circle cx="28" cy="29" r="2.4" fill="#17151B"/>
+    <circle cx="35" cy="29" r="2.4" fill="#17151B"/>
+  </g>
+  <text x="174" y="104" fill="#F8F7F4" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700">BUILD OMARCHY PLUGINS</text>
+  <text x="96" y="218" fill="#F8F7F4" font-family="DejaVu Sans, sans-serif" font-size="60" font-weight="700">From idea to Quattro-ready.</text>
+  <text x="96" y="270" fill="#B8B1BE" font-family="DejaVu Sans, sans-serif" font-size="25">Twelve focused skills. Six shell surfaces. One verified release path.</text>
+
+  <path d="M226 488H1374" stroke="#423B47" stroke-width="8" stroke-linecap="round"/>
+  <path d="M226 488H1374" stroke="url(#orange)" stroke-width="4" stroke-linecap="round"/>
+
+  <g font-family="DejaVu Sans, sans-serif" filter="url(#cardShadow)">
+    <g transform="translate(96 365)">
+      <rect width="240" height="246" rx="28" fill="#27232C" stroke="#423B47"/>
+      <circle cx="120" cy="123" r="38" fill="#F97316"/>
+      <path d="M105 123h30M120 108v30" stroke="#17151B" stroke-width="7" stroke-linecap="round"/>
+      <text x="26" y="47" fill="#F97316" font-size="16" font-weight="700" letter-spacing="2">01</text>
+      <text x="120" y="198" fill="#F8F7F4" font-size="25" font-weight="700" text-anchor="middle">DESIGN</text>
+      <text x="120" y="226" fill="#AAA3AF" font-size="15" text-anchor="middle">kind · state · boundary</text>
+    </g>
+    <g transform="translate(388 365)">
+      <rect width="240" height="246" rx="28" fill="#27232C" stroke="#423B47"/>
+      <circle cx="120" cy="123" r="38" fill="#F97316"/>
+      <path d="M101 111h38v29h-38zM108 104h24" fill="none" stroke="#17151B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+      <text x="26" y="47" fill="#F97316" font-size="16" font-weight="700" letter-spacing="2">02</text>
+      <text x="120" y="198" fill="#F8F7F4" font-size="25" font-weight="700" text-anchor="middle">SCAFFOLD</text>
+      <text x="120" y="226" fill="#AAA3AF" font-size="15" text-anchor="middle">manifest · QML · CI</text>
+    </g>
+    <g transform="translate(680 365)">
+      <rect width="240" height="246" rx="28" fill="#27232C" stroke="#423B47"/>
+      <circle cx="120" cy="123" r="38" fill="#F97316"/>
+      <path d="M102 123l12 12 25-29" fill="none" stroke="#17151B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="26" y="47" fill="#F97316" font-size="16" font-weight="700" letter-spacing="2">03</text>
+      <text x="120" y="198" fill="#F8F7F4" font-size="25" font-weight="700" text-anchor="middle">VERIFY</text>
+      <text x="120" y="226" fill="#AAA3AF" font-size="15" text-anchor="middle">structure · security · shell</text>
+    </g>
+    <g transform="translate(972 365)">
+      <rect width="240" height="246" rx="28" fill="#27232C" stroke="#423B47"/>
+      <circle cx="120" cy="123" r="38" fill="#F97316"/>
+      <rect x="100" y="107" width="40" height="30" rx="3" fill="none" stroke="#17151B" stroke-width="6"/>
+      <path d="M109 144h22" stroke="#17151B" stroke-width="6" stroke-linecap="round"/>
+      <text x="26" y="47" fill="#F97316" font-size="16" font-weight="700" letter-spacing="2">04</text>
+      <text x="120" y="198" fill="#F8F7F4" font-size="25" font-weight="700" text-anchor="middle">DEMO</text>
+      <text x="120" y="226" fill="#AAA3AF" font-size="15" text-anchor="middle">fixtures · capture · proof</text>
+    </g>
+    <g transform="translate(1264 365)">
+      <rect width="240" height="246" rx="28" fill="#F97316"/>
+      <circle cx="120" cy="123" r="38" fill="#17151B"/>
+      <path d="M120 142v-38M105 119l15-15 15 15" fill="none" stroke="#F8F7F4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="26" y="47" fill="#17151B" font-size="16" font-weight="700" letter-spacing="2">05</text>
+      <text x="120" y="198" fill="#17151B" font-size="25" font-weight="700" text-anchor="middle">PUBLISH</text>
+      <text x="120" y="226" fill="#4B2612" font-size="15" text-anchor="middle">release · marketplace · handoff</text>
+    </g>
+  </g>
+
+  <g transform="translate(96 700)" font-family="DejaVu Sans, sans-serif">
+    <text fill="#F97316" font-size="17" font-weight="700" letter-spacing="2">CURRENT OMARCHY 4 CONTRACT</text>
+    <text y="45" fill="#D8D3DA" font-size="22">bar-widget · panel · overlay · menu · service · bar</text>
+    <text y="88" fill="#8E8794" font-size="17">Manifest validation, hosted QML patterns, reversible demos, and exact marketplace metadata.</text>
+  </g>
+  <text x="1504" y="811" fill="#706A74" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="end">v0.1.0 · tcballard</text>
+</svg>

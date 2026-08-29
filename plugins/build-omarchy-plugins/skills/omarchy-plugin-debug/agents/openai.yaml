@@ -1,0 +1,4 @@
+interface:
+  display_name: "Debug Omarchy Plugins"
+  short_description: "Diagnose discovery, QML, IPC, and shell failures"
+  default_prompt: "Use $omarchy-plugin-debug to find the first failing boundary in this Omarchy plugin."

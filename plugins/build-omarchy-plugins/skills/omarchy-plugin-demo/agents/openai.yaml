@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Omarchy Plugins"
+  short_description: "Create reversible demos with fictional fixtures"
+  default_prompt: "Use $omarchy-plugin-demo to create a deterministic, reversible demo and screenshot for this plugin."

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Build Omarchy Plugins icon</title>
+  <desc id="desc">A warm orange modular plug on a charcoal field.</desc>
+  <defs>
+    <linearGradient id="field" x1="170" y1="110" x2="850" y2="910" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#211D27"/>
+      <stop offset="1" stop-color="#100F13"/>
+    </linearGradient>
+    <linearGradient id="hot" x1="302" y1="214" x2="722" y2="806" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB923C"/>
+      <stop offset="1" stop-color="#EA580C"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="28" stdDeviation="34" flood-color="#000" flood-opacity=".38"/>
+    </filter>
+  </defs>
+  <rect x="32" y="32" width="960" height="960" rx="232" fill="url(#field)"/>
+  <path d="M184 313h656M184 512h656M184 711h656M313 184v656M512 184v656M711 184v656" stroke="#F8F7F4" stroke-opacity=".035" stroke-width="2"/>
+  <g filter="url(#shadow)">
+    <path d="M342 196v128M682 196v128" stroke="url(#hot)" stroke-width="76" stroke-linecap="round"/>
+    <path d="M276 315h472v115c0 145-97 267-230 305v121" fill="none" stroke="#F8F7F4" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M518 735v121" stroke="url(#hot)" stroke-width="76" stroke-linecap="round"/>
+  </g>
+  <circle cx="355" cy="454" r="42" fill="url(#hot)"/>
+  <circle cx="512" cy="454" r="42" fill="url(#hot)"/>
+  <circle cx="669" cy="454" r="42" fill="url(#hot)"/>
+  <path d="M355 454h314" stroke="#F97316" stroke-opacity=".3" stroke-width="10" stroke-linecap="round"/>
+</svg>

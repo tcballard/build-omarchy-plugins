@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Plugin Scaffold"
+  short_description: "Generate a working Quattro plugin repository"
+  default_prompt: "Use $omarchy-plugin-scaffold to create a validated Omarchy plugin repository for this idea."

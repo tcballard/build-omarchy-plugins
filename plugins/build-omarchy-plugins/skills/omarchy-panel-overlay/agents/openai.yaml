@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Panels and Overlays"
+  short_description: "Build lifecycle-correct shell panels and overlays"
+  default_prompt: "Use $omarchy-panel-overlay to implement this Omarchy panel, overlay, or menu correctly."

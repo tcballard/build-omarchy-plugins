@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+plugin="$repo/plugins/build-omarchy-plugins"
+skills="$plugin/skills"
+temporary="$(mktemp -d)"
+trap 'rm -rf "$temporary"' EXIT INT TERM HUP
+
+python3 "$repo/scripts/validate_codex_plugin.py" "$plugin"
+python3 "$repo/scripts/validate_skills.py" "$skills"
+python3 -m compileall -q "$repo/scripts" "$skills"
+python3 -m unittest discover -s "$repo/tests" -p 'test_*.py' -v
+python3 "$repo/scripts/package_submission.py" --output-dir "$temporary/dist" >/dev/null
+
+skill_validator="/root/.codex/skills/.system/skill-creator/scripts/quick_validate.py"
+if [[ -f $skill_validator ]]; then
+  while IFS= read -r skill; do
+    python3 "$skill_validator" "$skill" >/dev/null
+  done < <(find "$skills" -mindepth 1 -maxdepth 1 -type d | sort)
+fi
+
+plugin_validator="/root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py"
+if [[ -f $plugin_validator ]]; then
+  python3 "$plugin_validator" "$plugin" >/dev/null
+fi
+
+printf 'All Build Omarchy Plugins checks passed.\n'

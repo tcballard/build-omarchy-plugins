@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Omarchy Plugins"
+  short_description: "Validate manifests, QML, fixtures, and lifecycle"
+  default_prompt: "Use $omarchy-plugin-test to verify this Omarchy plugin from static checks through live-shell evidence."
