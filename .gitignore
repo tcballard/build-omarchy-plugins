@@ -1,0 +1,8 @@
+dist/
+__pycache__/
+*.py[cod]
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+*.log
+test-results/
