@@ -14,7 +14,7 @@ reviewer's machine.
   OpenAI adapter generated from the same source.
 - Executable Python utilities use only the Python standard library.
 - The installer targets the shared `.agents/skills` convention as well as the
-  native Codex, Cursor, Gemini CLI, and Claude Code skill directories.
+  native Codex, Cursor, Gemini CLI, Claude Code, and OpenCode skill directories.
 - Templates generate each current Omarchy kind: `bar-widget`, `panel`,
   `overlay`, `menu`, `service`, and `bar`.
 - The structural validator runs without Omarchy, Quickshell, network access, or

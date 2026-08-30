@@ -19,6 +19,7 @@ TARGET_PATHS = {
     "cursor": (Path(".cursor/skills"), Path(".cursor/skills")),
     "gemini": (Path(".gemini/skills"), Path(".gemini/skills")),
     "claude": (Path(".claude/skills"), Path(".claude/skills")),
+    "opencode": (Path(".opencode/skills"), Path(".config/opencode/skills")),
 }
 IGNORED_NAMES = {"__pycache__", ".DS_Store"}
 IGNORED_SUFFIXES = {".pyc", ".pyo"}

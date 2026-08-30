@@ -81,5 +81,5 @@
     <text y="45" fill="#D8D3DA" font-size="22">bar-widget · panel · overlay · menu · service · bar</text>
     <text y="88" fill="#8E8794" font-size="17">Manifest validation, hosted QML patterns, reversible demos, and exact marketplace metadata.</text>
   </g>
-  <text x="1504" y="811" fill="#706A74" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="end">v0.2.0 · tcballard</text>
+  <text x="1504" y="811" fill="#706A74" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="end">v0.2.1 · tcballard</text>
 </svg>

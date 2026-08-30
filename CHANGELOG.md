@@ -2,6 +2,13 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.2.1 — 2026-08-30
+
+- Add an explicit OpenCode installer target using its native project and global
+  Agent Skills directories.
+- Add OpenCode installation and idempotency coverage to the host matrix.
+- Document that OpenCode can also discover the shared `.agents/skills` target.
+
 ## 0.2.0 — 2026-08-30
 
 - Add a provider-neutral Agent Plugins 1.0.0 package at the repository root.

@@ -25,6 +25,7 @@ package or its Omarchy tools.
 | Cursor | `.cursor/skills/` | `~/.cursor/skills/` | Install tested; portable Agent Plugin emitted |
 | Gemini CLI | `.gemini/skills/` | `~/.gemini/skills/` | Install tested; `.agents/skills` also supported |
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` | Install tested |
+| OpenCode | `.opencode/skills/` | `~/.config/opencode/skills/` | Native install and idempotency tested; `.agents/skills` also supported |
 | Other hosts | User-supplied destination | User-supplied destination | Generic copy and conflict behavior tested |
 
 The repository tests filesystem installation and package structure. They do not

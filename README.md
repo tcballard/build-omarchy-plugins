@@ -42,7 +42,7 @@ compatibility boundary.
 ## Install the Agent Skills
 
 Clone the repository, then install the skills into the shared interoperable
-location used by Codex, Cursor, and Gemini CLI:
+location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
 ```bash
 git clone https://github.com/tcballard/build-omarchy-plugins.git
@@ -57,6 +57,7 @@ python3 scripts/install_agent_skills.py --target codex --scope user
 python3 scripts/install_agent_skills.py --target cursor --scope user
 python3 scripts/install_agent_skills.py --target gemini --scope user
 python3 scripts/install_agent_skills.py --target claude --scope user
+python3 scripts/install_agent_skills.py --target opencode --scope user
 ```
 
 Use `--scope project` to install into the current repository, `--skill NAME` to
@@ -101,7 +102,7 @@ The portable skills include reusable scripts that:
 - mirror Omarchy's manifest and path checks without requiring an Omarchy host;
 - report advisory marketplace security findings and review capabilities;
 - diagnose a local Omarchy installation without mutating it;
-- preflight releases and generate exact marketplace submission bodies; and
+- preflight releases and generate exact marketplace submission bodies;
 - install safely into supported agent-host skill locations; and
 - produce deterministic portable Agent Plugin and OpenAI submission archives.
 

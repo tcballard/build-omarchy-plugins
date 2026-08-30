@@ -25,8 +25,21 @@ SYNC = REPO / "scripts" / "sync_openai_adapter.py"
 PORTABLE_VALIDATE = REPO / "scripts" / "validate_agent_plugin.py"
 
 
-def run(command: list[str], cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(command, cwd=cwd or REPO, text=True, capture_output=True, check=False)
+def run(
+    command: list[str],
+    cwd: Path | None = None,
+    env: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
+    environment = os.environ.copy()
+    environment.update(env or {})
+    return subprocess.run(
+        command,
+        cwd=cwd or REPO,
+        env=environment,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
 
 
 def generate(output: Path, kinds: tuple[str, ...] = ("bar-widget",), git: bool = False) -> subprocess.CompletedProcess[str]:
@@ -78,6 +91,7 @@ class ToolTests(unittest.TestCase):
             "cursor": Path(".cursor/skills"),
             "gemini": Path(".gemini/skills"),
             "claude": Path(".claude/skills"),
+            "opencode": Path(".opencode/skills"),
         }
         for target, relative in targets.items():
             with self.subTest(target=target), tempfile.TemporaryDirectory() as temporary:
@@ -109,6 +123,25 @@ class ToolTests(unittest.TestCase):
                 ], cwd=workspace)
                 self.assertEqual(0, again.returncode, again.stdout + again.stderr)
                 self.assertEqual(12, len(json.loads(again.stdout)["unchanged"]))
+
+    def test_installer_uses_opencode_global_config_location(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            home = Path(temporary)
+            result = run([
+                sys.executable,
+                str(INSTALL),
+                "--target",
+                "opencode",
+                "--scope",
+                "user",
+                "--json",
+            ], env={"HOME": str(home)})
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            payload = json.loads(result.stdout)
+            destination = home / ".config/opencode/skills"
+            self.assertEqual(str(destination), payload["destination"])
+            self.assertEqual(12, len(list(destination.glob("*/SKILL.md"))))
+            self.assertFalse(any(destination.glob("*/agents/openai.yaml")))
 
     def test_installer_refuses_conflicts_and_force_repairs_selected_skill(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -282,7 +315,7 @@ class ToolTests(unittest.TestCase):
             checksums = run(["sha256sum", "-c", "SHA256SUMS"], cwd=first)
             self.assertEqual(0, checksums.returncode, checksums.stdout + checksums.stderr)
 
-            portable = first / "build-omarchy-plugins-agent-plugin-0.2.0.zip"
+            portable = first / "build-omarchy-plugins-agent-plugin-0.2.1.zip"
             self.assertTrue(portable.is_file())
             import zipfile
             with zipfile.ZipFile(portable) as archive:
