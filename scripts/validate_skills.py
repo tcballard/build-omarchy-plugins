@@ -14,7 +14,7 @@ DESCRIPTION = re.compile(r"^description:\s*(.+?)\s*$", re.MULTILINE)
 LOCAL_LINK = re.compile(r"\]\((references/[^)#]+|scripts/[^)#]+|assets/[^)#]+)\)")
 
 
-def validate(skill: Path) -> list[str]:
+def validate(skill: Path, require_openai_metadata: bool = False) -> list[str]:
     errors: list[str] = []
     entry = skill / "SKILL.md"
     if not entry.is_file():
@@ -40,9 +40,9 @@ def validate(skill: Path) -> list[str]:
             errors.append(f"{entry}: linked resource does not exist: {target}")
 
     agent = skill / "agents" / "openai.yaml"
-    if not agent.is_file():
+    if require_openai_metadata and not agent.is_file():
         errors.append(f"{skill}: missing agents/openai.yaml")
-    else:
+    elif agent.is_file():
         agent_text = agent.read_text(encoding="utf-8")
         if name_match and f"${name_match.group(1)}" not in agent_text:
             errors.append(f"{agent}: default_prompt must mention ${name_match.group(1)}")
@@ -59,9 +59,18 @@ def validate(skill: Path) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("skills_dir", type=Path)
+    parser.add_argument(
+        "--require-openai-metadata",
+        action="store_true",
+        help="Require and validate agents/openai.yaml in every skill",
+    )
     args = parser.parse_args(argv or sys.argv[1:])
     skills = sorted(path for path in args.skills_dir.iterdir() if path.is_dir())
-    errors = [error for skill in skills for error in validate(skill)]
+    errors = [
+        error
+        for skill in skills
+        for error in validate(skill, require_openai_metadata=args.require_openai_metadata)
+    ]
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
     if errors:

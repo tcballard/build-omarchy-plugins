@@ -1,6 +1,7 @@
-# Release notes — 0.1.0
+# Release notes — 0.2.0
 
-Initial release. Adds twelve focused skills for designing, scaffolding,
-implementing, debugging, testing, demonstrating, releasing, migrating, and
-publishing Omarchy 4 Quattro plugins. Includes generators for all six current
-plugin kinds plus portable validation and deterministic submission tooling.
+Adds a provider-neutral Agent Plugins 1.0.0 distribution while preserving the
+OpenAI skills-only plugin. The same twelve skills now install safely for Codex,
+Cursor, Gemini CLI, Claude Code, and generic Agent Skills hosts. Also adds
+portable-manifest validation, adapter drift checks, conflict-safe installation,
+and deterministic multi-format release archives.

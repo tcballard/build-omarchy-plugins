@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create deterministic plugin, skill-bundle, and reviewer-material archives."""
+"""Create deterministic portable, OpenAI, and reviewer-material archives."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Iterable
 
 
-FIXED_TIME = (2026, 8, 29, 0, 0, 0)
+FIXED_TIME = (2026, 8, 30, 0, 0, 0)
 EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".ruff_cache", "dist"}
 
 
@@ -60,14 +60,25 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv or sys.argv[1:])
     repo = Path(__file__).resolve().parent.parent
     plugin = repo / "plugins" / "build-omarchy-plugins"
-    manifest = json.loads((plugin / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
-    version = manifest["version"]
+    portable_manifest = json.loads((repo / "plugin.json").read_text(encoding="utf-8"))
+    openai_manifest = json.loads((plugin / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
+    version = portable_manifest["version"]
+    if openai_manifest.get("version") != version:
+        print("portable and OpenAI plugin versions must match", file=sys.stderr)
+        return 1
     output = (args.output_dir or repo / "dist").expanduser().resolve(strict=False)
     output.mkdir(parents=True, exist_ok=True)
 
     validations = [
+        [sys.executable, str(repo / "scripts" / "validate_agent_plugin.py"), str(repo)],
+        [sys.executable, str(repo / "scripts" / "sync_openai_adapter.py"), "--check"],
         [sys.executable, str(repo / "scripts" / "validate_codex_plugin.py"), str(plugin)],
-        [sys.executable, str(repo / "scripts" / "validate_skills.py"), str(plugin / "skills")],
+        [
+            sys.executable,
+            str(repo / "scripts" / "validate_skills.py"),
+            "--require-openai-metadata",
+            str(plugin / "skills"),
+        ],
     ]
     for command in validations:
         result = subprocess.run(command, cwd=repo, text=True, capture_output=True, check=False)
@@ -76,10 +87,24 @@ def main(argv: list[str] | None = None) -> int:
             print(result.stderr, end="", file=sys.stderr)
             return result.returncode
 
+    portable_archive = output / f"build-omarchy-plugins-agent-plugin-{version}.zip"
     plugin_archive = output / f"build-omarchy-plugins-plugin-{version}.zip"
     skills_archive = output / f"build-omarchy-plugins-skills-{version}.zip"
     reviewer_archive = output / f"build-omarchy-plugins-submission-{version}.zip"
 
+    portable_mappings = [(repo / "plugin.json", "build-omarchy-plugins/plugin.json")]
+    portable_mappings.extend(
+        (path, f"build-omarchy-plugins/skills/{path.relative_to(repo / 'skills').as_posix()}")
+        for path in files_under(repo / "skills")
+    )
+    portable_mappings.extend(
+        (repo / name, f"build-omarchy-plugins/{name}")
+        for name in (
+            "README.md", "PORTABILITY.md", "LICENSE", "SECURITY.md",
+            "PRIVACY.md", "TERMS.md", "SUPPORT.md",
+        )
+    )
+    make_archive(portable_archive, portable_mappings)
     make_archive(plugin_archive, ((path, f"build-omarchy-plugins/{path.relative_to(plugin).as_posix()}") for path in files_under(plugin)))
     skills_root = plugin / "skills"
     make_archive(skills_archive, ((path, f"skills/{path.relative_to(skills_root).as_posix()}") for path in files_under(skills_root)))
@@ -92,7 +117,7 @@ def main(argv: list[str] | None = None) -> int:
         for path in reviewer_files if path.is_file()
     ))
 
-    archives = [plugin_archive, skills_archive, reviewer_archive]
+    archives = [portable_archive, plugin_archive, skills_archive, reviewer_archive]
     sums = output / "SHA256SUMS"
     sums.write_text("".join(f"{sha256(path)}  {path.name}\n" for path in archives), encoding="utf-8", newline="\n")
     print(json.dumps({

@@ -14,6 +14,7 @@ The toolkit's validation and security-lint results are limited development aids.
 They are not a security audit, certification, warranty, endorsement, legal
 opinion, or guarantee of compatibility or safety.
 
-Omarchy, Quickshell, ChatGPT, Codex, GitHub, and their associated marks belong to
-their respective owners. This project is independently maintained and is not
-endorsed by those projects unless explicitly stated by them.
+Omarchy, Quickshell, ChatGPT, Codex, Claude, Cursor, Gemini, GitHub, and their
+associated marks belong to their respective owners. This project is
+independently maintained and is not endorsed by those projects unless
+explicitly stated by them.

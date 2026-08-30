@@ -1,6 +1,6 @@
 # Build Omarchy Plugins
 
-An installable ChatGPT and Codex plugin for building production-quality
+A model-provider-neutral Agent Plugin for building production-quality
 [Omarchy 4](https://omarchy.org/) Quattro shell plugins.
 
 It packages the complete workflow: architecture, repository generation, native
@@ -16,20 +16,65 @@ toolkit needs more than a manifest example. It must understand lifecycle,
 multi-monitor state, theme tokens, process boundaries, recovery, reproducible
 evidence, and the community marketplace's exact submission contract.
 
-This plugin turns those requirements into focused skills and deterministic
-tools.
+This project turns those requirements into focused Agent Skills and
+deterministic tools. The portable package uses the open Agent Plugins 1.0.0
+layout. An OpenAI plugin remains available as one distribution adapter.
 
-## Install from GitHub
+## What "provider neutral" means
 
-After this repository is public:
+The twelve skills do not call a model API, require a hosted service, or depend
+on provider-specific tools. The agent host chooses the model and supplies its
+normal file and shell capabilities. Provider-specific manifests and UI metadata
+live only in distribution adapters.
+
+The repository root is a portable Agent Plugin:
+
+```text
+plugin.json
+skills/
+  omarchy-plugin-design/
+  ...
+```
+
+See [PORTABILITY.md](PORTABILITY.md) for the tested host paths and exact
+compatibility boundary.
+
+## Install the Agent Skills
+
+Clone the repository, then install the skills into the shared interoperable
+location used by Codex, Cursor, and Gemini CLI:
+
+```bash
+git clone https://github.com/tcballard/build-omarchy-plugins.git
+cd build-omarchy-plugins
+python3 scripts/install_agent_skills.py --target agents --scope user
+```
+
+Host-specific locations are also supported:
+
+```bash
+python3 scripts/install_agent_skills.py --target codex --scope user
+python3 scripts/install_agent_skills.py --target cursor --scope user
+python3 scripts/install_agent_skills.py --target gemini --scope user
+python3 scripts/install_agent_skills.py --target claude --scope user
+```
+
+Use `--scope project` to install into the current repository, `--skill NAME` to
+install a subset, or `--target generic --destination PATH` for another
+Agent-Skills-compatible host. Existing differing skill directories are never
+overwritten unless `--force` is supplied explicitly.
+
+## Install the OpenAI plugin
+
+For ChatGPT and Codex plugin distribution:
 
 ```bash
 codex plugin marketplace add tcballard/build-omarchy-plugins
 codex plugin add build-omarchy-plugins@tcballard-omarchy
 ```
 
-In the ChatGPT desktop app, refresh the Plugins Directory after adding the
-marketplace, then install **Build Omarchy Plugins** and start a new conversation.
+In ChatGPT, refresh the Plugins Directory after adding the marketplace, then
+install **Build Omarchy Plugins** and start a new conversation.
 
 ## Skills
 
@@ -50,14 +95,15 @@ marketplace, then install **Build Omarchy Plugins** and start a new conversation
 
 ## Deterministic tools
 
-The skills include reusable scripts that:
+The portable skills include reusable scripts that:
 
 - generate all six Quattro plugin kinds;
 - mirror Omarchy's manifest and path checks without requiring an Omarchy host;
 - report advisory marketplace security findings and review capabilities;
 - diagnose a local Omarchy installation without mutating it;
 - preflight releases and generate exact marketplace submission bodies; and
-- produce deterministic OpenAI submission archives and checksums.
+- install safely into supported agent-host skill locations; and
+- produce deterministic portable Agent Plugin and OpenAI submission archives.
 
 Run the repository verification suite with:
 
@@ -65,11 +111,14 @@ Run the repository verification suite with:
 ./scripts/test
 ```
 
-Package the OpenAI submission artifacts with:
+Package all distribution artifacts with:
 
 ```bash
 python3 scripts/package_submission.py
 ```
+
+This produces the portable Agent Plugin, the OpenAI plugin, the OpenAI skills
+upload, reviewer materials, and one checksum manifest.
 
 ## Scope
 

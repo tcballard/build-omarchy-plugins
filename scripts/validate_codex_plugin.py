@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Portable preflight for the installable Codex plugin payload."""
+"""Offline preflight for the OpenAI plugin distribution adapter."""
 
 from __future__ import annotations
 

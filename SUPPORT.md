@@ -6,7 +6,8 @@ for reproducible bugs and focused enhancement requests.
 Include:
 
 - plugin version;
-- ChatGPT or Codex host and version;
+- agent host, model provider when relevant, and host version;
+- installation target (`agents`, `codex`, `cursor`, `gemini`, `claude`, or custom);
 - Omarchy version and channel when the problem concerns generated QML;
 - the affected skill or script;
 - a minimal public reproduction or sanitized logs; and

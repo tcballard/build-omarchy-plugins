@@ -2,15 +2,19 @@
 
 ## Product boundary
 
-Build Omarchy Plugins is a skills-only developer tool. It helps a coding agent
-work on repositories that target the Omarchy 4 Quattro shell plugin contract.
+Build Omarchy Plugins is a skills-only, provider-neutral developer tool. It
+helps a coding agent work on repositories that target the Omarchy 4 Quattro
+shell plugin contract.
 It is not an Omarchy runtime plugin and it does not install software on the
 reviewer's machine.
 
 ## Architecture
 
-- Twelve narrowly routed skills live below `skills/`.
-- Six executable Python utilities use only the Python standard library.
+- Twelve narrowly routed skills live in a canonical Agent Skills tree, with an
+  OpenAI adapter generated from the same source.
+- Executable Python utilities use only the Python standard library.
+- The installer targets the shared `.agents/skills` convention as well as the
+  native Codex, Cursor, Gemini CLI, and Claude Code skill directories.
 - Templates generate each current Omarchy kind: `bar-widget`, `panel`,
   `overlay`, `menu`, `service`, and `bar`.
 - The structural validator runs without Omarchy, Quickshell, network access, or
@@ -38,7 +42,9 @@ an external action. See `PRIVACY.md` for the published policy.
 
 ## Reproduction
 
-Use Python 3.11 or newer and run `./scripts/test`. The suite validates all skill
-routes, generates all six current plugin kinds, rejects traversal and symlinks,
-checks a known unsafe download-to-shell fixture, exercises the marketplace body
-generator and release preflight, and proves the archives are deterministic.
+Use Python 3.11 or newer and run `./scripts/test`. The suite validates the
+portable package and OpenAI adapter, checks adapter synchronization, tests all
+host installation layouts, validates every skill route, generates all six
+current plugin kinds, rejects traversal and symlinks, checks a known unsafe
+download-to-shell fixture, exercises the marketplace body generator and release
+preflight, and proves the archives are deterministic.

@@ -1,6 +1,6 @@
 # Submission packet
 
-This directory is the reviewer-ready packet for **Build Omarchy Plugins 0.1.0**.
+This directory is the reviewer-ready packet for **Build Omarchy Plugins 0.2.0**.
 It accompanies the skills-only archive produced by `scripts/package_submission.py`.
 
 ## Portal files
@@ -24,6 +24,6 @@ python3 scripts/package_submission.py
 (cd dist && sha256sum -c SHA256SUMS)
 ```
 
-Submit `dist/build-omarchy-plugins-skills-0.1.0.zip` as the skill bundle. Keep the
+Submit `dist/build-omarchy-plugins-skills-0.2.0.zip` as the skill bundle. Keep the
 full plugin archive for direct Codex installation and the submission archive for
 reviewer records.

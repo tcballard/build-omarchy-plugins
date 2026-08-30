@@ -16,9 +16,10 @@ within seven days.
 
 ## Trust model
 
-This is a skills-only ChatGPT and Codex plugin. It has no hosted service,
-authentication layer, analytics, or remote execution component. Its scripts run
-locally when the user asks for the corresponding development operation.
+This is a portable skills-only Agent Plugin with an optional OpenAI distribution
+adapter. It has no hosted service, authentication layer, analytics, model API,
+or remote execution component. Its scripts run locally when the user asks for
+the corresponding development operation.
 
 Omarchy plugins created with it execute as unsandboxed code inside the user's
 long-running `omarchy-shell` process. The validator reports deterministic

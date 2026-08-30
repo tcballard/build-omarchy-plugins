@@ -13,12 +13,16 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 PLUGIN = REPO / "plugins" / "build-omarchy-plugins"
-SKILLS = PLUGIN / "skills"
+SKILLS = REPO / "skills"
+OPENAI_SKILLS = PLUGIN / "skills"
 GENERATOR = SKILLS / "omarchy-plugin-scaffold" / "scripts" / "new_plugin.py"
 VALIDATOR = SKILLS / "omarchy-plugin-test" / "scripts" / "validate_plugin.py"
 PUBLISH = SKILLS / "omarchy-plugin-publish" / "scripts" / "prepare_submission.py"
 RELEASE = SKILLS / "omarchy-plugin-release" / "scripts" / "release_preflight.py"
 PACKAGE = REPO / "scripts" / "package_submission.py"
+INSTALL = REPO / "scripts" / "install_agent_skills.py"
+SYNC = REPO / "scripts" / "sync_openai_adapter.py"
+PORTABLE_VALIDATE = REPO / "scripts" / "validate_agent_plugin.py"
 
 
 def run(command: list[str], cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
@@ -42,11 +46,116 @@ def generate(output: Path, kinds: tuple[str, ...] = ("bar-widget",), git: bool =
 
 
 class ToolTests(unittest.TestCase):
+    def test_portable_agent_plugin_and_openai_adapter_are_valid_and_in_sync(self) -> None:
+        portable = run([sys.executable, str(PORTABLE_VALIDATE), "--json", str(REPO)])
+        self.assertEqual(0, portable.returncode, portable.stdout + portable.stderr)
+        payload = json.loads(portable.stdout)
+        self.assertTrue(payload["ok"])
+        self.assertEqual("https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", payload["schema"])
+        self.assertEqual(12, payload["skills"])
+
+        sync = run([sys.executable, str(SYNC), "--check", "--json"])
+        self.assertEqual(0, sync.returncode, sync.stdout + sync.stderr)
+        self.assertTrue(json.loads(sync.stdout)["ok"])
+        openai = run([
+            sys.executable,
+            str(REPO / "scripts" / "validate_skills.py"),
+            "--require-openai-metadata",
+            str(OPENAI_SKILLS),
+        ])
+        self.assertEqual(0, openai.returncode, openai.stdout + openai.stderr)
+
     def test_plugin_has_twelve_valid_skill_routes(self) -> None:
         skills = sorted(path for path in SKILLS.iterdir() if path.is_dir())
         self.assertEqual(12, len(skills))
         result = run([sys.executable, str(REPO / "scripts" / "validate_skills.py"), str(SKILLS)])
         self.assertEqual(0, result.returncode, result.stderr)
+
+    def test_installer_supports_shared_and_host_specific_skill_locations(self) -> None:
+        targets = {
+            "agents": Path(".agents/skills"),
+            "codex": Path(".agents/skills"),
+            "cursor": Path(".cursor/skills"),
+            "gemini": Path(".gemini/skills"),
+            "claude": Path(".claude/skills"),
+        }
+        for target, relative in targets.items():
+            with self.subTest(target=target), tempfile.TemporaryDirectory() as temporary:
+                workspace = Path(temporary)
+                result = run([
+                    sys.executable,
+                    str(INSTALL),
+                    "--target",
+                    target,
+                    "--scope",
+                    "project",
+                    "--json",
+                ], cwd=workspace)
+                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                payload = json.loads(result.stdout)
+                self.assertEqual(12, len(payload["installed"]))
+                destination = workspace / relative
+                self.assertEqual(12, len(list(destination.glob("*/SKILL.md"))))
+                self.assertFalse(any(destination.glob("*/agents/openai.yaml")))
+
+                again = run([
+                    sys.executable,
+                    str(INSTALL),
+                    "--target",
+                    target,
+                    "--scope",
+                    "project",
+                    "--json",
+                ], cwd=workspace)
+                self.assertEqual(0, again.returncode, again.stdout + again.stderr)
+                self.assertEqual(12, len(json.loads(again.stdout)["unchanged"]))
+
+    def test_installer_refuses_conflicts_and_force_repairs_selected_skill(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary) / "skills"
+            first = run([
+                sys.executable,
+                str(INSTALL),
+                "--target",
+                "generic",
+                "--destination",
+                str(destination),
+                "--skill",
+                "omarchy-plugin-design",
+            ])
+            self.assertEqual(0, first.returncode, first.stdout + first.stderr)
+            entry = destination / "omarchy-plugin-design" / "SKILL.md"
+            entry.write_text("local change\n", encoding="utf-8")
+
+            refused = run([
+                sys.executable,
+                str(INSTALL),
+                "--target",
+                "generic",
+                "--destination",
+                str(destination),
+                "--skill",
+                "omarchy-plugin-design",
+            ])
+            self.assertEqual(2, refused.returncode)
+            self.assertEqual("local change\n", entry.read_text(encoding="utf-8"))
+
+            repaired = run([
+                sys.executable,
+                str(INSTALL),
+                "--target",
+                "generic",
+                "--destination",
+                str(destination),
+                "--skill",
+                "omarchy-plugin-design",
+                "--force",
+            ])
+            self.assertEqual(0, repaired.returncode, repaired.stdout + repaired.stderr)
+            self.assertEqual(
+                (SKILLS / "omarchy-plugin-design" / "SKILL.md").read_text(encoding="utf-8"),
+                entry.read_text(encoding="utf-8"),
+            )
 
     def test_generator_supports_every_current_kind(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -172,6 +281,18 @@ class ToolTests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(first_file.read_bytes()).hexdigest(), hashlib.sha256(second_file.read_bytes()).hexdigest())
             checksums = run(["sha256sum", "-c", "SHA256SUMS"], cwd=first)
             self.assertEqual(0, checksums.returncode, checksums.stdout + checksums.stderr)
+
+            portable = first / "build-omarchy-plugins-agent-plugin-0.2.0.zip"
+            self.assertTrue(portable.is_file())
+            import zipfile
+            with zipfile.ZipFile(portable) as archive:
+                names = set(archive.namelist())
+            self.assertIn("build-omarchy-plugins/plugin.json", names)
+            self.assertIn("build-omarchy-plugins/skills/omarchy-plugin-design/SKILL.md", names)
+            self.assertNotIn(
+                "build-omarchy-plugins/skills/omarchy-plugin-design/agents/openai.yaml",
+                names,
+            )
 
 
 if __name__ == "__main__":
