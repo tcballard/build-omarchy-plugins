@@ -19,6 +19,12 @@
 6. Create an immutable annotated tag at that SHA.
 7. Publish release notes that describe only the tested boundary.
 
+Before publication, run the preflight with `--tag`. Run it again against the
+downloaded draft assets with `--tag --release-dir`; never validate only the
+local upload directory. For an already-published historical tag, use
+`--published` so the commit must remain reachable from the current remote
+default-branch history but is not incorrectly required to equal its HEAD.
+
 Do not move a published tag or retarget marketplace evidence to a different
 commit. If the boundary changes, produce a new version and rerun the relevant
 evidence.
