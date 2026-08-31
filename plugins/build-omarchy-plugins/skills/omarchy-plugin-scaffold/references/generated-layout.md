@@ -5,6 +5,7 @@ The generator creates a standalone public Git repository with this baseline:
 ```text
 plugin-name/
 ├── .github/workflows/test.yml
+├── .omarchy-workbench.json
 ├── demo/fixtures/example.json
 ├── scripts/validate_manifest.py
 ├── tests/run
@@ -48,3 +49,8 @@ instructions, and license.
 The generated validator is a portable structural check for CI. On the target
 machine, `omarchy plugin validate .` remains authoritative for the installed
 Omarchy revision.
+
+The Workbench definition declares the root plugin and the exact
+`["./tests/run"]` argument vector. Plugin Workbench reads that command during
+registration but deliberately leaves it untrusted until the user reviews the
+file and explicitly approves project checks.

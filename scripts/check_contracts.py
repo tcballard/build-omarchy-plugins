@@ -18,6 +18,7 @@ from typing import Any
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
 DIGEST = re.compile(r"^[0-9a-f]{64}$")
 ENTRY_KEYS = {"name", "repository", "trackedRef", "pinnedCommit", "path", "sha256", "assumptions"}
+OPTIONAL_ENTRY_KEYS = {"vendoredPath"}
 
 
 def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -39,7 +40,11 @@ def load(path: Path) -> dict[str, Any]:
         raise ValueError("contract ledger must contain entries")
     names: set[str] = set()
     for entry in value["contracts"]:
-        if not isinstance(entry, dict) or set(entry) != ENTRY_KEYS:
+        if (
+            not isinstance(entry, dict)
+            or not ENTRY_KEYS.issubset(entry)
+            or not set(entry).issubset(ENTRY_KEYS | OPTIONAL_ENTRY_KEYS)
+        ):
             raise ValueError("contract entry has unexpected fields")
         if not isinstance(entry["name"], str) or not entry["name"] or entry["name"] in names:
             raise ValueError("contract names must be unique non-empty strings")
@@ -52,6 +57,12 @@ def load(path: Path) -> dict[str, Any]:
             raise ValueError(f"invalid immutable pin for {entry['name']}")
         if not isinstance(entry["path"], str) or entry["path"].startswith("/") or ".." in Path(entry["path"]).parts:
             raise ValueError(f"invalid contract path for {entry['name']}")
+        if "vendoredPath" in entry and (
+            not isinstance(entry["vendoredPath"], str)
+            or entry["vendoredPath"].startswith("/")
+            or ".." in Path(entry["vendoredPath"]).parts
+        ):
+            raise ValueError(f"invalid vendored contract path for {entry['name']}")
         if not isinstance(entry["assumptions"], list) or not entry["assumptions"] or not all(isinstance(item, str) and item for item in entry["assumptions"]):
             raise ValueError(f"missing assumptions for {entry['name']}")
     return value
@@ -95,7 +106,13 @@ def main(argv: list[str] | None = None) -> int:
         ledger = load(args.ledger)
         results = []
         for entry in ledger["contracts"]:
-            item = {"name": entry["name"], "pinValid": True, "contentVerified": False, "head": None, "drifted": False}
+            item = {"name": entry["name"], "pinValid": True, "contentVerified": False, "vendoredVerified": False, "head": None, "drifted": False}
+            if "vendoredPath" in entry:
+                vendored = args.ledger.resolve().parent.parent / entry["vendoredPath"]
+                actual = hashlib.sha256(vendored.read_bytes()).hexdigest()
+                if actual != entry["sha256"]:
+                    raise ValueError(f"vendored content digest mismatch for {entry['name']}")
+                item["vendoredVerified"] = True
             if args.online:
                 actual = hashlib.sha256(fetch(pinned_url(entry))).hexdigest()
                 if actual != entry["sha256"]:
