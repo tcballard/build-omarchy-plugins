@@ -45,7 +45,7 @@ Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
 ```bash
-git clone --branch v0.2.2 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.2.3 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -72,7 +72,7 @@ every lifecycle change before applying it:
 
 ```bash
 git fetch --tags
-git checkout v0.2.2
+git checkout v0.2.3
 python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
 python3 scripts/install_agent_skills.py --target agents --scope user --update
 ```
