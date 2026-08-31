@@ -2,6 +2,12 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.2.2 — 2026-08-31
+
+- Harden release construction, installation lifecycle, host diagnostics,
+  repository governance, and submission evidence without overstating live-host
+  or provider verification.
+
 ## 0.2.1 — 2026-08-30
 
 - Add an explicit OpenCode installer target using its native project and global
