@@ -160,12 +160,14 @@ tree rather than ambient working files.
 [Plugin Workbench](https://github.com/tcballard/omarchy-plugin-workbench) is the
 default local lifecycle companion for projects created by this toolkit. New
 scaffolds include a schema-one `.omarchy-workbench.json` definition that points
-to the root plugin and proposes `./tests/run` as an exact-argv project check.
+to the root plugin, proposes `./tests/run` as an exact-argv check and
+capability-gated validation workflow, and declares Git, Python, and optional
+Omarchy environment probes.
 
 Workbench can then register the checkout for validation, live linking,
 snapshots, rollback, and enable/disable operations. Registration does not trust
-or execute the generated check; the user must review the definition and approve
-project checks explicitly. The Workbench contract is vendored and pinned in
+or execute the generated commands; the user must review the definition and
+approve project commands and workflow capabilities explicitly. The Workbench contract is vendored and pinned in
 [`contracts/upstream-contracts.json`](contracts/upstream-contracts.json).
 
 ## Scope

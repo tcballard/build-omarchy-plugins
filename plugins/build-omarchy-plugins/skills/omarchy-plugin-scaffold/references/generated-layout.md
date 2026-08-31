@@ -51,6 +51,9 @@ machine, `omarchy plugin validate .` remains authoritative for the installed
 Omarchy revision.
 
 The Workbench definition declares the root plugin and the exact
-`["./tests/run"]` argument vector. Plugin Workbench reads that command during
-registration but deliberately leaves it untrusted until the user reviews the
-file and explicitly approves project checks.
+`["./tests/run"]` argument vector as both a portable check and a
+capability-gated validation workflow. It also declares Git and Python as
+required environment probes and Omarchy as optional. Plugin Workbench reads
+those commands during registration but deliberately leaves them untrusted until
+the user reviews the file and explicitly approves project commands and the
+workflow capability.
