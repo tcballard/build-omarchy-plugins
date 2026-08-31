@@ -155,6 +155,19 @@ upload, reviewer materials, strict source/release manifests, an SPDX 2.3 SBOM,
 and one checksum manifest. Artifacts are built from the exact committed Git
 tree rather than ambient working files.
 
+## Plugin Workbench companion
+
+[Plugin Workbench](https://github.com/tcballard/omarchy-plugin-workbench) is the
+default local lifecycle companion for projects created by this toolkit. New
+scaffolds include a schema-one `.omarchy-workbench.json` definition that points
+to the root plugin and proposes `./tests/run` as an exact-argv project check.
+
+Workbench can then register the checkout for validation, live linking,
+snapshots, rollback, and enable/disable operations. Registration does not trust
+or execute the generated check; the user must review the definition and approve
+project checks explicitly. The Workbench contract is vendored and pinned in
+[`contracts/upstream-contracts.json`](contracts/upstream-contracts.json).
+
 ## Scope
 
 The default target is an Omarchy 4 Quattro shell plugin: a public Git repository

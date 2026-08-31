@@ -202,6 +202,33 @@ class ToolTests(unittest.TestCase):
             self.assertEqual(0, validated.returncode, validated.stdout + validated.stderr)
             portable = run([str(output / "tests" / "run")], cwd=output)
             self.assertEqual(0, portable.returncode, portable.stdout + portable.stderr)
+            workbench = json.loads(
+                (output / ".omarchy-workbench.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                {
+                    "schemaVersion": 1,
+                    "pluginPath": ".",
+                    "checks": [
+                        {
+                            "name": "project-tests",
+                            "argv": ["./tests/run"],
+                            "timeoutSeconds": 300,
+                        }
+                    ],
+                },
+                workbench,
+            )
+            schema = json.loads(
+                (REPO / "contracts/workbench-project-definition.schema.json")
+                .read_text(encoding="utf-8")
+            )
+            self.assertEqual(1, schema["properties"]["schemaVersion"]["const"])
+            self.assertFalse(schema["additionalProperties"])
+            self.assertEqual(
+                1800,
+                schema["$defs"]["check"]["properties"]["timeoutSeconds"]["maximum"],
+            )
 
     def test_generator_refuses_nonempty_destination(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

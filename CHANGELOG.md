@@ -2,6 +2,13 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## Unreleased
+
+- Generate the schema-one Plugin Workbench project definition by default.
+- Register `./tests/run` as an explicit, initially untrusted Workbench check.
+- Pin and verify the upstream Workbench authoring contract.
+- Document the separately versioned builder and local-lifecycle companion boundary.
+
 ## 0.2.3 — 2026-08-31
 
 - Validate every GitHub Actions workflow with pinned actionlint and include

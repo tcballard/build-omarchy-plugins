@@ -21,7 +21,12 @@ class GovernanceTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         payload = json.loads(result.stdout)
         self.assertTrue(payload["ok"])
-        self.assertEqual(3, len(payload["contracts"]))
+        self.assertEqual(4, len(payload["contracts"]))
+        workbench = next(
+            item for item in payload["contracts"]
+            if item["name"] == "Omarchy Plugin Workbench project definition"
+        )
+        self.assertTrue(workbench["vendoredVerified"])
 
         ledger = (REPO / "contracts/upstream-contracts.json").read_text(encoding="utf-8")
         with tempfile.TemporaryDirectory() as temporary:

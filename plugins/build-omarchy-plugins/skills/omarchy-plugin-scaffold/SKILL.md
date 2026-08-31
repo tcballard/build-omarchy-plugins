@@ -41,7 +41,18 @@ selecting optional flags or extending the output.
   contracts.
 
 After generation, run the generated `./tests/run` and the current toolkit
-validator from `omarchy-plugin-test`. On an Omarchy machine also run:
+validator from `omarchy-plugin-test`. Generated repositories include the
+schema-one `.omarchy-workbench.json` companion contract. If Plugin Workbench is
+installed, register the checkout, review the declared command, and make the
+trust decision explicitly:
+
+```bash
+omarchy-plugin-workbench add /absolute/path/to/plugin-name
+omarchy-plugin-workbench trust io.github.owner.plugin-name
+omarchy-plugin-workbench check io.github.owner.plugin-name
+```
+
+On an Omarchy machine also run:
 
 ```bash
 omarchy plugin validate /absolute/path/to/plugin-name
