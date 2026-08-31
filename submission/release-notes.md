@@ -1,4 +1,4 @@
-# Release notes — 0.2.1
+# Release notes — 0.2.2
 
 Adds explicit OpenCode support to the provider-neutral Agent Plugins 1.0.0
 distribution. The same twelve skills now install safely into OpenCode's native

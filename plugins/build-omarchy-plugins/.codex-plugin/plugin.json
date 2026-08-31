@@ -1,6 +1,6 @@
 {
   "name": "build-omarchy-plugins",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Design, scaffold, implement, test, debug, demo, release, migrate, and publish Omarchy 4 Quattro shell plugins.",
   "author": {
     "name": "Tom Ballard",

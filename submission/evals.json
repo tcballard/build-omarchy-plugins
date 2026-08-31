@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "plugin": "build-omarchy-plugins",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "cases": [
     {
       "id": "positive-bar-widget",

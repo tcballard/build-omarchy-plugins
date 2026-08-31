@@ -9,6 +9,7 @@ temporary="$(mktemp -d)"
 trap 'rm -rf "$temporary"' EXIT INT TERM HUP
 
 python3 "$repo/scripts/validate_agent_plugin.py" "$repo"
+python3 "$repo/scripts/check_versions.py" "$repo"
 python3 "$repo/scripts/sync_openai_adapter.py" --check
 python3 "$repo/scripts/validate_codex_plugin.py" "$plugin"
 python3 "$repo/scripts/validate_skills.py" "$skills"
