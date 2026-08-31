@@ -41,7 +41,7 @@ def regular_bytes(path, limit):
         fail(f"cannot inspect regular file {path}: {error}")
     if not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode) or before.st_size > limit:
         fail(f"unsafe or oversized regular file: {path.relative_to(ROOT)}")
-    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0))
     try:
         opened = os.fstat(descriptor)
         if not same_open_file(before, opened): fail("file changed during validation")
