@@ -12,10 +12,10 @@ Values below are copy-ready unless marked as an owner selection.
 | Support | https://github.com/tcballard/build-omarchy-plugins/issues |
 | Privacy policy | https://github.com/tcballard/build-omarchy-plugins/blob/main/PRIVACY.md |
 | Terms of service | https://github.com/tcballard/build-omarchy-plugins/blob/main/TERMS.md |
-| Skill archive | `dist/build-omarchy-plugins-skills-0.2.2.zip` |
+| Skill archive | `dist/build-omarchy-plugins-skills-0.2.3.zip` |
 | Logo | `plugins/build-omarchy-plugins/assets/app-icon.png` |
 | Screenshot | `plugins/build-omarchy-plugins/assets/workflow.png` |
-| Version | 0.2.2 |
+| Version | 0.2.3 |
 | Release notes | Use `submission/release-notes.md` |
 | Starter prompts | Use `submission/starter-prompts.md` |
 | Positive/negative tests | Use `submission/test-cases.md` |

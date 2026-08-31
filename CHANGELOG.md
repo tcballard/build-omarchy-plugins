@@ -2,6 +2,16 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.2.3 — 2026-08-31
+
+- Validate every GitHub Actions workflow with pinned actionlint and include
+  workflow validation in the stable required CI gate.
+- Repair draft-release recovery by inspecting unpublished drafts through the
+  GitHub CLI instead of a REST tag endpoint that excludes draft releases.
+- Retry newly created draft asset downloads with bounded backoff before the
+  byte-for-byte release comparison, while preserving exact tag/main binding
+  and owner-controlled publication.
+
 ## 0.2.2 — 2026-08-31
 
 - Add transactional install, update, diff, recovery, and conservative uninstall

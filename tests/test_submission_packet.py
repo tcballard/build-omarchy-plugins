@@ -24,7 +24,7 @@ class SubmissionPacketTests(unittest.TestCase):
         payload = json.loads((SUBMISSION / "evals.json").read_text(encoding="utf-8"))
         self.assertEqual(1, payload["schemaVersion"])
         self.assertEqual("build-omarchy-plugins", payload["plugin"])
-        self.assertEqual("0.2.2", payload["version"])
+        self.assertEqual("0.2.3", payload["version"])
         cases = payload["cases"]
         self.assertEqual(10, len(cases))
         self.assertEqual(len(cases), len({case["id"] for case in cases}))
