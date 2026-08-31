@@ -78,6 +78,7 @@ class RepositorySecurityScanTests(unittest.TestCase):
             script.write_text("import subprocess\nsubprocess.run(['true'])\n", encoding="utf-8")
             script.chmod(0o755)
             git(root, "add", "runner.py")
+            git(root, "update-index", "--chmod=+x", "runner.py")
             git(root, "commit", "-qm", "capability")
             code, report = run_scan(root)
             self.assertEqual(0, code)

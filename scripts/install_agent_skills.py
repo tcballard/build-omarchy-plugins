@@ -53,6 +53,19 @@ def _absolute(path: Path) -> Path:
     return Path(os.path.abspath(path.expanduser()))
 
 
+def _system_root_alias(path: Path, metadata: os.stat_result) -> bool:
+    """Allow immutable root-owned aliases such as macOS /var -> private/var."""
+    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+
+
+def _same_open_file(path_metadata: os.stat_result, opened: os.stat_result) -> bool:
+    if not stat.S_ISREG(opened.st_mode):
+        return False
+    if os.name == "nt":
+        return opened.st_size == path_metadata.st_size and opened.st_mtime_ns == path_metadata.st_mtime_ns
+    return (opened.st_dev, opened.st_ino) == (path_metadata.st_dev, path_metadata.st_ino)
+
+
 def _reject_symlink_components(path: Path, label: str) -> None:
     absolute = _absolute(path)
     current = Path(absolute.anchor)
@@ -62,7 +75,7 @@ def _reject_symlink_components(path: Path, label: str) -> None:
             metadata = current.lstat()
         except FileNotFoundError:
             break
-        if stat.S_ISLNK(metadata.st_mode):
+        if stat.S_ISLNK(metadata.st_mode) and not _system_root_alias(current, metadata):
             raise ValueError(f"refusing {label} reached through symlink: {current}")
 
 
@@ -104,7 +117,7 @@ def snapshot_tree(root: Path) -> dict[PurePosixPath, FileSnapshot]:
             descriptor = os.open(entry.path, flags)
             try:
                 opened = os.fstat(descriptor)
-                if not stat.S_ISREG(opened.st_mode) or (opened.st_dev, opened.st_ino) != (metadata.st_dev, metadata.st_ino):
+                if not _same_open_file(metadata, opened):
                     raise ValueError(f"file changed during snapshot: {child}")
                 data = b""
                 while len(data) < opened.st_size:
@@ -192,7 +205,7 @@ def _read_regular(path: Path, maximum: int) -> bytes:
     descriptor = os.open(path, flags)
     try:
         opened = os.fstat(descriptor)
-        if (opened.st_dev, opened.st_ino) != (metadata.st_dev, metadata.st_ino):
+        if not _same_open_file(metadata, opened):
             raise ValueError(f"file changed before read: {path}")
         data = b""
         while len(data) < opened.st_size:
@@ -282,7 +295,7 @@ class DestinationLock(AbstractContextManager["DestinationLock"]):
             and stat.S_ISREG(published.st_mode)
             and not stat.S_ISLNK(published.st_mode)
             and published.st_nlink == 1
-            and (opened.st_dev, opened.st_ino) == (published.st_dev, published.st_ino)
+            and _same_open_file(published, opened)
         )
 
     def __enter__(self) -> "DestinationLock":

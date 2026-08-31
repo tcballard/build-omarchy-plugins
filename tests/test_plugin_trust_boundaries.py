@@ -132,7 +132,10 @@ class PluginTrustBoundaryTests(unittest.TestCase):
             refs = re.findall(r"uses:\s+[^@]+@([0-9a-f]{40})", workflow)
             self.assertEqual(2, len(refs))
             self.assertIn("encoded.length > 16384", (output / "Panel.qml").read_text(encoding="utf-8"))
-            portable = subprocess.run([str(output / "tests/run")], cwd=output, text=True, capture_output=True, check=False, timeout=10)
+            command = [str(output / "tests/run")]
+            if os.name == "nt":
+                command.insert(0, "bash")
+            portable = subprocess.run(command, cwd=output, text=True, capture_output=True, check=False, timeout=10)
             self.assertEqual(0, portable.returncode, portable.stdout + portable.stderr)
 
 
