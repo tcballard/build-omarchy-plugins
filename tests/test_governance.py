@@ -13,6 +13,10 @@ WORKFLOWS = REPO / ".github/workflows"
 
 
 class GovernanceTests(unittest.TestCase):
+    def test_pinned_contract_bytes_use_portable_line_endings(self) -> None:
+        attributes = (REPO / ".gitattributes").read_text(encoding="utf-8")
+        self.assertIn("contracts/*.json text eol=lf", attributes.splitlines())
+
     def test_contract_ledger_is_strict_and_offline_check_passes(self) -> None:
         result = subprocess.run(
             [sys.executable, str(REPO / "scripts/check_contracts.py"), "--json"],
