@@ -18,9 +18,6 @@ jobs:
   draft:
     name: Verify and prepare draft
     runs-on: ubuntu-latest
-    env:
-      DIST_A: ${{ runner.temp }}/release-dist-a
-      DIST_B: ${{ runner.temp }}/release-dist-b
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.4.0
         with:
@@ -50,6 +47,8 @@ jobs:
       - name: Test and build twice
         env:
           TAG: ${{ inputs.tag }}
+          DIST_A: ${{ runner.temp }}/release-dist-a
+          DIST_B: ${{ runner.temp }}/release-dist-b
         run: |
           set -euo pipefail
           ./scripts/test
@@ -70,6 +69,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
           COMMIT: ${{ steps.release.outputs.commit }}
+          DIST_A: ${{ runner.temp }}/release-dist-a
         run: |
           set -euo pipefail
           if gh release view "$TAG" >/dev/null 2>&1; then

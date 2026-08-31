@@ -34,7 +34,7 @@ class GovernanceTests(unittest.TestCase):
             self.assertEqual(1, rejected.returncode)
             self.assertIn("duplicate JSON key", json.loads(rejected.stdout)["error"])
 
-    def test_every_workflow_action_is_immutably_pinned_and_yaml_parses(self) -> None:
+    def test_every_workflow_action_is_immutably_pinned(self) -> None:
         workflows = sorted(WORKFLOWS.glob("*.yml"))
         self.assertEqual({"ci.yml", "codeql.yml", "contract-drift.yml", "release-draft.yml"}, {path.name for path in workflows})
         for path in workflows:
@@ -54,8 +54,12 @@ class GovernanceTests(unittest.TestCase):
             self.assertIn(os_name, text)
         for version in ('"3.11"', '"3.12"', '"3.13"'):
             self.assertIn(version, text)
+        self.assertIn("name: Validate workflows", text)
+        self.assertIn("actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16", text)
+        self.assertIn("actionlint/cmd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca", text)
+        self.assertIn('actionlint" .github/workflows/*.yml', text)
         self.assertIn("name: CI / Required", text)
-        self.assertIn("needs: [test]", text)
+        self.assertIn("needs: [test, workflow-lint]", text)
 
     def test_release_automation_is_draft_only_and_rechecks_remote_identity(self) -> None:
         workflow = (WORKFLOWS / "release-draft.yml").read_text(encoding="utf-8")

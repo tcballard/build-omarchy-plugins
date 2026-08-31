@@ -9,6 +9,21 @@ permissions:
   contents: read
 
 jobs:
+  workflow-lint:
+    name: Validate workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.4.0
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version: "1.25.14"
+      - name: Install pinned actionlint
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca
+      - name: Validate GitHub Actions workflows
+        run: |
+          "$(go env GOPATH)/bin/actionlint" .github/workflows/*.yml
+
   test:
     name: Test (${{ matrix.os }}, Python ${{ matrix.python }})
     strategy:
@@ -37,10 +52,13 @@ jobs:
   required:
     name: CI / Required
     if: always()
-    needs: [test]
+    needs: [test, workflow-lint]
     runs-on: ubuntu-latest
     steps:
-      - name: Require every matrix job
+      - name: Require matrix and workflow validation
         env:
           MATRIX_RESULT: ${{ needs.test.result }}
-        run: test "$MATRIX_RESULT" = success
+          WORKFLOW_LINT_RESULT: ${{ needs.workflow-lint.result }}
+        run: |
+          test "$MATRIX_RESULT" = success
+          test "$WORKFLOW_LINT_RESULT" = success
