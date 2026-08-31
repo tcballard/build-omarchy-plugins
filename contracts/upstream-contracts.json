@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-31",
+  "contracts": [
+    {
+      "name": "Agent Skills specification",
+      "repository": "https://github.com/agentskills/agentskills",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "69ef37e9424c0a7ea9dd2293b559e43ec8176379",
+      "path": "docs/specification.mdx",
+      "sha256": "b9079c0c10b7930e8c6a20ff2bc10cda2a3343c55185120e3f1116a1a529b220",
+      "assumptions": [
+        "A skill is a directory containing SKILL.md.",
+        "The portable frontmatter contract includes name and description."
+      ]
+    },
+    {
+      "name": "Codex skill discovery",
+      "repository": "https://github.com/openai/codex",
+      "trackedRef": "HEAD",
+      "pinnedCommit": "a9519cbcdd2d664530edb2469224ee03c1056799",
+      "path": "docs/skills.md",
+      "sha256": "e59789d09692310bbf94e2ef8db0aaf00d97f2226982c8c5330d2d260583a97d",
+      "assumptions": [
+        "Codex supports repository and user skill discovery.",
+        "Portable skills do not require model-provider API calls."
+      ]
+    },
+    {
+      "name": "Omarchy Quattro shell contract",
+      "repository": "https://github.com/basecamp/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "b686ed892d9c3020c3336203f6d34cc75b544e2b",
+      "path": "docs/omarchy-shell.md",
+      "sha256": "7868ad487f349d773e0ff8eb41191e0fa28669ef1d3a0349e2dbfe12e6dc0d08",
+      "assumptions": [
+        "Quattro plugins use a root manifest.json and hosted QML entry points.",
+        "Third-party plugin code executes inside the long-running shell process."
+      ]
+    }
+  ]
+}
