@@ -73,17 +73,23 @@ jobs:
         run: |
           set -euo pipefail
           if gh release view "$TAG" >/dev/null 2>&1; then
-            test "$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .draft)" = true
+            test "$(gh release view "$TAG" --json isDraft --jq .isDraft)" = true
           else
             gh release create "$TAG" --verify-tag --draft --title "$TAG" --notes-file submission/release-notes.md
           fi
           gh release upload "$TAG" "$DIST_A"/* --clobber
           download="$(mktemp -d)"
-          gh release download "$TAG" --dir "$download"
+          for attempt in 1 2 3 4 5; do
+            if gh release download "$TAG" --dir "$download" --clobber; then
+              break
+            fi
+            test "$attempt" -lt 5
+            sleep "$((attempt * 2))"
+          done
           diff -qr "$DIST_A" "$download"
           remote_main="$(git ls-remote origin refs/heads/main | cut -f1)"
           remote_tag="$(git ls-remote origin "refs/tags/$TAG" | cut -f1)"
           test "$COMMIT" = "$remote_main"
           test "$remote_tag" = "$(git rev-parse "refs/tags/$TAG")"
-          test "$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .draft)" = true
+          test "$(gh release view "$TAG" --json isDraft --jq .isDraft)" = true
           printf 'Draft verified. This workflow never publishes releases.\n'

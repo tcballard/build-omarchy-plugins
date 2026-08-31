@@ -72,6 +72,10 @@ class GovernanceTests(unittest.TestCase):
         self.assertIn('DIST_B: ${{ runner.temp }}/release-dist-b', workflow)
         self.assertIn('diff -qr "$DIST_A" "$DIST_B"', workflow)
         self.assertIn('diff -qr "$DIST_A" "$download"', workflow)
+        self.assertNotIn('releases/tags/$TAG', workflow)
+        self.assertEqual(2, workflow.count('gh release view "$TAG" --json isDraft --jq .isDraft'))
+        self.assertIn('for attempt in 1 2 3 4 5', workflow)
+        self.assertIn('gh release download "$TAG" --dir "$download" --clobber', workflow)
         self.assertIn("CI / Required", workflow)
 
         runbook = (REPO / "docs/RELEASING.md").read_text(encoding="utf-8")
