@@ -12,7 +12,10 @@ Item {
   property bool opened: false
 
   function open(payloadJson) {
-    try { JSON.parse(payloadJson || "{}") } catch (error) {}
+    var encoded = String(payloadJson || "{}")
+    if (encoded.length <= 16384) {
+      try { JSON.parse(encoded) } catch (error) {}
+    }
     root.opened = true
   }
 

@@ -48,6 +48,12 @@ TEXT_SUFFIXES = {
     ".yaml", ".yml",
 }
 PREVIEW_NAMES = {"preview.png", "preview.jpg", "preview.jpeg", "preview.webp", "preview.avif"}
+MAX_MANIFEST_BYTES = 1024 * 1024
+MAX_TEXT_BYTES = 2 * 1024 * 1024
+MAX_FILE_BYTES = 64 * 1024 * 1024
+MAX_TREE_BYTES = 512 * 1024 * 1024
+MAX_TREE_FILES = 20_000
+MAX_TREE_DEPTH = 64
 
 
 @dataclass(frozen=True)
@@ -130,7 +136,7 @@ def relative_path(root: Path, value: Path | str) -> str:
         return ""
     path = Path(value)
     try:
-        return path.resolve(strict=False).relative_to(root.resolve(strict=False)).as_posix()
+        return Path(os.path.abspath(path)).relative_to(Path(os.path.abspath(root))).as_posix()
     except ValueError:
         return str(path)
 
@@ -139,8 +145,22 @@ def is_plain_object(value: Any) -> bool:
     return isinstance(value, dict)
 
 
+def path_has_symlink(path: Path) -> Path | None:
+    absolute = Path(os.path.abspath(path))
+    current = Path(absolute.anchor)
+    for part in absolute.parts[1:]:
+        current /= part
+        try:
+            metadata = current.lstat()
+        except FileNotFoundError:
+            return None
+        if stat.S_ISLNK(metadata.st_mode):
+            return current
+    return None
+
+
 def safe_entry_point(value: Any) -> bool:
-    if not isinstance(value, str) or not value or "\n" in value or "\x00" in value:
+    if not isinstance(value, str) or not value or any(character in value for character in ("\n", "\r", "\x00", "\\")):
         return False
     posix = PurePosixPath(value)
     if posix.is_absolute() or ".." in posix.parts:
@@ -156,12 +176,36 @@ def iter_files(root: Path) -> Iterable[Path]:
             yield base / name
 
 
-def read_text(path: Path, limit: int = 512 * 1024) -> str | None:
+def read_regular(path: Path, limit: int) -> bytes | None:
     try:
-        if path.stat().st_size > limit:
+        before = path.lstat()
+        if not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode) or before.st_size > limit:
             return None
-        data = path.read_bytes()
+        descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0))
+        try:
+            opened = os.fstat(descriptor)
+            if (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino):
+                return None
+            chunks: list[bytes] = []
+            remaining = opened.st_size
+            while remaining:
+                chunk = os.read(descriptor, min(remaining, 1024 * 1024))
+                if not chunk:
+                    return None
+                chunks.append(chunk)
+                remaining -= len(chunk)
+            if os.read(descriptor, 1) or os.fstat(descriptor).st_size != opened.st_size:
+                return None
+            return b"".join(chunks)
+        finally:
+            os.close(descriptor)
     except OSError:
+        return None
+
+
+def read_text(path: Path, limit: int = MAX_TEXT_BYTES) -> str | None:
+    data = read_regular(path, limit)
+    if data is None:
         return None
     if b"\x00" in data:
         return None
@@ -169,6 +213,15 @@ def read_text(path: Path, limit: int = 512 * 1024) -> str | None:
         return data.decode("utf-8")
     except UnicodeDecodeError:
         return None
+
+
+def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
 
 
 def load_manifest(root: Path, report: Report) -> dict[str, Any] | None:
@@ -180,8 +233,11 @@ def load_manifest(root: Path, report: Report) -> dict[str, Any] | None:
         report.add("error", "manifest-symlink", "manifest.json may not be a symlink.", manifest_path)
         return None
     try:
-        value = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        data = read_regular(manifest_path, MAX_MANIFEST_BYTES)
+        if data is None:
+            raise ValueError(f"manifest must be a regular file no larger than {MAX_MANIFEST_BYTES} bytes")
+        value = json.loads(data.decode("utf-8"), object_pairs_hook=reject_duplicate_keys)
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, RecursionError, ValueError) as error:
         report.add("error", "manifest-json", f"manifest.json is not valid UTF-8 JSON: {error}", manifest_path)
         return None
     if not is_plain_object(value):
@@ -339,16 +395,56 @@ def check_qml_entry_point(path: Path, kinds: list[str], key: str, report: Report
         report.add("warning", "qml-shell-command", "Prefer a Process argument array over bash/sh -c.", path)
 
 
-def validate_symlinks(root: Path, report: Report) -> None:
-    for directory, dirnames, filenames in os.walk(root, topdown=True, followlinks=False):
-        base = Path(directory)
-        if base.name == ".git":
-            dirnames[:] = []
-            continue
-        for name in list(dirnames) + filenames:
-            path = base / name
-            if path.is_symlink():
+def validate_tree(root: Path, report: Report) -> bool:
+    trusted = True
+    files = 0
+    total = 0
+
+    def visit(directory: Path, depth: int) -> None:
+        nonlocal trusted, files, total
+        if depth > MAX_TREE_DEPTH:
+            report.add("error", "tree-depth", f"Plugin tree exceeds {MAX_TREE_DEPTH} levels.", directory)
+            trusted = False
+            return
+        try:
+            entries = sorted(os.scandir(directory), key=lambda item: item.name)
+        except OSError as error:
+            report.add("error", "tree-read", f"Cannot inspect plugin directory: {error}", directory)
+            trusted = False
+            return
+        for entry in entries:
+            path = Path(entry.path)
+            try:
+                metadata = entry.stat(follow_symlinks=False)
+            except OSError as error:
+                report.add("error", "tree-stat", f"Cannot inspect plugin entry: {error}", path)
+                trusted = False
+                continue
+            if stat.S_ISLNK(metadata.st_mode):
                 report.add("error", "symlink", "Symlinks are not allowed anywhere inside an Omarchy plugin.", path)
+                trusted = False
+                continue
+            if entry.name == ".git" and stat.S_ISDIR(metadata.st_mode):
+                continue
+            if stat.S_ISDIR(metadata.st_mode):
+                visit(path, depth + 1)
+                continue
+            if not stat.S_ISREG(metadata.st_mode):
+                report.add("error", "special-file", "Only regular files and directories are allowed in a plugin.", path)
+                trusted = False
+                continue
+            files += 1
+            total += metadata.st_size
+            if metadata.st_size > MAX_FILE_BYTES:
+                report.add("error", "file-size", f"File exceeds {MAX_FILE_BYTES} bytes.", path)
+                trusted = False
+            if files > MAX_TREE_FILES or total > MAX_TREE_BYTES:
+                report.add("error", "tree-size", "Plugin tree exceeds validator safety limits.", path)
+                trusted = False
+                return
+
+    visit(root, 0)
+    return trusted
 
 
 def validate_publish_surface(root: Path, report: Report, strict: bool) -> None:
@@ -373,13 +469,13 @@ def validate_publish_surface(root: Path, report: Report, strict: bool) -> None:
 
 def scan_security(root: Path, report: Report) -> None:
     for path in iter_files(root):
-        try:
-            mode = path.stat().st_mode
-            data = path.read_bytes()[:4]
-        except OSError:
+        data = read_regular(path, MAX_FILE_BYTES)
+        if data is None:
             continue
+        mode = path.lstat().st_mode
 
-        if data.startswith(b"\x7fELF") or data.startswith(b"MZ") or data in {
+        prefix = data[:4]
+        if prefix.startswith(b"\x7fELF") or prefix.startswith(b"MZ") or prefix in {
             b"\xfe\xed\xfa\xce", b"\xfe\xed\xfa\xcf", b"\xce\xfa\xed\xfe", b"\xcf\xfa\xed\xfe",
         }:
             report.capability("bundled-executable-binary", "Bundled executable binary requires manual review.", path)
@@ -436,6 +532,14 @@ def scan_security(root: Path, report: Report) -> None:
         if "sudoers" in lower or "/etc/sudoers" in lower:
             report.capability("sudoers-modification", "Sudoers policy behavior requires complete manual review.", path)
 
+        if path.suffix.lower() == ".qml":
+            if re.search(r"\b(?:eval|Function|Qt\.createQmlObject)\s*\(", text):
+                report.capability("qml-dynamic-code", "Dynamic QML/JavaScript code construction requires manual review.", path)
+            if re.search(r"\b(?:XMLHttpRequest|WebSocket)\b", text):
+                report.capability("qml-network", "QML network access requires manual review.", path)
+            if re.search(r"\bProcess\s*\{", text):
+                report.capability("qml-process", "QML process execution requires manual review.", path)
+
 
 def print_text(result: dict[str, Any]) -> None:
     for key in ("errors", "warnings"):
@@ -465,19 +569,23 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
-    root = args.plugin_dir.expanduser().resolve(strict=False)
+    root = Path(os.path.abspath(args.plugin_dir.expanduser()))
     report = Report(root)
-    if not root.is_dir():
+    linked = path_has_symlink(root)
+    if linked is not None:
+        report.add("error", "plugin-directory-symlink", "Plugin path may not traverse a symlink.", linked)
+    elif not root.is_dir() or root.is_symlink():
         report.add("error", "plugin-directory", "Plugin directory does not exist or is not a directory.", root)
     else:
-        manifest = load_manifest(root, report)
-        if manifest is not None:
-            validate_manifest(root, manifest, report, args.strict)
-        validate_symlinks(root, report)
-        if args.publish:
-            validate_publish_surface(root, report, args.strict)
-        if args.security:
-            scan_security(root, report)
+        trusted = validate_tree(root, report)
+        if trusted:
+            manifest = load_manifest(root, report)
+            if manifest is not None:
+                validate_manifest(root, manifest, report, args.strict)
+            if args.publish:
+                validate_publish_surface(root, report, args.strict)
+            if args.security:
+                scan_security(root, report)
     result = report.result(args.security)
     if args.as_json:
         print(json.dumps(result, indent=2, sort_keys=True))
