@@ -4,9 +4,23 @@ All notable changes to Build Omarchy Plugins are documented here.
 
 ## 0.2.2 — 2026-08-31
 
-- Harden release construction, installation lifecycle, host diagnostics,
-  repository governance, and submission evidence without overstating live-host
-  or provider verification.
+- Add transactional install, update, diff, recovery, and conservative uninstall
+  with receipts, locks, symlink/hardlink defenses, and managed-file integrity.
+- Add read-only discovery diagnostics for Codex, Cursor, Gemini CLI, Claude
+  Code, and OpenCode, plus a deny-by-default OpenCode live-conformance probe.
+- Build byte-reproducible archives from one exact Git tree with release/source
+  manifests, SPDX 2.3 SBOM, and complete SHA-256 coverage.
+- Add exact-tree secret, binary, symlink, QML capability, and trust-boundary
+  scanning without presenting static findings as a security guarantee.
+- Harden scaffolding and validation against duplicate JSON keys, oversized or
+  special files, unsafe ancestors, dynamic QML behavior, and unpinned actions.
+- Bind tagged release preflights to annotated local/remote tags, the remote
+  default branch, historical reachability, downloaded assets, and checksums.
+- Add PR-only contribution policy, immutable action pins, a Linux/macOS/Windows
+  CI matrix, CodeQL, upstream-contract drift checks, and draft-only release
+  automation with owner-controlled publication.
+- Expand installation, removal, reviewer, submission, and release documentation
+  while keeping provider and live-host claims evidence-bounded.
 
 ## 0.2.1 — 2026-08-30
 
