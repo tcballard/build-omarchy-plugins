@@ -74,17 +74,23 @@ class ReleaseArtifactTests(unittest.TestCase):
             self.assertEqual(8, len(report["files"]))
 
     def test_require_clean_rejects_ambient_changes(self) -> None:
-        destination = REPO / "dist-test-never-created"
-        result = subprocess.run(
-            [sys.executable, str(PACKAGER), "--output-dir", str(destination), "--require-clean"],
-            cwd=REPO,
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        self.assertEqual(1, result.returncode)
-        self.assertIn("dirty or untracked", result.stderr)
-        self.assertFalse(destination.exists())
+        marker = REPO / "release-clean-test.tmp"
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary) / "dist"
+            marker.write_text("deliberately untracked\n", encoding="utf-8")
+            try:
+                result = subprocess.run(
+                    [sys.executable, str(PACKAGER), "--output-dir", str(destination), "--require-clean"],
+                    cwd=REPO,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+            finally:
+                marker.unlink(missing_ok=True)
+            self.assertEqual(1, result.returncode)
+            self.assertIn("dirty or untracked", result.stderr)
+            self.assertFalse(destination.exists())
 
 
 if __name__ == "__main__":
