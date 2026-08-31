@@ -137,7 +137,13 @@ def opencode_probe(executable: str, cwd: Path, home: Path, model: str | None, ti
         f"Call the skill tool with name {PROBE_SKILL}. After loading it, return one JSON object containing "
         f'nonce "{nonce}" and title "{PROBE_TITLE}". Do not infer the title without loading the skill.'
     )
-    command = [executable, "--pure", "run", "--format", "json", "--agent", "omarchy-host-conformance"]
+    command = [executable]
+    try:
+        if Path(executable).is_file() and Path(executable).read_bytes()[:128].startswith(b"#!/usr/bin/env python"):
+            command = [sys.executable, executable]
+    except OSError:
+        pass
+    command.extend(["--pure", "run", "--format", "json", "--agent", "omarchy-host-conformance"])
     if model:
         command.extend(["--model", model])
     command.append(prompt)

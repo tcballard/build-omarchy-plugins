@@ -134,7 +134,7 @@ class PluginTrustBoundaryTests(unittest.TestCase):
             self.assertIn("encoded.length > 16384", (output / "Panel.qml").read_text(encoding="utf-8"))
             command = [str(output / "tests/run")]
             if os.name == "nt":
-                command.insert(0, "bash")
+                command = [sys.executable, str(output / "scripts/validate_manifest.py"), str(output)]
             portable = subprocess.run(command, cwd=output, text=True, capture_output=True, check=False, timeout=10)
             self.assertEqual(0, portable.returncode, portable.stdout + portable.stderr)
 
