@@ -28,10 +28,38 @@ package or its Omarchy tools.
 | OpenCode | `.opencode/skills/` | `~/.config/opencode/skills/` | Native install and idempotency tested; `.agents/skills` also supported |
 | Other hosts | User-supplied destination | User-supplied destination | Generic copy and conflict behavior tested |
 
-The repository tests filesystem installation and package structure. They do not
+The repository tests filesystem installation and package structure. It does not
 claim that every host/model combination has completed a live behavioral eval.
-The same positive and negative cases in `submission/evals.json` are the baseline
-for host-level conformance testing.
+Inspect effective copies and duplicate-name ambiguity without starting a host:
+
+```bash
+python3 scripts/doctor_agent_skills.py --host opencode --json
+```
+
+The doctor compares content hashes and executable modes against the portable
+source. Its `hostVerified` and `providerVerified` fields are always false because
+filesystem inspection is not a host invocation.
+
+OpenCode also has a built-in, deny-by-default live probe:
+
+```bash
+python3 scripts/host_conformance.py --host opencode --invoke --model provider/model --json
+```
+
+The probe uses `opencode --pure`, disables plugins, LSP downloads, sharing, and
+auto-update, denies every tool by default, and permits only `read`, `glob`,
+`grep`, and `skill`. A verified claim requires an exact effective install, an
+observed native `skill` tool call, the expected response marker, and clean Git
+attribution for the source. `--custom-command` and `--eval-hook` outputs are
+recorded only as operator-controlled self-report and can never promote either
+verification field.
+
+Discovery details are conservative. OpenCode and Cursor duplicate-name
+precedence is treated as ambiguous because their public skill documentation does
+not define a winner. Claude enterprise, plugin, added-directory, and synced
+sources are reported as blind spots instead of being silently ignored. The same
+positive and negative cases in `submission/evals.json` remain the baseline for
+behavioral host testing.
 
 ## OpenAI adapter
 
