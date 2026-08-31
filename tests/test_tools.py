@@ -216,6 +216,20 @@ class ToolTests(unittest.TestCase):
                             "timeoutSeconds": 300,
                         }
                     ],
+                    "environment": [
+                        {"name": "git", "argv": ["git", "--version"], "required": True},
+                        {"name": "python", "argv": ["python3", "--version"], "required": True},
+                        {"name": "omarchy", "argv": ["omarchy", "--version"], "required": False},
+                    ],
+                    "workflows": [
+                        {
+                            "name": "portable-tests",
+                            "capability": "validate",
+                            "argv": ["./tests/run"],
+                            "timeoutSeconds": 300,
+                            "requires": [],
+                        }
+                    ],
                 },
                 workbench,
             )
@@ -229,6 +243,11 @@ class ToolTests(unittest.TestCase):
                 1800,
                 schema["$defs"]["check"]["properties"]["timeoutSeconds"]["maximum"],
             )
+            self.assertIn(
+                "preview",
+                schema["$defs"]["workflow"]["properties"]["capability"]["enum"],
+            )
+            self.assertEqual(32, schema["properties"]["environment"]["maxItems"])
 
     def test_generator_refuses_nonempty_destination(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

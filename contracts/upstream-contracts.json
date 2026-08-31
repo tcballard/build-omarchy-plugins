@@ -41,14 +41,15 @@
     {
       "name": "Omarchy Plugin Workbench project definition",
       "repository": "https://github.com/tcballard/omarchy-plugin-workbench",
-      "trackedRef": "refs/heads/codex/builder-companion-contract",
-      "pinnedCommit": "3af9a969d88a0f328f948077c19fbbe4f825ca24",
+      "trackedRef": "refs/heads/codex/agent-neutral-orchestration",
+      "pinnedCommit": "1192fc56517dc08162eee4c8592a9f52b2444cb4",
       "path": "contracts/project-definition.schema.json",
-      "sha256": "1e6d694c8881f042c7aa2d09b43d58c647c5def106392672227d4c1f05d90fd7",
+      "sha256": "c9b003c9810a653ac2da0febca9277d880c8f1a4369b7d3de94d824bdc830e00",
       "vendoredPath": "contracts/workbench-project-definition.schema.json",
       "assumptions": [
         "Generated root plugins declare pluginPath as '.'.",
-        "Project checks are exact argument vectors and remain untrusted until the owner approves them."
+        "Project commands are exact argument vectors and remain untrusted until the owner approves them.",
+        "Workflow capabilities require separate local approval and do not name an agent host."
       ]
     }
   ]

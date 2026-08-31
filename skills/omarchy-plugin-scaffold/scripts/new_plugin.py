@@ -165,6 +165,20 @@ def build_workbench_definition() -> dict[str, object]:
                 "timeoutSeconds": 300,
             }
         ],
+        "environment": [
+            {"name": "git", "argv": ["git", "--version"], "required": True},
+            {"name": "python", "argv": ["python3", "--version"], "required": True},
+            {"name": "omarchy", "argv": ["omarchy", "--version"], "required": False},
+        ],
+        "workflows": [
+            {
+                "name": "portable-tests",
+                "capability": "validate",
+                "argv": ["./tests/run"],
+                "timeoutSeconds": 300,
+                "requires": [],
+            }
+        ],
     }
 
 

@@ -4,6 +4,7 @@ All notable changes to Build Omarchy Plugins are documented here.
 
 ## Unreleased
 
+- Generate agent-neutral Workbench environment probes and a capability-gated validation workflow.
 - Generate the schema-one Plugin Workbench project definition by default.
 - Register `./tests/run` as an explicit, initially untrusted Workbench check.
 - Pin and verify the upstream Workbench authoring contract.
