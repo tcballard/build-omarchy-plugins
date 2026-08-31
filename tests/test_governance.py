@@ -64,8 +64,10 @@ class GovernanceTests(unittest.TestCase):
         self.assertNotIn("gh release edit", workflow)
         self.assertGreaterEqual(workflow.count("git ls-remote origin refs/heads/main"), 2)
         self.assertGreaterEqual(workflow.count('git ls-remote origin "refs/tags/$TAG"'), 2)
-        self.assertIn("diff -qr dist-a dist-b", workflow)
-        self.assertIn("diff -qr dist-a \"$download\"", workflow)
+        self.assertIn('DIST_A: ${{ runner.temp }}/release-dist-a', workflow)
+        self.assertIn('DIST_B: ${{ runner.temp }}/release-dist-b', workflow)
+        self.assertIn('diff -qr "$DIST_A" "$DIST_B"', workflow)
+        self.assertIn('diff -qr "$DIST_A" "$download"', workflow)
         self.assertIn("CI / Required", workflow)
 
         runbook = (REPO / "docs/RELEASING.md").read_text(encoding="utf-8")

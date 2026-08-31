@@ -18,6 +18,9 @@ jobs:
   draft:
     name: Verify and prepare draft
     runs-on: ubuntu-latest
+    env:
+      DIST_A: ${{ runner.temp }}/release-dist-a
+      DIST_B: ${{ runner.temp }}/release-dist-b
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.4.0
         with:
@@ -50,17 +53,17 @@ jobs:
         run: |
           set -euo pipefail
           ./scripts/test
-          python3 scripts/package_submission.py --output-dir dist-a --require-clean --git-tree "$TAG"
-          python3 scripts/package_submission.py --output-dir dist-b --require-clean --git-tree "$TAG"
-          diff -qr dist-a dist-b
-          (cd dist-a && sha256sum --check SHA256SUMS)
+          python3 scripts/package_submission.py --output-dir "$DIST_A" --require-clean --git-tree "$TAG"
+          python3 scripts/package_submission.py --output-dir "$DIST_B" --require-clean --git-tree "$TAG"
+          diff -qr "$DIST_A" "$DIST_B"
+          (cd "$DIST_A" && sha256sum --check SHA256SUMS)
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
-          subject-path: dist-a/*
+          subject-path: ${{ runner.temp }}/release-dist-a/*
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-${{ inputs.tag }}
-          path: dist-a/*
+          path: ${{ runner.temp }}/release-dist-a/*
           if-no-files-found: error
       - name: Create or recover verified draft and upload assets
         env:
@@ -74,10 +77,10 @@ jobs:
           else
             gh release create "$TAG" --verify-tag --draft --title "$TAG" --notes-file submission/release-notes.md
           fi
-          gh release upload "$TAG" dist-a/* --clobber
+          gh release upload "$TAG" "$DIST_A"/* --clobber
           download="$(mktemp -d)"
           gh release download "$TAG" --dir "$download"
-          diff -qr dist-a "$download"
+          diff -qr "$DIST_A" "$download"
           remote_main="$(git ls-remote origin refs/heads/main | cut -f1)"
           remote_tag="$(git ls-remote origin "refs/tags/$TAG" | cut -f1)"
           test "$COMMIT" = "$remote_main"
