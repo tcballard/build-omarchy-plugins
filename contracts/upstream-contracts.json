@@ -41,8 +41,8 @@
     {
       "name": "Omarchy Plugin Workbench project definition",
       "repository": "https://github.com/tcballard/omarchy-plugin-workbench",
-      "trackedRef": "refs/heads/codex/agent-neutral-orchestration",
-      "pinnedCommit": "1192fc56517dc08162eee4c8592a9f52b2444cb4",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "48e211becaf7fa5df7676b1315ca26b0cab3fedc",
       "path": "contracts/project-definition.schema.json",
       "sha256": "c9b003c9810a653ac2da0febca9277d880c8f1a4369b7d3de94d824bdc830e00",
       "vendoredPath": "contracts/workbench-project-definition.schema.json",
