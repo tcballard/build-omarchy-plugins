@@ -32,7 +32,13 @@ def git_attribution(source: Path) -> dict[str, Any]:
     if result.returncode != 0:
         return {"stable": False, "reason": "source is not in a Git commit"}
     root, commit, tree = result.stdout.splitlines()[:3]
-    relative = os.path.relpath(source, root)
+    prefix_result = subprocess.run(
+        ["git", "-C", str(source), "rev-parse", "--show-prefix"],
+        text=True, capture_output=True, check=False, timeout=10,
+    )
+    if prefix_result.returncode != 0:
+        return {"stable": False, "reason": "could not resolve source path inside its Git repository"}
+    relative = prefix_result.stdout.strip().rstrip("/") or "."
     dirty = subprocess.run(
         ["git", "-C", root, "status", "--porcelain=v1", "--untracked-files=all", "--", relative],
         text=True, capture_output=True, check=False, timeout=10,

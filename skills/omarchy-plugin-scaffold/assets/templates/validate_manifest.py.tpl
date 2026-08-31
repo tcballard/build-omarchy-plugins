@@ -20,7 +20,7 @@ def system_root_alias(path, metadata):
 def same_open_file(path_metadata, opened):
     if not stat.S_ISREG(opened.st_mode): return False
     if os.name == "nt":
-        return opened.st_size == path_metadata.st_size and opened.st_mtime_ns == path_metadata.st_mtime_ns
+        return opened.st_size == path_metadata.st_size
     return (opened.st_dev, opened.st_ino) == (path_metadata.st_dev, path_metadata.st_ino)
 
 def fail(message):
