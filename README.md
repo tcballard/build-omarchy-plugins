@@ -41,11 +41,11 @@ compatibility boundary.
 
 ## Install the Agent Skills
 
-Clone the repository, then install the skills into the shared interoperable
+Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
 ```bash
-git clone https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.2.2 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -64,6 +64,38 @@ Use `--scope project` to install into the current repository, `--skill NAME` to
 install a subset, or `--target generic --destination PATH` for another
 Agent-Skills-compatible host. Existing differing skill directories are never
 overwritten unless `--force` is supplied explicitly.
+
+## Update, inspect, and remove
+
+The installer writes a receipt containing exact file hashes and modes. Preview
+every lifecycle change before applying it:
+
+```bash
+git fetch --tags
+git checkout v0.2.2
+python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
+python3 scripts/install_agent_skills.py --target agents --scope user --update
+```
+
+If a managed file changed locally, update and removal stop. Inspect the diff;
+use `--force` only when replacing that named managed copy is intentional.
+Removal is equally explicit and leaves unrelated skills untouched:
+
+```bash
+python3 scripts/install_agent_skills.py --target agents --scope user --uninstall --diff
+python3 scripts/install_agent_skills.py --target agents --scope user --uninstall
+```
+
+Inspect discovery, duplicate names, hashes, and executable modes without
+starting the host:
+
+```bash
+python3 scripts/doctor_agent_skills.py --host opencode --json
+```
+
+The doctor reports filesystem evidence only; it cannot claim a model or host
+invocation succeeded. See [PORTABILITY.md](PORTABILITY.md) for the tested host
+matrix and OpenCode's optional deny-by-default live probe.
 
 ## Install the OpenAI plugin
 
@@ -115,11 +147,13 @@ Run the repository verification suite with:
 Package all distribution artifacts with:
 
 ```bash
-python3 scripts/package_submission.py
+python3 scripts/package_submission.py --output-dir dist --require-clean --git-tree HEAD
 ```
 
 This produces the portable Agent Plugin, the OpenAI plugin, the OpenAI skills
-upload, reviewer materials, and one checksum manifest.
+upload, reviewer materials, strict source/release manifests, an SPDX 2.3 SBOM,
+and one checksum manifest. Artifacts are built from the exact committed Git
+tree rather than ambient working files.
 
 ## Scope
 

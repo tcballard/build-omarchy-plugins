@@ -27,6 +27,9 @@ reviewer's machine.
 - Repository generation writes only to the destination selected by the user and
   refuses a non-empty destination.
 - Diagnostic tools are read-only.
+- Skill installation, update, and removal are receipt-backed transactions;
+  locally modified managed files stop update/removal unless the user explicitly
+  inspects and forces the named operation.
 - Marketplace preparation emits a draft; it never opens an issue by itself.
 - Publishing, pushing, enabling an Omarchy plugin, installing packages, and
   changing system configuration remain owner-controlled actions.
@@ -44,7 +47,13 @@ an external action. See `PRIVACY.md` for the published policy.
 
 Use Python 3.11 or newer and run `./scripts/test`. The suite validates the
 portable package and OpenAI adapter, checks adapter synchronization, tests all
-host installation layouts, validates every skill route, generates all six
-current plugin kinds, rejects traversal and symlinks, checks a known unsafe
-download-to-shell fixture, exercises the marketplace body generator and release
-preflight, and proves the archives are deterministic.
+host installation layouts and managed lifecycle behavior, validates every skill
+route, generates all six current plugin kinds, rejects traversal, special files,
+unsafe ancestors, duplicate JSON keys, and unreviewed binaries, checks a known
+unsafe download-to-shell fixture, exercises marketplace and exact-provenance
+release preflights, and proves archives are deterministic.
+
+The repository CI repeats this on Python 3.11–3.13 across Linux, macOS, and
+Windows. Live Omarchy shell runs and live model-provider behavior are not
+claimed by that portable matrix; `PORTABILITY.md` describes the narrower
+evidence boundary and optional OpenCode probe.

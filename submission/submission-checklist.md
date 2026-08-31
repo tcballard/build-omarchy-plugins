@@ -5,6 +5,7 @@
 - [x] Skills-only plugin; no MCP server or app connector.
 - [x] Plugin metadata, logo, composer icon, and screenshot are included.
 - [x] Website, support, privacy, terms, security, and license documents exist.
+- [x] `tcballard/build-omarchy-plugins` is public and its policy files are present.
 - [x] Twelve skill routes have descriptions and interface metadata.
 - [x] Five positive and five negative routing tests are documented.
 - [x] All six current Omarchy shell plugin kinds have generated fixtures.
@@ -15,7 +16,8 @@
 
 ## Owner-controlled final gate
 
-- [ ] Make `tcballard/build-omarchy-plugins` public and confirm every policy URL resolves.
+- [ ] Merge the reviewed release pull request only after `CI / Required` succeeds.
+- [ ] Create the immutable annotated release tag from the merged `main` commit.
 - [ ] Sign in to the OpenAI platform with Apps Management write permission.
 - [ ] Complete or confirm the publisher identity verification.
 - [ ] Select the intended country availability.

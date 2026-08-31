@@ -11,7 +11,7 @@ It accompanies the skills-only archive produced by `scripts/package_submission.p
 - `test-cases.md` and `evals.json` — five positive and five negative routing tests.
 - `skills-inventory.md` — each bundled skill and its activation boundary.
 - `reviewer-notes.md` — architecture, permissions, privacy, and safety notes.
-- `release-notes.md` — first-release notes.
+- `release-notes.md` — versioned release notes.
 - `submission-checklist.md` — evidence and the final owner-only actions.
 
 ## Rebuild
@@ -20,10 +20,11 @@ From the repository root:
 
 ```bash
 ./scripts/test
-python3 scripts/package_submission.py
+python3 scripts/package_submission.py --output-dir dist --require-clean --git-tree HEAD
 (cd dist && sha256sum -c SHA256SUMS)
 ```
 
 Submit `dist/build-omarchy-plugins-skills-0.2.2.zip` as the skill bundle. Keep the
-full plugin archive for direct Codex installation and the submission archive for
-reviewer records.
+full plugin archive for OpenAI plugin installation and the submission archive
+for reviewer records. `RELEASE-MANIFEST.json`, `SOURCE-MANIFEST.json`, and
+`SBOM.spdx.json` bind every archive to the tested commit.
