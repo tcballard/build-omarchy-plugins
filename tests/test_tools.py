@@ -32,12 +32,9 @@ def run(
 ) -> subprocess.CompletedProcess[str]:
     environment = os.environ.copy()
     environment.update(env or {})
-    if os.name == "nt" and command and Path(command[0]).is_file():
-        try:
-            if Path(command[0]).read_bytes().startswith(b"#!"):
-                command = ["bash", *command]
-        except OSError:
-            pass
+    if os.name == "nt" and command and Path(command[0]).name == "run" and Path(command[0]).parent.name == "tests":
+        plugin_root = Path(command[0]).parent.parent
+        command = [sys.executable, str(plugin_root / "scripts/validate_manifest.py"), str(plugin_root)]
     return subprocess.run(
         command,
         cwd=cwd or REPO,
@@ -141,7 +138,7 @@ class ToolTests(unittest.TestCase):
                 "--scope",
                 "user",
                 "--json",
-            ], env={"HOME": str(home)})
+            ], env={"HOME": str(home), "USERPROFILE": str(home)})
             self.assertEqual(0, result.returncode, result.stdout + result.stderr)
             payload = json.loads(result.stdout)
             destination = home / ".config/opencode/skills"

@@ -157,7 +157,7 @@ class HostConformanceTests(unittest.TestCase):
             )
             self.assertEqual(0, result.returncode, result.stdout + result.stderr)
             payload = json.loads(result.stdout)
-            self.assertTrue(payload["hostVerified"])
+            self.assertTrue(payload["hostVerified"], payload)
             self.assertTrue(payload["providerVerified"])
             self.assertTrue(payload["sourceAttribution"]["stable"])
             self.assertEqual(["read", "glob", "grep", "skill"], payload["evidence"][0]["policy"]["allowed"])

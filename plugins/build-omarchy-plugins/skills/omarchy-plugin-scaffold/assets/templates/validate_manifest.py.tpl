@@ -14,6 +14,15 @@ MAX_FILE = 64 * 1024 * 1024
 MAX_TREE = 512 * 1024 * 1024
 MAX_FILES = 20000
 
+def system_root_alias(path, metadata):
+    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+
+def same_open_file(path_metadata, opened):
+    if not stat.S_ISREG(opened.st_mode): return False
+    if os.name == "nt":
+        return opened.st_size == path_metadata.st_size and opened.st_mtime_ns == path_metadata.st_mtime_ns
+    return (opened.st_dev, opened.st_ino) == (path_metadata.st_dev, path_metadata.st_ino)
+
 def fail(message):
     print(f"validate_manifest.py: {message}", file=sys.stderr)
     raise SystemExit(1)
@@ -35,7 +44,7 @@ def regular_bytes(path, limit):
     descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
     try:
         opened = os.fstat(descriptor)
-        if (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino): fail("file changed during validation")
+        if not same_open_file(before, opened): fail("file changed during validation")
         chunks, remaining = [], opened.st_size
         while remaining:
             chunk = os.read(descriptor, min(remaining, 1024 * 1024))
@@ -49,7 +58,8 @@ def regular_bytes(path, limit):
 current = Path(ROOT.anchor)
 for part in ROOT.parts[1:]:
     current /= part
-    if current.is_symlink(): fail(f"plugin path traverses symlink: {current}")
+    metadata = current.lstat()
+    if stat.S_ISLNK(metadata.st_mode) and not system_root_alias(current, metadata): fail(f"plugin path traverses symlink: {current}")
 if not ROOT.is_dir(): fail("plugin root is not a directory")
 
 count = total = 0
