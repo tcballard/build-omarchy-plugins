@@ -31,6 +31,17 @@ SEMVER = re.compile(
 )
 
 
+def system_root_alias(path: Path, metadata: os.stat_result) -> bool:
+    """Allow immutable root-owned aliases such as macOS /var -> private/var."""
+    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+
+
+def same_directory(path_metadata: os.stat_result, current: os.stat_result) -> bool:
+    if os.name == "nt":
+        return stat.S_ISDIR(current.st_mode) and current.st_mtime_ns == path_metadata.st_mtime_ns
+    return (current.st_dev, current.st_ino) == (path_metadata.st_dev, path_metadata.st_ino)
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--id", required=True, dest="plugin_id")
@@ -72,7 +83,7 @@ def validate_args(args: argparse.Namespace) -> None:
             metadata = current.lstat()
         except FileNotFoundError:
             break
-        if stat.S_ISLNK(metadata.st_mode):
+        if stat.S_ISLNK(metadata.st_mode) and not system_root_alias(current, metadata):
             raise ValueError(f"destination path may not traverse a symlink: {current}")
     if output.exists() and (output.is_symlink() or not output.is_dir() or any(output.iterdir())):
         raise ValueError(f"destination must not exist or must be empty: {output}")
@@ -204,7 +215,7 @@ def main(argv: list[str] | None = None) -> int:
             populate(stage, args)
             if original is not None:
                 current = output.lstat()
-                if (current.st_dev, current.st_ino) != (original.st_dev, original.st_ino) or not stat.S_ISDIR(current.st_mode) or output.is_symlink():
+                if not same_directory(original, current) or output.is_symlink():
                     raise RuntimeError("destination changed during generation")
                 output.rmdir()
             elif output.exists() or output.is_symlink():

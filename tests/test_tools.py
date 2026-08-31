@@ -32,6 +32,12 @@ def run(
 ) -> subprocess.CompletedProcess[str]:
     environment = os.environ.copy()
     environment.update(env or {})
+    if os.name == "nt" and command and Path(command[0]).is_file():
+        try:
+            if Path(command[0]).read_bytes().startswith(b"#!"):
+                command = ["bash", *command]
+        except OSError:
+            pass
     return subprocess.run(
         command,
         cwd=cwd or REPO,
