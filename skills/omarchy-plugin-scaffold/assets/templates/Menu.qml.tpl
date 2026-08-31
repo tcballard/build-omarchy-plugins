@@ -15,9 +15,13 @@ Item {
 
   function open(payloadJson) {
     var payload = ({})
-    try { payload = JSON.parse(payloadJson || "{}") || ({}) }
+    var encoded = String(payloadJson || "{}")
+    if (encoded.length > 16384) encoded = "{}"
+    try { payload = JSON.parse(encoded) || ({}) }
     catch (error) { payload = ({}) }
-    if (Array.isArray(payload.options) && payload.options.length) root.options = payload.options.slice(0, 20)
+    if (Array.isArray(payload.options) && payload.options.length) {
+      root.options = payload.options.slice(0, 20).map(function(item) { return String(item).slice(0, 80) })
+    }
     root.selectedIndex = 0
     root.opened = true
   }

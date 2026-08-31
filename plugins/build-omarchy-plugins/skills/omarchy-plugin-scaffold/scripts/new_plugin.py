@@ -7,7 +7,7 @@ import argparse
 import json
 import os
 import re
-import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -64,8 +64,17 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("--kind values may not be repeated")
     if args.allow_multiple and "bar-widget" not in args.kind:
         raise ValueError("--allow-multiple requires --kind bar-widget")
-    output = args.output.expanduser().resolve(strict=False)
-    if output.exists() and (not output.is_dir() or any(output.iterdir())):
+    output = Path(os.path.abspath(args.output.expanduser()))
+    current = Path(output.anchor)
+    for part in output.parts[1:]:
+        current /= part
+        try:
+            metadata = current.lstat()
+        except FileNotFoundError:
+            break
+        if stat.S_ISLNK(metadata.st_mode):
+            raise ValueError(f"destination path may not traverse a symlink: {current}")
+    if output.exists() and (output.is_symlink() or not output.is_dir() or any(output.iterdir())):
         raise ValueError(f"destination must not exist or must be empty: {output}")
 
 
@@ -94,9 +103,18 @@ def inferred_repository(plugin_id: str, output_name: str) -> str:
 def write_text(root: Path, relative: str, text: str, executable: bool = False) -> None:
     path = root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8", newline="\n")
-    if executable:
-        path.chmod(path.stat().st_mode | 0o111)
+    data = text.replace("\r\n", "\n").encode("utf-8")
+    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0), 0o755 if executable else 0o644)
+    try:
+        offset = 0
+        while offset < len(data):
+            written = os.write(descriptor, data[offset:])
+            if written <= 0:
+                raise OSError("short write")
+            offset += written
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
 
 
 def build_manifest(args: argparse.Namespace) -> dict[str, object]:
@@ -176,16 +194,22 @@ def main(argv: list[str] | None = None) -> int:
         print(f"new_plugin.py: {error}", file=sys.stderr)
         return 2
 
-    output = args.output.expanduser().resolve(strict=False)
+    output = Path(os.path.abspath(args.output.expanduser()))
     output.parent.mkdir(parents=True, exist_ok=True)
+    original = output.lstat() if output.exists() else None
     try:
         with tempfile.TemporaryDirectory(prefix=f".{output.name}.stage-", dir=output.parent) as temporary:
             stage = Path(temporary) / output.name
             stage.mkdir()
             populate(stage, args)
-            if output.exists():
+            if original is not None:
+                current = output.lstat()
+                if (current.st_dev, current.st_ino) != (original.st_dev, original.st_ino) or not stat.S_ISDIR(current.st_mode) or output.is_symlink():
+                    raise RuntimeError("destination changed during generation")
                 output.rmdir()
-            shutil.move(str(stage), str(output))
+            elif output.exists() or output.is_symlink():
+                raise RuntimeError("destination appeared during generation")
+            stage.rename(output)
         if not args.no_git:
             initialize_git(output)
     except (OSError, RuntimeError, subprocess.CalledProcessError) as error:

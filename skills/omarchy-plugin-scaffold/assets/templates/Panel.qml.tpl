@@ -14,9 +14,11 @@ Item {
 
   function open(payloadJson) {
     var payload = ({})
-    try { payload = JSON.parse(payloadJson || "{}") || ({}) }
+    var encoded = String(payloadJson || "{}")
+    if (encoded.length > 16384) encoded = "{}"
+    try { payload = JSON.parse(encoded) || ({}) }
     catch (error) { payload = ({}) }
-    root.detail = String(payload.detail || "Ready")
+    root.detail = String(payload.detail || "Ready").slice(0, 256)
     root.opened = true
   }
 
