@@ -15,7 +15,7 @@ CHECK = REPO / "scripts/check_versions.py"
 class VersionContractTests(unittest.TestCase):
     def test_repository_version_surfaces_agree(self) -> None:
         result = subprocess.run(
-            [sys.executable, str(CHECK), str(REPO), "--tag", "v0.2.3"],
+            [sys.executable, str(CHECK), str(REPO), "--tag", "v0.3.0"],
             text=True,
             capture_output=True,
             check=False,

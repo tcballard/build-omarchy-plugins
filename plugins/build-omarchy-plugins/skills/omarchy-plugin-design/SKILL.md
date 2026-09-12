@@ -5,7 +5,13 @@ description: Design an Omarchy 4 Quattro shell plugin before implementation. Use
 
 # Omarchy Plugin Design
 
-Design the smallest complete plugin that fits Omarchy's hosted-shell model.
+Choose a surface that fits the user's interaction and Omarchy's hosted-shell
+model. Preserve an existing specification; resolve routine details from the
+repository and state assumptions that materially affect the result.
+Keep settled decisions unless new evidence contradicts them. For work spanning
+sessions, update the project's existing decision/progress record with accepted
+scope, completed evidence and remaining work; do not create a parallel memory
+system or reopen decisions merely because the context changed.
 
 ## Workflow
 
@@ -24,7 +30,7 @@ Design the smallest complete plugin that fits Omarchy's hosted-shell model.
    or copying its credentials.
 5. Define entry points, user-visible lifecycle, IPC methods, failure states,
    removal behavior, tests, demo fixtures, and screenshot evidence.
-6. Produce a short design record before substantial implementation: ID, kinds,
+6. For substantial new work, keep a short design record: ID, kinds,
    entry points, state boundaries, dependencies, IPC, security constraints,
    verification plan, and deferred scope.
 
@@ -41,5 +47,8 @@ Design the smallest complete plugin that fits Omarchy's hosted-shell model.
 - Preserve distinct unavailable, unauthenticated, unsupported, offline, empty,
   and failed states; do not silently collapse them into generic fallback data.
 
-Use the focused implementation skill for the selected surface after the design
-record is agreed.
+If implementation is requested, continue into the selected surface using the
+focused skill when available. A design record is not an approval gate. Ask only
+when a missing decision materially changes scope, public identity, or ownership
+and cannot be resolved from the request. For design-only requests, return the
+recommendation and its tradeoffs without creating an implementation.

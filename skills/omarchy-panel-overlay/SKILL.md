@@ -14,6 +14,9 @@ Match the surface to the interaction:
 Read [references/lifecycle-and-windows.md](references/lifecycle-and-windows.md)
 before implementing a new entry point.
 
+For a targeted fix, inspect the existing lifecycle and change the affected path;
+do not add new windows or switch kinds merely to match an example.
+
 ## Required lifecycle
 
 - Expose `open(payloadJson)` and `close()` on every panel, overlay, and menu

@@ -38,5 +38,6 @@ config before changing it, then restart the shell only with authorization.
 
 Files under `~/.config/omarchy/plugins/` are watched. A reload can destroy and
 recreate QML instances, so stale external processes, timers, and persistent
-properties may expose bugs that a first load does not. Test both edit reload and
-full shell restart.
+properties may expose bugs that a first load does not. When changing reload or
+resource ownership, test both edit reload and full shell restart on an authorized
+Omarchy host; otherwise record those checks as unrun.

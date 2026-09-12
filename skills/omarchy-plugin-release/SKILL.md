@@ -5,10 +5,11 @@ description: Preflight and prepare an Omarchy plugin release from a public Git r
 
 # Release Omarchy Plugins
 
-Run the deterministic preflight first:
+Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
+Run the deterministic preflight to identify release gaps:
 
 ```bash
-python3 scripts/release_preflight.py /absolute/path/to/plugin
+python3 "<skill-dir>/scripts/release_preflight.py" /absolute/path/to/plugin
 ```
 
 Use `--json` for machine-readable output. Read
@@ -38,6 +39,11 @@ SBOM, exact sizes and SHA-256 digests, and complete `SHA256SUMS` coverage.
   plugin has UI.
 
 Do not claim the release is secure because a static scan passed. Report tested
-scope and limitations precisely. Publishing a Git tag, GitHub release, or
-marketplace issue is an external mutation and requires explicit authorization
-at that boundary.
+scope and limitations precisely. Finish authorized release preparation even when
+a host check or publication permission is unavailable, and report the blocking
+evidence. Publishing a Git tag, GitHub release, or marketplace issue requires
+authorization for that action; preserve any authorization already given. Ask
+about an unauthorized action only once its candidate is concrete and reviewable.
+Track each requested release deliverable against observed evidence. Report
+unfinished items explicitly; a successful preflight alone does not mean a tag,
+archive upload, or publication has happened.

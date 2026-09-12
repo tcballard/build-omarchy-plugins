@@ -9,6 +9,10 @@ Use Omarchy's `BarWidget` and `WidgetButton` primitives so placement,
 orientation, theme, tooltips, and popout behavior remain coherent with the
 active bar.
 
+For an existing widget, preserve its API and settings unless the request changes
+them. Apply the relevant contract below; a label or tooltip correction does not
+require redesigning state ownership or adding a service.
+
 ## Workflow
 
 1. Confirm `manifest.json` declares `bar-widget` and maps

@@ -364,7 +364,7 @@ class ToolTests(unittest.TestCase):
             checksums = run(["sha256sum", "-c", "SHA256SUMS"], cwd=first)
             self.assertEqual(0, checksums.returncode, checksums.stdout + checksums.stderr)
 
-            portable = first / "build-omarchy-plugins-agent-plugin-0.2.3.zip"
+            portable = first / "build-omarchy-plugins-agent-plugin-0.3.0.zip"
             self.assertTrue(portable.is_file())
             import zipfile
             with zipfile.ZipFile(portable) as archive:

@@ -8,6 +8,11 @@ description: Migrate an older installer-style Omarchy integration or standalone 
 Begin by classifying every existing responsibility. Read
 [references/migration-map.md](references/migration-map.md).
 
+Preserve the requested behavior and packaging boundaries. The two layers below
+describe ownership, not a requirement for two repositories or a rewrite. Adapt
+the current layout when it already separates them; prepare portable changes even
+if privileged installation or live lifecycle verification must happen later.
+
 ## Two-layer model
 
 - **Shell layer:** root `manifest.json`, hosted QML, bar/panel/overlay/menu,
