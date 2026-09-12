@@ -1,26 +1,31 @@
-# Release notes — 0.3.0
+# Build Omarchy Plugins v0.3.0
 
-Prepares the provider-neutral skills for Astra, Claude Fable and other frontier
-models. The
-same twelve skills install into shared Agent Skills paths or native Codex,
-Cursor, Gemini CLI, Claude Code, and OpenCode locations without calling a model
-API.
+Twelve Omarchy skills, revised for Astra and Claude Fable: clearer instructions
+for capable models, with the desktop contracts they still need to get right.
 
-This candidate revises task completion, scope, approval reuse, focused edits,
-verification and progress reporting. It fixes host-conformance text output and
-Codex skill discovery, and adds ten behavioral cases. No live Fable execution or
-model-specific performance improvement is claimed.
+Sometimes the agent stopping halfway through is following exactly what the
+instructions accidentally asked for. This release takes a closer look at those
+instructions.
 
-It retains transactional managed updates and removal, read-only host
-discovery diagnostics, a deny-by-default OpenCode conformance probe,
-deterministic exact-tree archives, source and release manifests, an SPDX 2.3
-SBOM, SHA-256 coverage, stricter scaffold and QML trust-boundary checks, and
-tag/asset provenance verification. CI covers Linux, macOS, and Windows;
-release automation can prepare a verified draft but cannot publish it. The
-release path validates every workflow with pinned actionlint, inspects
-unpublished drafts through the supported GitHub CLI surface, and retries initial
-asset downloads before comparing the uploaded release byte-for-byte.
+- Requested builds continue past the design note. Existing approval and settled
+  decisions carry forward, while diagnosis-only requests stay read-only.
+- Small fixes get focused edits and relevant checks. Required repository and
+  release checks still apply; missing desktop access is reported honestly.
+- Bundled helpers resolve from the loaded skill directory. Workbench
+  registration is optional, and an example no longer dictates repository layout.
+- Host-conformance text output no longer crashes. Codex discovery now checks
+  parent directories and reports duplicate skill names without inventing a winner.
+- Ten behavioral cases cover builds, repairs, scope, continuity and evidence.
 
-Live Omarchy and model-provider compatibility remains explicitly evidence
-bounded. Static validation and filesystem discovery are not described as a
-security audit or a successful host invocation.
+The bundle stays provider-neutral. Use the same skills with Codex, Claude Code,
+Cursor, Gemini CLI or OpenCode; choose the model in your agent. Existing
+transactional updates, reproducible archives, checksums and SPDX 2.3 manifests
+are retained. Release automation prepares a verified draft and cannot publish it.
+
+All 52 tests pass, with CI across Linux, macOS, and Windows. The Astra and Fable
+reviews use their providers' official guidance. Actual Fable model execution and
+live Omarchy desktop testing remain outstanding; this is not a claim of measured
+model performance gains.
+
+If a skill still makes your agent stop unnecessarily, overbuild a small fix or
+reopen a settled decision, please open an issue with the prompt and what happened.
