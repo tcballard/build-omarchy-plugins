@@ -46,3 +46,12 @@ targeted change, verify the affected state or interaction with fictional
 fixtures. Run required repository checks and relevant QML tests; record live
 shell behavior only when observed on Omarchy. Do not block a portable patch on
 an unavailable display or treat stubs as proof of host integration.
+
+## Inputs and completion
+
+Apply these patterns to the requested change in the actual hosted entry point
+or shared component, using the existing surface and state decisions.
+
+Leave a focused patch and evidence for the affected behavior. Carry changed
+components and unavailable host checks back to the surface workflow or
+testing; using a documented pattern by itself is not verification.

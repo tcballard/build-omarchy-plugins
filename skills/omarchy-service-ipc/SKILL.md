@@ -37,3 +37,13 @@ such as `refresh`, `status`, `open`, or a domain action. Return bounded,
 documented results and avoid credential-bearing debug payloads. Shell-wide
 lifecycle operations should go through the canonical `omarchy-shell shell`
 target rather than reimplementing Quickshell socket calls.
+
+## Inputs and completion
+
+Use the existing service, its consumers and the agreed IPC and state-ownership
+contract. Identify the requested process or state change.
+
+Leave the service and its consumers consistent with the preserved or
+explicitly changed IPC contract. Pass evidence for affected request ordering,
+failure and cleanup paths to testing, including any command or host
+integration that remains untested.

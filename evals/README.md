@@ -44,6 +44,11 @@ than a prose assertion, and retain its exact initial tree in the result record.
 
 ## Result record
 
+For workflows spanning skills, also run the [handoff cases](HANDOFFS.md):
+scaffold → test, design → build, repair → test, and release → publish. They
+check artifact identity, uncommitted changes, stale evidence and scope across
+the boundary. Their execution status is recorded separately from these cases.
+
 Record date, case ID, baseline/candidate skill commit or digest, fixture digest,
 host/version, model identifier and reasoning setting if exposed, available
 tools, prompt, patch, commands/exit status, observed result, blocked checks, and

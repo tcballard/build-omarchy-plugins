@@ -47,3 +47,15 @@ about an unauthorized action only once its candidate is concrete and reviewable.
 Track each requested release deliverable against observed evidence. Report
 unfinished items explicitly; a successful preflight alone does not mean a tag,
 archive upload, or publication has happened.
+
+## Inputs and completion
+
+Use the candidate checkout, intended version, test results and preview
+provenance. Reconcile their source identities before treating them as one
+release candidate.
+
+Hand off the exact candidate SHA, version, tag and asset identities where
+created, evidence locations and unresolved gates. Recheck affected evidence
+after candidate changes. Marketplace preparation consumes this candidate
+record; a preflight result does not transfer authorization or attestations to
+publication.

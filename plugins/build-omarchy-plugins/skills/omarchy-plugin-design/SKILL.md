@@ -52,3 +52,13 @@ focused skill when available. A design record is not an approval gate. Ask only
 when a missing decision materially changes scope, public identity, or ownership
 and cannot be resolved from the request. For design-only requests, return the
 recommendation and its tradeoffs without creating an implementation.
+
+## Inputs and completion
+
+Start from the requested outcome or existing specification and repository.
+Reuse settled ID, kind, state and dependency decisions.
+
+The result identifies the surface, ownership boundaries and verification
+needed for the requested scope. Carry those decisions into scaffolding or the
+relevant implementation skill when building is authorized; a design-only
+request ends with the recommendation.

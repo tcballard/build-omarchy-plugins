@@ -43,3 +43,15 @@ machine integration in QML or claim that a shell plugin can provision it.
 For a Wayfinder-style integration, the router daemon remains the portable core;
 the Quattro repository becomes a thin control surface and status client rather
 than the router, supervisor, or credential store.
+
+## Inputs and completion
+
+Use the current integration, requested migration scope and existing
+installation/removal contract. Preserve agreed repository and machine-layer
+boundaries.
+
+For planning, return the responsibility mapping and affected lifecycle checks.
+For implementation, also leave the scoped patch and evidence for the migrated
+surface, retained helper and removal boundaries. Pass the actual changed
+checkout and unrun host checks into testing; do not regenerate an established
+plugin.

@@ -38,3 +38,13 @@ Keep pointer hit regions inside the intended card, prevent backdrop clicks from
 passing through, and preserve reduced motion and theme tokens where supported.
 Do not perform slow process or network work on the visible open path when a
 service can preload it.
+
+## Inputs and completion
+
+Use the target checkout, selected kind and requested open/close interaction,
+including any existing payload and monitor contract.
+
+Leave the mapped surface implementing the requested behavior and identify
+evidence for affected open, repeated-open and dismissal paths. Carry remaining
+focus or monitor checks into testing; portable checks alone do not establish
+live window behavior.
