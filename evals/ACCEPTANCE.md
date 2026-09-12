@@ -1,7 +1,8 @@
 # Acceptance evidence and remaining host checks
 
-Candidate work following v0.3.0, 12 September 2026. This record does not imply
-these changes are in the published v0.3.0 assets.
+v0.3.1 release candidate, 12 September 2026. The release version is owner-selected.
+The checks below distinguish portable validation from provider and desktop
+execution; they do not imply these changes are in the published v0.3.0 assets.
 
 ## Executed in this workspace
 

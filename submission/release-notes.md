@@ -1,31 +1,57 @@
-# Build Omarchy Plugins v0.3.0
+# Build Omarchy Plugins v0.3.1
 
-Twelve Omarchy skills, revised for Astra and Claude Fable: clearer instructions
-for capable models, with the desktop contracts they still need to get right.
+This patch release turns recurring Omarchy marketplace review feedback into
+targeted authoring guidance, and adds native Claude Code plugin packaging.
+The same twelve canonical skills remain provider-neutral across Codex, Claude
+Code, Cursor, Gemini CLI and OpenCode. Existing transactional installation and
+update safeguards are retained.
 
-Sometimes the agent stopping halfway through is following exactly what the
-instructions accidentally asked for. This release takes a closer look at those
-instructions.
+## What's changed
 
-- Requested builds continue past the design note. Existing approval and settled
-  decisions carry forward, while diagnosis-only requests stay read-only.
-- Small fixes get focused edits and relevant checks. Required repository and
-  release checks still apply; missing desktop access is reported honestly.
-- Bundled helpers resolve from the loaded skill directory. Workbench
-  registration is optional, and an example no longer dictates repository layout.
-- Host-conformance text output no longer crashes. Codex discovery now checks
-  parent directories and reports duplicate skill names without inventing a winner.
-- Ten behavioral cases cover builds, repairs, scope, continuity and evidence.
+- Native Claude plugin and community-marketplace manifests, a dedicated Claude
+  archive, and strict official Claude CLI validation in required CI.
+- Guidance for limiting data before collection, rendering external QML text as
+  plain text, preserving file and executable identity, cleaning up child
+  processes, and keeping credentials out of arguments and logs.
+- Advisory discovery checks for QML inputs and agent-control payloads, plus a
+  reviewer-response table connecting findings to fixes, reproductions and the
+  exact submitted commit. Static checks do not certify plugin security.
+- Updated Omacom submission forms, including Kids/Education and current tag
+  labels, with compatibility for existing CLI spellings.
+- Installation and stewardship documentation, aligned version metadata, and a
+  release workflow that can create a new annotated tag after verifying the
+  expected main commit and its required CI result.
 
-The bundle stays provider-neutral. Use the same skills with Codex, Claude Code,
-Cursor, Gemini CLI or OpenCode; choose the model in your agent. Existing
-transactional updates, reproducible archives, checksums and SPDX 2.3 manifests
-are retained. Release automation prepares a verified draft and cannot publish it.
+## Research and verification
 
-All 52 tests pass, with CI across Linux, macOS, and Windows. The Astra and Fable
-reviews use their providers' official guidance. Actual Fable model execution and
-live Omarchy desktop testing remain outstanding; this is not a claim of measured
-model performance gains.
+The [marketplace findings report](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.1/docs/reviews/2026-09-12-marketplace-findings.md)
+draws on 6,531 issue/PR records and 30,036 comments, including 6,286 comments by
+HANCORE-linux across 3,589 threads. Every collected record was indexed and
+representative reviews were read in depth. This was not an independent source
+audit of every plugin; overlapping topic counts include resolved findings.
 
-If a skill still makes your agent stop unnecessarily, overbuild a small fix or
-reopen a settled decision, please open an issue with the prompt and what happened.
+Portable validation covers 54 unit tests, generated-plugin tooling, synchronized
+adapters and deterministic archive builds. Required CI includes nine
+OS/Python combinations across Linux, macOS, and Windows, workflow lint and
+strict Claude packaging validation.
+Release automation builds twice, checks byte equality, generates provenance and
+verifies downloaded draft assets before owner publication. The workflow cannot publish
+a release; publication remains owner-controlled.
+
+Fresh Astra/Fable behavioral sessions and live Omarchy desktop acceptance remain
+outstanding. Packaging validation does not establish model performance or live
+desktop compatibility. See the
+[acceptance record](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.1/evals/ACCEPTANCE.md).
+
+## Installation
+
+Choose the skills, portable Agent Plugin, OpenAI adapter or Claude plugin archive
+for your host; verify it against `SHA256SUMS`. Use either the Claude plugin or
+the Claude skills installer to avoid duplicate skill loading. The submission
+archive contains reviewer materials. Source manifests and the SPDX 2.3 SBOM bind
+the archives to the release source tree.
+
+Existing installations can preview and apply the update from a v0.3.1 checkout
+with `install_agent_skills.py --update --diff` and then `--update`, preserving
+their existing target and scope. Locally modified managed files require explicit
+resolution. No official OpenAI or Anthropic marketplace listing is implied.
