@@ -53,3 +53,15 @@ If Omarchy, Qt imports, or a display are unavailable, finish portable work and
 identify the exact unrun host check. Do not invent passing evidence, weaken a
 release gate, or repeatedly retry a missing environment. After selected checks
 pass, repeat or broaden only for a new change, failure, or unresolved risk.
+
+## Inputs and completion
+
+Inspect the exact checkout and requested behavior, including staged, unstaged
+and untracked files relevant to the change. Check inherited evidence against
+that source before reusing it.
+
+Report which behaviors passed, failed or remain unrun, with commands and
+source identity: commit plus relevant working-tree changes, or a fixture
+digest outside Git. Changes after a check invalidate evidence for affected
+behavior. Carry these results into demo or release work when requested; a
+clean HEAD diff does not establish that working-tree changes were tested.

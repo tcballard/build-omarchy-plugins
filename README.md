@@ -119,22 +119,28 @@ codex plugin add build-omarchy-plugins@tcballard-omarchy
 In ChatGPT, refresh the Plugins Directory after adding the marketplace, then
 install **Build Omarchy Plugins** and start a new conversation.
 
+## Start here
+
+Use the [workflow guide](docs/WORKFLOWS.md) to choose an entry point, follow a
+new build through the skills, or take the shorter path for a fix, demo or
+release. Each skill defines the inputs it uses and the evidence it hands on.
+
 ## Skills
 
 | Skill | Purpose |
 | --- | --- |
-| `omarchy-plugin-design` | Choose kinds, boundaries, state, dependencies, IPC, and evidence before implementation. |
-| `omarchy-plugin-scaffold` | Generate a working Quattro plugin repository for any supported kind. |
-| `omarchy-qml-patterns` | Implement hosted QML with Omarchy theme, component, process, and state conventions. |
-| `omarchy-bar-widget` | Build responsive bar widgets, settings, optional panels, and singleton services. |
-| `omarchy-panel-overlay` | Build panels, overlays, and menus with correct lifecycle, focus, and monitor behavior. |
-| `omarchy-service-ipc` | Build process-wide services and stable IPC contracts without leaking credentials. |
-| `omarchy-plugin-debug` | Diagnose discovery, validation, load, reload, config, and runtime failures. |
-| `omarchy-plugin-test` | Run manifest, static security, QML, fixture, and live-shell test layers. |
-| `omarchy-plugin-demo` | Create reversible demos and marketplace-ready screenshots using fictional data. |
-| `omarchy-plugin-release` | Preflight a clean, documented, reproducible plugin release. |
-| `omarchy-plugin-publish` | Prepare and, after owner approval, submit the exact marketplace issue. |
-| `omarchy-plugin-migrate` | Separate legacy machine integration from the Quattro shell surface and migrate safely. |
+| [omarchy-plugin-design](skills/omarchy-plugin-design/SKILL.md) | Choose kinds, boundaries, state, dependencies, IPC, and evidence before implementation. |
+| [omarchy-plugin-scaffold](skills/omarchy-plugin-scaffold/SKILL.md) | Generate a working Quattro plugin repository for any supported kind. |
+| [omarchy-qml-patterns](skills/omarchy-qml-patterns/SKILL.md) | Implement hosted QML with Omarchy theme, component, process, and state conventions. |
+| [omarchy-bar-widget](skills/omarchy-bar-widget/SKILL.md) | Build responsive bar widgets, settings, optional panels, and singleton services. |
+| [omarchy-panel-overlay](skills/omarchy-panel-overlay/SKILL.md) | Build panels, overlays, and menus with correct lifecycle, focus, and monitor behavior. |
+| [omarchy-service-ipc](skills/omarchy-service-ipc/SKILL.md) | Build process-wide services and stable IPC contracts without leaking credentials. |
+| [omarchy-plugin-debug](skills/omarchy-plugin-debug/SKILL.md) | Diagnose discovery, validation, load, reload, config, and runtime failures. |
+| [omarchy-plugin-test](skills/omarchy-plugin-test/SKILL.md) | Run manifest, static security, QML, fixture, and live-shell test layers. |
+| [omarchy-plugin-demo](skills/omarchy-plugin-demo/SKILL.md) | Create reversible demos and marketplace-ready screenshots using fictional data. |
+| [omarchy-plugin-release](skills/omarchy-plugin-release/SKILL.md) | Preflight a clean, documented, reproducible plugin release. |
+| [omarchy-plugin-publish](skills/omarchy-plugin-publish/SKILL.md) | Prepare and, after owner approval, submit the exact marketplace issue. |
+| [omarchy-plugin-migrate](skills/omarchy-plugin-migrate/SKILL.md) | Separate legacy machine integration from the Quattro shell surface and migrate safely. |
 
 ## Deterministic tools
 

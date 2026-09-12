@@ -51,3 +51,14 @@ Validation and the automated baseline are exact-commit checks, not security
 audits. A new listing still requires an authorized maintainer's
 `approved-and-verified` decision. Later upstream commits become unverified until
 the guarded update workflow promotes their full SHA.
+
+## Inputs and completion
+
+Use the public repository and the release candidate record, including its
+exact SHA, evidence and unresolved gates. Verify the intended submission
+source matches that record; identify drift before reusing its claims.
+
+For preparation, return the reviewable title/body tied to the candidate and
+list unresolved evidence or attestations. For authorized submission, read back
+the created or updated issue and report its URL and observed status. Issue
+creation does not establish marketplace approval or listing.

@@ -41,3 +41,13 @@ preparing a screenshot harness alone does not authorize changing desktop state.
 
 If restoration fails, retain the recovery artifacts and print their exact
 paths. Never delete an ambiguous backup merely to make the next demo run.
+
+## Inputs and completion
+
+Use the target checkout, requested UI state and fictional fixtures. Check that
+any inherited test evidence describes this source.
+
+Hand off the harness, fixture and source identity, capture path when actually
+produced, and restoration result. If capture or restoration could not finish,
+retain the precise pending check or recovery path. Release preparation must be
+able to distinguish a prepared harness from an observed runtime preview.

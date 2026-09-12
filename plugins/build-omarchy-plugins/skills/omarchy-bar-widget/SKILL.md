@@ -39,3 +39,13 @@ adding `barWidget.defaults` or `barWidget.schema`.
   users remain free to move the widget.
 - Put user settings directly on the `shell.json` entry. Do not invent a nested
   `config` object or a parallel settings file for ordinary widget options.
+
+## Inputs and completion
+
+Use the target checkout, manifest and requested interaction, retaining agreed
+settings and state ownership.
+
+Leave the requested widget behavior implemented in the mapped entry point,
+with evidence for the affected orientation, settings or interaction paths.
+Pass the changed files and any unobserved host behavior to testing; broader
+release or demo work follows only when requested.

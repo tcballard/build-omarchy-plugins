@@ -53,3 +53,14 @@ over a load failure with silent fallback data. Report the cause, patch, evidence
 and any host-only check that could not run. During a longer investigation,
 report findings tied to observed commands and results; distinguish a proposed
 next action from one actually executed.
+
+## Inputs and completion
+
+Use the reported symptom, exact plugin checkout and available logs or
+reproducing command. Establish whether the request is diagnosis or repair.
+
+A diagnosis identifies the failing boundary and supported correction, marking
+uncertainty where reproduction is unavailable. A repair also includes the
+patch and rerun evidence for the original failure. Hand the actual changed
+checkout and any remaining checks to testing, rather than an earlier clean
+commit.

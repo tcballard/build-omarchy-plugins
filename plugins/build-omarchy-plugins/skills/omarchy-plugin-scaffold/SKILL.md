@@ -64,3 +64,13 @@ On an Omarchy machine also run:
 ```bash
 omarchy plugin validate /absolute/path/to/plugin-name
 ```
+
+## Inputs and completion
+
+Use the agreed ID, kinds, author and destination. Carry forward the design’s
+state and dependency boundaries; inspect the destination before generation.
+
+Return the generated repository path, actual entry-point mappings and
+validation results. For a build request, continue into the selected surface
+skill when available and distinguish generated baseline behavior from the
+requested feature. Pass that same repository to testing.
