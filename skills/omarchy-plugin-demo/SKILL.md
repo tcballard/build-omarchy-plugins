@@ -8,14 +8,20 @@ description: Create or verify a deterministic Omarchy plugin demo and marketplac
 A good demo proves a real UI state while leaving the user's machine exactly as
 it found it.
 
+Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
 Run the preflight against an existing harness:
 
 ```bash
-python3 scripts/demo_preflight.py /absolute/path/to/plugin
+python3 "<skill-dir>/scripts/demo_preflight.py" /absolute/path/to/plugin
 ```
 
 Read [references/reversible-demo.md](references/reversible-demo.md) before
 creating or running a harness that touches the live shell.
+
+With no live Omarchy display, prepare fixtures and the capture harness, validate
+what can run, and report capture as unrun. A generated mockup is not evidence of
+the plugin running. Use existing authorization for a specified live demo;
+preparing a screenshot harness alone does not authorize changing desktop state.
 
 ## Required properties
 

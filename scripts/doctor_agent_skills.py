@@ -17,7 +17,7 @@ from install_agent_skills import inventory, snapshot_tree
 
 HOSTS = ("codex", "opencode", "cursor", "claude", "gemini")
 COMPATIBILITY_SOURCES = {
-    "codex": "https://learn.chatgpt.com/docs/customization/overview",
+    "codex": "https://learn.chatgpt.com/docs/build-skills",
     "opencode": "https://opencode.ai/docs/skills/",
     "cursor": "https://cursor.com/docs/skills",
     "claude": "https://code.claude.com/docs/en/skills",
@@ -85,10 +85,10 @@ def roots_for(host: str, cwd: Path, home: Path, repo: Path) -> tuple[list[Root],
     blind_spots: list[str] = []
     chain = ancestors(cwd, repo)
     if host == "codex":
-        roots = [
-            Root(str(repo / ".agents/skills"), "project", "agents", 200),
-            Root(str(home / ".agents/skills"), "user", "agents", 100),
-        ]
+        roots = [Root(str(directory / ".agents/skills"), "project", "agents", None) for directory in chain]
+        roots.append(Root(str(home / ".agents/skills"), "user", "agents", None))
+        blind_spots.append("Codex exposes duplicate skill names separately; no automatic winner is inferred")
+        blind_spots.append("symlinked skills may be loaded by Codex but are excluded from this portable copy audit")
         blind_spots.append("admin or product-managed skills are not represented by a portable filesystem contract")
     elif host == "opencode":
         rank = 300
@@ -180,7 +180,7 @@ def inspect(host: str, source: Path, cwd: Path, home: Path, repo: Path | None = 
     resolution: dict[str, dict[str, Any]] = {}
     for name, candidates in sorted(by_name.items()):
         ranked = [item for item in candidates if item["rank"] is not None and item["activation"] == "startup"]
-        ambiguous = len(candidates) > 1 and (host in {"opencode", "cursor"} or not ranked)
+        ambiguous = len(candidates) > 1 and (host in {"codex", "opencode", "cursor"} or not ranked)
         selected = None if ambiguous else max(ranked or candidates, key=lambda item: item["rank"] or 0)
         resolution[name] = {
             "ambiguous": ambiguous,

@@ -1,5 +1,9 @@
 # Test matrix
 
+Select cases affected by the change during development. For a release, cover
+the declared kinds and supported lifecycle; mark genuinely inapplicable states
+with a reason. Missing host access is unrun evidence, not a passing result.
+
 ## Portable contract
 
 - valid JSON object and schema version `1` as a number;

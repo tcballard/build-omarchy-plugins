@@ -36,7 +36,9 @@ launches commands or owns asynchronous state.
 
 ## Verification
 
-Build the smallest state-complete surface first. Exercise loading, empty,
-success, partial failure, authentication-required, and retry behavior with
-fictional fixtures. Then run static validation, QML tests where available, and
-a live-shell smoke test on Omarchy.
+For a new data-driven surface, exercise loading, empty, success, partial failure,
+authentication-required, and retry behavior when those states exist. For a
+targeted change, verify the affected state or interaction with fictional
+fixtures. Run required repository checks and relevant QML tests; record live
+shell behavior only when observed on Omarchy. Do not block a portable patch on
+an unavailable display or treat stubs as proof of host integration.

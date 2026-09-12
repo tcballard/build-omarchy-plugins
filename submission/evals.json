@@ -32,7 +32,7 @@
       "shouldTrigger": true,
       "prompt": "Migrate my old Omarchy installer plugin: keep its required systemd helper, but move its visible status and controls into the Quattro shell.",
       "expectedSkills": ["omarchy-plugin-migrate", "omarchy-plugin-design"],
-      "expectedResultShape": "Responsibility map, two-repository target layout, staged migration, and rollback steps.",
+      "expectedResultShape": "Responsibility map, justified layer boundaries and repository layout, staged migration, and rollback steps.",
       "fixture": "Descriptions of install.sh, demo-helper.service, and a status script printing ready; run no privileged action."
     },
     {

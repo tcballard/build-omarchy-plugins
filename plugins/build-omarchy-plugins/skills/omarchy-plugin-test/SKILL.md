@@ -5,13 +5,15 @@ description: Validate and test an Omarchy 4 Quattro plugin. Use for manifest and
 
 # Test Omarchy Plugins
 
-Use layered evidence and stop at the first failed prerequisite.
+Select evidence for the changed behavior and complete required repository
+checks. A failed prerequisite blocks dependent checks, not independent useful
+work. Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
 
 ## Portable static validation
 
 ```bash
-python3 scripts/validate_plugin.py /absolute/path/to/plugin
-python3 scripts/validate_plugin.py --json --security /absolute/path/to/plugin
+python3 "<skill-dir>/scripts/validate_plugin.py" /absolute/path/to/plugin
+python3 "<skill-dir>/scripts/validate_plugin.py" --json --security /absolute/path/to/plugin
 ```
 
 The validator mirrors Omarchy's documented schema, entry-point, reserved-ID,
@@ -20,6 +22,12 @@ executes plugin code. Its security report is not the marketplace's authoritative
 baseline and is not proof that a plugin is safe.
 
 ## Test layers
+
+These layers are a selection guide for development and the basis of release
+evidence, not a mandatory sequence for every edit. For a manifest path repair,
+reproduce the failure and validate the corrected mapping. For async or lifecycle
+changes, exercise state transitions and cleanup. Pure copy edits do not need new
+state-machine tests. Full release work uses the release skill when available.
 
 1. Run the portable validator.
 2. On Omarchy, run `omarchy plugin validate <path>` and reconcile any contract
@@ -31,10 +39,15 @@ baseline and is not proof that a plugin is safe.
    reload, disablement, and restoration.
 6. Exercise installation from a fresh Git checkout and removal without residue.
 
-Read [references/test-matrix.md](references/test-matrix.md) for required states
+Read [references/test-matrix.md](references/test-matrix.md) for relevant states
 and [references/qml-testing.md](references/qml-testing.md) when building QtTest
 stubs or CI.
 
 Record exact commands, target Omarchy revision, fixtures, exit status, and known
 limitations. A screenshot is product evidence, not a substitute for state and
 lifecycle assertions.
+
+If Omarchy, Qt imports, or a display are unavailable, finish portable work and
+identify the exact unrun host check. Do not invent passing evidence, weaken a
+release gate, or repeatedly retry a missing environment. After selected checks
+pass, repeat or broaden only for a new change, failure, or unresolved risk.

@@ -61,6 +61,18 @@ sources are reported as blind spots instead of being silently ignored. The same
 positive and negative cases in `submission/evals.json` remain the baseline for
 behavioral host testing.
 
+For Codex, the doctor inspects `.agents/skills` from the working directory up to
+the repository root, plus the user location. Duplicate names remain ambiguous;
+no winner is inferred. Codex-supported symlinked skills are outside this
+portable copy audit and are reported as a blind spot. These boundaries follow
+[Codex's skill discovery documentation](https://learn.chatgpt.com/docs/build-skills),
+reviewed on 12 September 2026.
+
+Invocation probes establish loading, not engineering quality. Use the separate
+[task-level cases](evals/README.md) for completion, scope, authorization and
+evidence. See [the frontier-model guide](docs/FRONTIER-MODELS.md) for Astra and
+other model usage; no API or model configuration is added to the portable tree.
+
 ## OpenAI adapter
 
 `plugins/build-omarchy-plugins/` is the OpenAI distribution adapter. Its skill

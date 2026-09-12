@@ -260,7 +260,12 @@ def main(argv: list[str] | None = None) -> int:
         }
     except (OSError, ValueError, subprocess.SubprocessError) as error:
         payload = {"schemaVersion": 1, "host": args.host, "error": str(error), "hostVerified": False, "providerVerified": False}
-    print(json.dumps(payload, indent=2, sort_keys=True) if args.json else payload.get("claim", f"error: {payload['error']}"))
+    if args.json:
+        print(json.dumps(payload, indent=2, sort_keys=True))
+    elif "error" in payload:
+        print(f"error: {payload['error']}")
+    else:
+        print(payload["claim"])
     return 2 if "error" in payload else 0
 
 

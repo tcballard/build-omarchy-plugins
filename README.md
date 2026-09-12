@@ -39,6 +39,11 @@ skills/
 See [PORTABILITY.md](PORTABILITY.md) for the tested host paths and exact
 compatibility boundary.
 
+For Astra and other frontier models, see the
+[usage guide](docs/FRONTIER-MODELS.md) and
+[behavioral evaluation cases](evals/README.md). The skills keep model selection
+in the host and scale their workflow to the requested change.
+
 ## Install the Agent Skills
 
 Clone a reviewed release, then install the skills into the shared interoperable

@@ -21,6 +21,9 @@ service launches an external command.
   actions.
 - Make refresh idempotent and reject overlapping process chains unless
   concurrency is deliberate.
+- Associate asynchronous results with the request or generation that owns them;
+  a late completion must not overwrite newer state or resurrect a disabled
+  service. Verify this when changing refresh, retry, or shutdown behavior.
 - Bound polling frequency, command duration, response size, retry rate, and
   error text. Stop or back off when prerequisites are absent.
 - Keep credentials in the external CLI's credential store. Ask the CLI for

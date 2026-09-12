@@ -9,10 +9,11 @@ Generate a working repository, then validate the generated result.
 
 ## Create a repository
 
-Run the bundled generator from this skill directory:
+Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md` and
+run its bundled generator by absolute path:
 
 ```bash
-python3 scripts/new_plugin.py \
+python3 "<skill-dir>/scripts/new_plugin.py" \
   --id io.github.owner.plugin-name \
   --name "Plugin Name" \
   --kind bar-widget \
@@ -40,11 +41,17 @@ selecting optional flags or extending the output.
   the sample state and copy while preserving the lifecycle and injection
   contracts.
 
-After generation, run the generated `./tests/run` and the current toolkit
-validator from `omarchy-plugin-test`. Generated repositories include the
-schema-one `.omarchy-workbench.json` companion contract. If Plugin Workbench is
-installed, register the checkout, review the declared command, and make the
-trust decision explicitly:
+Run `./tests/run` from the generated repository and the current toolkit validator
+from `omarchy-plugin-test` when installed. If that skill is unavailable, use the
+generated validator and report the narrower evidence. For a build request,
+continue to the requested functionality; scaffold validation alone does not
+prove the feature is complete.
+
+Generated repositories include the schema-one `.omarchy-workbench.json`
+companion contract. Workbench registration is optional and does not block
+scaffolding. When local registration is requested and Workbench is installed,
+register the checkout. Review the declared commands and obtain the specific
+trust authorization before the trust/check actions unless already supplied:
 
 ```bash
 omarchy-plugin-workbench add /absolute/path/to/plugin-name

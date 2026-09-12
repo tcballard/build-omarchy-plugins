@@ -5,17 +5,19 @@ description: Diagnose an Omarchy Quattro plugin that is not discovered, validate
 
 # Debug Omarchy Plugins
 
-Start with read-only evidence. Run:
+Start with the reported failure and read-only evidence. Resolve `<skill-dir>`
+to the directory containing this loaded `SKILL.md`, independently of the plugin
+checkout or current working directory. For environment and discovery diagnosis:
 
 ```bash
-python3 scripts/doctor.py /absolute/path/to/plugin
+python3 "<skill-dir>/scripts/doctor.py" /absolute/path/to/plugin
 ```
 
 Add `--live` only on an Omarchy host when shell IPC probes are appropriate.
 The doctor does not modify configuration or restart the shell.
 
 Read [references/failure-ladder.md](references/failure-ladder.md) and isolate
-the first failing boundary:
+the relevant failing boundary; use known logs to enter at the appropriate layer:
 
 1. repository and JSON structure;
 2. official `omarchy plugin validate`;
@@ -35,8 +37,13 @@ the first failing boundary:
   shell. Show the exact proposed change before applying it.
 - Prefer `omarchy plugin remove <id>` for installed Git plugins. Hand-made
   directories are backed up by Omarchy rather than deleted.
-- Treat shell reload, config changes, and process restarts as mutations. Obtain
-  the user's authorization immediately before performing them.
+- Treat live shell reloads, config changes, and process restarts as mutations.
+  Use authorization already given for the specific action; if it is absent,
+  prepare the patch and recovery instructions before asking. A request to fix
+  repository code does not by itself authorize disrupting the live desktop.
 
-After fixing the first failing boundary, rerun the same probe and then the full
-test skill. Do not paper over a load failure with silent fallback data.
+After fixing the cause, rerun the failing probe and checks for the affected
+behavior, plus required repository gates. Broaden testing for a concrete
+remaining risk, not automatically to the full release lifecycle. Do not paper
+over a load failure with silent fallback data. Report the cause, patch, evidence,
+and any host-only check that could not run.
