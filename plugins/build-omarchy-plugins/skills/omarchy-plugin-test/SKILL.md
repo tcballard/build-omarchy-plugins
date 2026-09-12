@@ -8,6 +8,8 @@ description: Validate and test an Omarchy 4 Quattro plugin. Use for manifest and
 Select evidence for the changed behavior and complete required repository
 checks. A failed prerequisite blocks dependent checks, not independent useful
 work. Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
+Keep permanent tests consistent with the repository's conventions. Temporary
+probes can establish evidence without becoming new maintained test suites.
 
 ## Portable static validation
 

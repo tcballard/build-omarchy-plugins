@@ -5,6 +5,10 @@ description: Diagnose an Omarchy Quattro plugin that is not discovered, validate
 
 # Debug Omarchy Plugins
 
+For diagnosis-only requests, return the cause and proposed correction without
+editing. For a requested fix, patch the affected code in place and preserve
+unrelated content; report independent discoveries separately.
+
 Start with the reported failure and read-only evidence. Resolve `<skill-dir>`
 to the directory containing this loaded `SKILL.md`, independently of the plugin
 checkout or current working directory. For environment and discovery diagnosis:
@@ -46,4 +50,6 @@ After fixing the cause, rerun the failing probe and checks for the affected
 behavior, plus required repository gates. Broaden testing for a concrete
 remaining risk, not automatically to the full release lifecycle. Do not paper
 over a load failure with silent fallback data. Report the cause, patch, evidence,
-and any host-only check that could not run.
+and any host-only check that could not run. During a longer investigation,
+report findings tied to observed commands and results; distinguish a proposed
+next action from one actually executed.

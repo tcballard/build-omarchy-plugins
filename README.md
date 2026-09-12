@@ -39,7 +39,7 @@ skills/
 See [PORTABILITY.md](PORTABILITY.md) for the tested host paths and exact
 compatibility boundary.
 
-For Astra and other frontier models, see the
+For Astra, Claude Fable and other frontier models, see the
 [usage guide](docs/FRONTIER-MODELS.md) and
 [behavioral evaluation cases](evals/README.md). The skills keep model selection
 in the host and scale their workflow to the requested change.
@@ -48,6 +48,9 @@ in the host and scale their workflow to the requested change.
 
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
+
+The combined Astra/Fable revision is being prepared as **v0.3.0**. The commands
+below retain **v0.2.3** until the new release is published.
 
 ```bash
 git clone --branch v0.2.3 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git

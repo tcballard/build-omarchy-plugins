@@ -1,4 +1,4 @@
-# Using the skills with Astra and other frontier models
+# Using the skills with Astra, Fable and other frontier models
 
 Select the model in your agent host. These skills do not set a model, reasoning
 level, API parameter, or delegation policy. The portable source stays the same
@@ -54,6 +54,30 @@ not benchmark results.
   and identify the missing evidence. Do not invent a tool or a successful test.
 - Choose delegation in the host when useful and authorized. These skills do not
   require subagents, a fixed number of workers, or proprietary tool names.
+
+## Claude Fable review
+
+The 12 September pass uses Anthropic's dedicated
+[Fable 5.1 guidance](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1)
+and [Fable 5 guidance](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5).
+Fable 5.1 is the current reviewed target; the package does not select it.
+
+The additional edits preserve settled decisions across sessions, distinguish
+diagnosis from authorized repair, prefer focused patches, and require progress
+claims to reflect observed work. They reuse existing project records rather
+than introduce another source of truth. Temporary verification need not become
+a permanent test suite. The earlier Astra pass already addresses completion,
+proportionate checks and reuse of authorization.
+
+Host operators should separately evaluate effort, progress rendering, tool-call
+batching and conversation-history handling using Anthropic's linked guidance.
+Those API and runtime concerns do not belong in these portable skill files.
+Do not assume identically named effort settings are equivalent across models.
+
+No Fable execution is claimed: the available validation environment has no
+connected Claude runner. Run the same behavioral cases in the intended Claude
+host before asserting model-specific improvements. The
+[Fable review](reviews/2026-09-12-fable-skills.md) records coverage and release status.
 
 ## Evaluate before claiming improvement
 

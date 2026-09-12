@@ -8,6 +8,10 @@ description: Design an Omarchy 4 Quattro shell plugin before implementation. Use
 Choose a surface that fits the user's interaction and Omarchy's hosted-shell
 model. Preserve an existing specification; resolve routine details from the
 repository and state assumptions that materially affect the result.
+Keep settled decisions unless new evidence contradicts them. For work spanning
+sessions, update the project's existing decision/progress record with accepted
+scope, completed evidence and remaining work; do not create a parallel memory
+system or reopen decisions merely because the context changed.
 
 ## Workflow
 

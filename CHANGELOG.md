@@ -2,7 +2,13 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## Unreleased
+## 0.3.0 — Unreleased
+
+- Review all twelve skills against OpenAI Astra and Anthropic Fable guidance.
+- Preserve authorized task scope, settled decisions and evidence-backed progress.
+- Make testing proportional, helper paths explicit and Workbench registration optional.
+- Fix host-conformance text output and Codex ancestor/duplicate discovery.
+- Add provider guidance, dated reviews and ten behavioral evaluation cases.
 
 - Generate agent-neutral Workbench environment probes and a capability-gated validation workflow.
 - Generate the schema-one Plugin Workbench project definition by default.

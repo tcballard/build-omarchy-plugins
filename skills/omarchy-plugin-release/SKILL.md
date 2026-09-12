@@ -44,3 +44,6 @@ a host check or publication permission is unavailable, and report the blocking
 evidence. Publishing a Git tag, GitHub release, or marketplace issue requires
 authorization for that action; preserve any authorization already given. Ask
 about an unauthorized action only once its candidate is concrete and reviewable.
+Track each requested release deliverable against observed evidence. Report
+unfinished items explicitly; a successful preflight alone does not mean a tag,
+archive upload, or publication has happened.

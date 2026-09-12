@@ -1,17 +1,23 @@
-# Release notes — 0.2.3
+# Release notes — 0.3.0
 
-Hardens the provider-neutral toolkit and adds first-class OpenCode support. The
+Prepares the provider-neutral skills for Astra, Claude Fable and other frontier
+models. The
 same twelve skills install into shared Agent Skills paths or native Codex,
 Cursor, Gemini CLI, Claude Code, and OpenCode locations without calling a model
 API.
 
-This release adds transactional managed updates and removal, read-only host
+This candidate revises task completion, scope, approval reuse, focused edits,
+verification and progress reporting. It fixes host-conformance text output and
+Codex skill discovery, and adds ten behavioral cases. No live Fable execution or
+model-specific performance improvement is claimed.
+
+It retains transactional managed updates and removal, read-only host
 discovery diagnostics, a deny-by-default OpenCode conformance probe,
 deterministic exact-tree archives, source and release manifests, an SPDX 2.3
 SBOM, SHA-256 coverage, stricter scaffold and QML trust-boundary checks, and
-tag/asset provenance verification. CI now covers Linux, macOS, and Windows;
+tag/asset provenance verification. CI covers Linux, macOS, and Windows;
 release automation can prepare a verified draft but cannot publish it. The
-release path now validates every workflow with pinned actionlint, inspects
+release path validates every workflow with pinned actionlint, inspects
 unpublished drafts through the supported GitHub CLI surface, and retries initial
 asset downloads before comparing the uploaded release byte-for-byte.
 
