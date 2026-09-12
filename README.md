@@ -49,11 +49,13 @@ in the host and scale their workflow to the requested change.
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
-The combined Astra/Fable revision is being prepared as **v0.3.0**. The commands
-below retain **v0.2.3** until the new release is published.
+This checkout targets **v0.3.1**. Download published, checksummed assets from
+[GitHub Releases](https://github.com/tcballard/build-omarchy-plugins/releases).
+The commands below target v0.3.1; use them once that release is published.
+A draft release or a newer `main` checkout is not a published release.
 
 ```bash
-git clone --branch v0.2.3 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.3.1 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -80,7 +82,7 @@ every lifecycle change before applying it:
 
 ```bash
 git fetch --tags
-git checkout v0.2.3
+git checkout v0.3.1
 python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
 python3 scripts/install_agent_skills.py --target agents --scope user --update
 ```
@@ -203,3 +205,31 @@ safe. Review source and dependencies before enabling any plugin.
 ## License
 
 MIT
+
+## Claude Code plugin (v0.3.1)
+
+v0.3.1 adds native Claude Code packaging. From a reviewed v0.3.1 checkout,
+validate and try the plugin locally:
+
+```bash
+claude plugin validate .
+claude --plugin-dir .
+```
+
+The repository marketplace tracks the default branch. To install it in Claude
+Code:
+
+```text
+/plugin marketplace add tcballard/build-omarchy-plugins
+/plugin install build-omarchy-plugins@tcballard-omarchy
+```
+
+Use either this plugin or the existing `--target claude` skills installer to
+avoid loading duplicate skills. The v0.3.1 release build includes a separate
+`build-omarchy-plugins-claude-plugin-0.3.1.zip`, with the same twelve canonical
+skills and their helpers. This is a community marketplace, not an official
+Anthropic listing. OpenAI and Anthropic marketplace submissions remain on hold
+while stewardship is discussed.
+
+See [maintenance and adoption](docs/MAINTENANCE.md) for ownership decisions and
+[acceptance evidence](evals/ACCEPTANCE.md) for what has actually been exercised.

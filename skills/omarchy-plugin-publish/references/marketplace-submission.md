@@ -1,8 +1,9 @@
 # Omarchy community marketplace submission
 
 Verified against
-[`HANCORE-linux/omarchy-plugin-marketplace`](https://github.com/HANCORE-linux/omarchy-plugin-marketplace)
-on 29 August 2026. These are pinned values, not a claim that today's destination,
+[`omacom/omarchy-plugin-marketplace`](https://github.com/omacom/omarchy-plugin-marketplace)
+at commit `8201d231688c0c8366bce4edf0dbf253cb4b5eb5` on 12 September 2026.
+The submission form is vendored in the bundle contract ledger. These are pinned values, not a claim that today's destination,
 form, categories, or limits are unchanged. Verify upstream before submission;
 if it differs, adapt the draft and flag the generator/contract drift rather than
 send an obsolete form.
@@ -21,13 +22,15 @@ send an obsolete form.
 
 Categories are case-sensitive:
 
-`Appearance`, `Desktop`, `Developer Tools`, `Hardware`, `Productivity`,
+`Appearance`, `Desktop`, `Developer Tools`, `Hardware`, `Kids`, `Productivity`,
 `System`, `Widgets`, `Other`.
 
 Choose one to three tags:
 
-`ai`, `bar`, `games`, `hyprland`, `launcher`, `media`, `power-management`,
-`quickshell`, `security`, `system`, `workspaces`.
+`AI`, `Bar`, `Education`, `Games`, `Hyprland`, `Kids`, `Launcher`, `Media`,
+`Power management`, `Quickshell`, `Security`, `System`, `Workspaces`.
+The generator also accepts its older lowercase/hyphenated CLI spellings and
+emits these form labels.
 
 ## Exact issue
 
@@ -39,7 +42,7 @@ current destination (the destination below is the pinned snapshot):
 
 ```bash
 gh issue create \
-  --repo HANCORE-linux/omarchy-plugin-marketplace \
+  --repo omacom/omarchy-plugin-marketplace \
   --title "[Plugin]: Plugin Name" \
   --body-file /path/to/approved-body.md
 ```

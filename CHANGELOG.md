@@ -2,7 +2,17 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## 0.3.0 — Unreleased
+## 0.3.1 — 2026-09-12
+
+- Add native Claude Code packaging and adoption documentation.
+- Incorporate marketplace reviewer evidence into targeted pre-submission guidance.
+- Allow the release workflow to create a new annotated tag after exact-commit checks.
+- Update marketplace submission categories and tag labels against a pinned upstream form.
+- Add advisory checks and a reviewer-response evidence table for recurring findings.
+- Require strict Claude manifest validation in CI alongside the cross-platform matrix.
+- Align release metadata, installation examples and submission materials with v0.3.1.
+
+## 0.3.0
 
 - Review all twelve skills against OpenAI Astra and Anthropic Fable guidance.
 - Preserve authorized task scope, settled decisions and evidence-backed progress.

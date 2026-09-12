@@ -51,6 +51,19 @@
         "Project commands are exact argument vectors and remain untrusted until the owner approves them.",
         "Workflow capabilities require separate local approval and do not name an agent host."
       ]
+    },
+    {
+      "name": "Omarchy marketplace submission form",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "8201d231688c0c8366bce4edf0dbf253cb4b5eb5",
+      "path": ".github/ISSUE_TEMPLATE/submit-plugin.yml",
+      "sha256": "d88415fd8fa3992bfb56f084088ef60514076573b207c813e9b5d127feb229bd",
+      "vendoredPath": "contracts/marketplace-submit-plugin.yml",
+      "assumptions": [
+        "Reviewed 2026-09-12: Kids is an accepted category.",
+        "Tags use form display labels; preserve exact headings and five acknowledgments."
+      ]
     }
   ]
 }

@@ -34,6 +34,10 @@ orientation, and monitor behavior. Read
 [references/process-and-state.md](references/process-and-state.md) when QML
 launches commands or owns asynchronous state.
 
+For external data, automatic execution or mutable state, consult
+[reviewer boundaries](references/reviewer-boundaries.md) for concrete failure
+paths and relevant adversarial checks from marketplace reviews.
+
 ## Verification
 
 For a new data-driven surface, exercise loading, empty, success, partial failure,

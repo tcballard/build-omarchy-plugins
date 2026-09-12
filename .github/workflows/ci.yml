@@ -49,16 +49,28 @@ jobs:
           printf '%s\n' "$RUNNER_TEMP/python-shim" >> "$GITHUB_PATH"
       - run: ./scripts/test
 
+  claude-package:
+    name: Validate Claude packaging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.4.0
+      - name: Validate with pinned official Claude CLI
+        run: |
+          npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate . --strict
+          npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate .claude-plugin/plugin.json --strict
+
   required:
     name: CI / Required
     if: always()
-    needs: [test, workflow-lint]
+    needs: [test, workflow-lint, claude-package]
     runs-on: ubuntu-latest
     steps:
       - name: Require matrix and workflow validation
         env:
+          CLAUDE_RESULT: ${{ needs.claude-package.result }}
           MATRIX_RESULT: ${{ needs.test.result }}
           WORKFLOW_LINT_RESULT: ${{ needs.workflow-lint.result }}
         run: |
+          test "$CLAUDE_RESULT" = success
           test "$MATRIX_RESULT" = success
           test "$WORKFLOW_LINT_RESULT" = success

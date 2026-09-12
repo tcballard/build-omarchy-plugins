@@ -10,9 +10,14 @@ attest, and recover a **draft** release; it never publishes one.
 2. Run `./scripts/test` and
    `python3 scripts/package_submission.py --require-clean`.
 3. Merge the reviewed pull request only after `CI / Required` succeeds.
-4. Fetch `main`, confirm it is clean and exactly matches `origin/main`, then
-   create and push an annotated `vX.Y.Z` tag. Never move a release tag.
-5. Manually run **Release draft** with that existing tag. The workflow requires
+4. Run **Release draft** from `main`, supply the new `vX.Y.Z` tag, enable
+   `create_tag`, and paste the full reviewed main SHA into `expected_commit`.
+   It creates an annotated tag only when the tag does not exist, the workflow
+   commit is still current main, VERSION matches and required CI passed.
+   Alternatively create and push the annotated tag locally after the same checks.
+   Never move a release tag.
+5. To recover a draft, run **Release draft** with the existing tag and leave
+   `create_tag` disabled. The workflow requires
    an annotated tag at the current remote `main`, a successful required CI
    check on the same commit, two byte-identical builds, valid checksums, and a
    provenance attestation. A rerun may recover only an existing draft.
@@ -51,3 +56,17 @@ If the immutable-releases check is false or unavailable, stop and enable the
 repository setting before publishing. If any tag, main, CI, checksum, draft, or
 asset check changes, stop and rebuild a new draft; do not repair a published
 release or move its tag.
+
+## Historical v0.3.0 exception
+
+The published v0.3.0 uses a lightweight tag. Its eight assets were built twice
+from commit `e1ddd609ade020467c3ba529c07dcde9b7e753cd`, compared byte-for-byte,
+and uploaded manually; they have checksums and source manifests but **no GitHub
+Actions provenance attestation**. The new workflow does not retrofit or replace
+that release. Use a new version for the next release and verify its generated
+attestation as well as its downloaded checksums.
+
+Claude manifest and marketplace schema validation uses the official CLI:
+`npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate . --strict` and the
+same command against `.claude-plugin/plugin.json`. Recheck the pinned CLI version
+when changing packaging. This command validates packaging; it does not run Fable.

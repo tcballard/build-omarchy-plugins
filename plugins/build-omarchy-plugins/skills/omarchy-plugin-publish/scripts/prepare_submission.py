@@ -12,13 +12,16 @@ from pathlib import Path
 
 
 CATEGORIES = {
-    "Appearance", "Desktop", "Developer Tools", "Hardware", "Productivity",
+    "Appearance", "Desktop", "Developer Tools", "Hardware", "Kids", "Productivity",
     "System", "Widgets", "Other",
 }
 TAGS = {
-    "ai", "bar", "games", "hyprland", "launcher", "media",
-    "power-management", "quickshell", "security", "system", "workspaces",
+    "AI", "Bar", "Education", "Games", "Hyprland", "Kids", "Launcher", "Media",
+    "Power management", "Quickshell", "Security", "System", "Workspaces",
 }
+# Retain existing command-line spellings; emit the exact reviewed form labels.
+TAG_ALIASES = {tag.lower().replace(" ", "-"): tag for tag in TAGS}
+
 
 
 def git_repository(root: Path) -> str:
@@ -64,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     if not isinstance(name, str) or not name.strip() or not isinstance(plugin_id, str) or not plugin_id:
         print("prepare_submission.py: manifest name and id must be non-empty strings", file=sys.stderr)
         return 2
+    args.tag = [TAG_ALIASES.get(tag.lower().replace(" ", "-"), tag) for tag in args.tag]
     if len(args.tag) < 1 or len(args.tag) > 3 or len(args.tag) != len(set(args.tag)):
         print("prepare_submission.py: choose one to three unique tags", file=sys.stderr)
         return 2

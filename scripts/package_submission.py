@@ -207,16 +207,22 @@ def build(repo: Path, output: Path, revision: str, require_clean: bool) -> dict[
     try:
         version = blobs[PurePosixPath("VERSION")].data.decode("utf-8").strip()
         portable = _json_blob(blobs[PurePosixPath("plugin.json")])
+        claude = _json_blob(blobs[PurePosixPath(".claude-plugin/plugin.json")])
         adapter = _json_blob(blobs[PurePosixPath("plugins/build-omarchy-plugins/.codex-plugin/plugin.json")])
     except KeyError as error:
         raise PackageError(f"release tree is missing required file: {error.args[0]}") from error
-    if not VERSION_RE.fullmatch(version) or portable.get("version") != version or adapter.get("version") != version:
-        raise PackageError("VERSION and both plugin manifests must contain the same strict semver")
+    if not VERSION_RE.fullmatch(version) or portable.get("version") != version or adapter.get("version") != version or claude.get("version") != version:
+        raise PackageError("VERSION and all plugin manifests must contain the same strict semver")
 
     policy_names = {"README.md", "PORTABILITY.md", "LICENSE", "SECURITY.md", "PRIVACY.md", "TERMS.md", "SUPPORT.md"}
     portable_entries = _selected(
         blobs,
         lambda p: p == PurePosixPath("plugin.json") or p.parts[:1] == ("skills",) or p.as_posix() in policy_names,
+        lambda p: PurePosixPath("build-omarchy-plugins") / p,
+    )
+    claude_entries = _selected(
+        blobs,
+        lambda p: p == PurePosixPath(".claude-plugin/plugin.json") or p.parts[:1] == ("skills",) or p.as_posix() in policy_names,
         lambda p: PurePosixPath("build-omarchy-plugins") / p,
     )
     adapter_prefix = PurePosixPath("plugins/build-omarchy-plugins")
@@ -245,6 +251,7 @@ def build(repo: Path, output: Path, revision: str, require_clean: bool) -> dict[
     )
     archive_specs = (
         ("agent-plugin", f"build-omarchy-plugins-agent-plugin-{version}.zip", portable_entries),
+        ("claude-plugin", f"build-omarchy-plugins-claude-plugin-{version}.zip", claude_entries),
         ("openai-plugin", f"build-omarchy-plugins-plugin-{version}.zip", adapter_entries),
         ("openai-skills", f"build-omarchy-plugins-skills-{version}.zip", skills_entries),
         ("submission", f"build-omarchy-plugins-submission-{version}.zip", submission_entries),
