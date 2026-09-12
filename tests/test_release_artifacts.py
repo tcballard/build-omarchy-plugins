@@ -68,10 +68,27 @@ class ReleaseArtifactTests(unittest.TestCase):
             for line in (output / "SHA256SUMS").read_text(encoding="ascii").splitlines():
                 digest, name = line.split("  ", 1)
                 expected[name] = digest
-            self.assertEqual(7, len(expected))
+            self.assertEqual(8, len(expected))
             for name, digest in expected.items():
                 self.assertEqual(digest, sha256(output / name))
-            self.assertEqual(8, len(report["files"]))
+            self.assertEqual(9, len(report["files"]))
+
+    def test_claude_archive_is_self_contained(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            report = self.build(output)
+            artifact = next(a for a in report["artifacts"] if a["kind"] == "claude-plugin")
+            with zipfile.ZipFile(output / artifact["name"]) as archive:
+                prefix = "build-omarchy-plugins/"
+                manifest = json.loads(archive.read(prefix + ".claude-plugin/plugin.json"))
+                self.assertEqual(report["version"], manifest["version"])
+                skills = [n for n in archive.namelist() if n.endswith("/SKILL.md")]
+                self.assertEqual(12, len(skills))
+                helper = prefix + "skills/omarchy-plugin-test/scripts/validate_plugin.py"
+                self.assertTrue(archive.read(helper).startswith(b"#!/usr/bin/env python3"))
+                self.assertTrue((archive.getinfo(helper).external_attr >> 16) & 0o111)
+                self.assertFalse(any("/agents/openai.yaml" in n for n in archive.namelist()))
+                self.assertFalse(any("marketplace.json" in n for n in archive.namelist()))
 
     def test_require_clean_rejects_ambient_changes(self) -> None:
         marker = REPO / "release-clean-test.tmp"

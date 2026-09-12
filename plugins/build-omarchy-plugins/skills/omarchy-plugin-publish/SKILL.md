@@ -5,7 +5,7 @@ description: Prepare and submit a public Omarchy plugin to omarchyplugins.com th
 
 # Publish Omarchy Plugins
 
-This workflow was verified against the marketplace repository on 29 August
+This workflow was verified against the marketplace repository on 12 September
 2026. Read [references/marketplace-submission.md](references/marketplace-submission.md)
 for the pinned contract. Before an actual submission or update, verify the
 current upstream form, destination, and target commit. If upstream is
@@ -32,6 +32,10 @@ python3 "<skill-dir>/scripts/prepare_submission.py" \
   --tag bar
 ```
 
+When responding to review or preparing the final snapshot, read
+[review-response guidance](references/review-response.md). It covers evidence
+that closes findings, exact-SHA consistency, duplicates and distributed payloads.
+
 ## Approval boundary
 
 Show the completed issue title and body to the plugin owner. The owner must
@@ -41,7 +45,8 @@ otherwise obtain it before an authenticated GitHub client creates the issue.
 Do not infer approval from a request to prepare the plugin or invent owner
 attestations. Explain any material change to an approved body before submitting.
 
-After submission, respond to the existing issue rather than opening duplicates.
+After submission, respond to an active existing issue rather than opening duplicates.
+For a closed request, follow the maintainer’s explicit resubmission direction.
 Validation and the automated baseline are exact-commit checks, not security
 audits. A new listing still requires an authorized maintainer's
 `approved-and-verified` decision. Later upstream commits become unverified until

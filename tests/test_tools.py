@@ -318,10 +318,11 @@ class ToolTests(unittest.TestCase):
             result = run([
                 sys.executable, str(PUBLISH), "--plugin-dir", str(output),
                 "--repository", "https://github.com/example/fixture",
-                "--category", "Developer Tools", "--tag", "quickshell", "--tag", "bar", "--json",
+                "--category", "Kids", "--tag", "education", "--tag", "games", "--json",
             ])
             self.assertEqual(0, result.returncode, result.stderr)
             payload = json.loads(result.stdout)
+            self.assertIn("### Tags\n\nEducation, Games", payload["body"])
             self.assertFalse(payload["submitted"])
             self.assertTrue(payload["requires_owner_approval"])
             headings = [

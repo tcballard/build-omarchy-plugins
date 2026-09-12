@@ -2,7 +2,13 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## 0.3.0 — Unreleased
+## Unreleased
+
+- Add native Claude Code packaging and adoption documentation.
+- Incorporate marketplace reviewer evidence into targeted pre-submission guidance.
+- Allow the release workflow to create a new annotated tag after exact-commit checks.
+
+## 0.3.0
 
 - Review all twelve skills against OpenAI Astra and Anthropic Fable guidance.
 - Preserve authorized task scope, settled decisions and evidence-backed progress.

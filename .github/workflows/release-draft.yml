@@ -5,9 +5,23 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing annotated vX.Y.Z tag on main
+        description: vX.Y.Z tag on main
         required: true
         type: string
+
+      create_tag:
+        description: Create a NEW annotated tag after CI and version checks
+        required: false
+        default: false
+        type: boolean
+      expected_commit:
+        description: Full main commit SHA (required when creating a tag)
+        required: false
+        type: string
+
+concurrency:
+  group: release-draft-${{ inputs.tag }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -30,10 +44,28 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
+          CREATE_TAG: ${{ inputs.create_tag }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
         run: |
           set -euo pipefail
           [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]
-          git fetch --force origin main "refs/tags/$TAG:refs/tags/$TAG"
+          test "$GITHUB_REF" = refs/heads/main
+          git fetch origin main
+          remote_main="$(git ls-remote origin refs/heads/main | cut -f1)"
+          test "$GITHUB_SHA" = "$remote_main"
+          if [[ "$CREATE_TAG" = true ]]; then
+            [[ "$EXPECTED_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+            test "$EXPECTED_COMMIT" = "$remote_main"
+            test -z "$(git ls-remote origin "refs/tags/$TAG")"
+            python3 scripts/check_versions.py --tag "$TAG"
+            conclusion="$(gh api --paginate "repos/$GITHUB_REPOSITORY/commits/$remote_main/check-runs" --jq '.check_runs[] | select(.name == "CI / Required") | .conclusion')"
+            test "$(printf '%s\n' "$conclusion" | head -n 1)" = success
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git tag -a "$TAG" "$EXPECTED_COMMIT" -m "Release $TAG"
+            git push origin "refs/tags/$TAG"
+          fi
+          git fetch origin "refs/tags/$TAG:refs/tags/$TAG"
           test "$(git cat-file -t "refs/tags/$TAG")" = tag
           commit="$(git rev-list -n 1 "refs/tags/$TAG")"
           remote_main="$(git ls-remote origin refs/heads/main | cut -f1)"
@@ -41,8 +73,9 @@ jobs:
           test "$commit" = "$remote_main"
           test "$remote_tag" = "$(git rev-parse "refs/tags/$TAG")"
           conclusions="$(gh api --paginate "repos/$GITHUB_REPOSITORY/commits/$commit/check-runs" --jq '.check_runs[] | select(.name == "CI / Required") | .conclusion')"
-          test "$(printf '%s\n' "$conclusions" | tail -n 1)" = success
+          test "$(printf '%s\n' "$conclusions" | head -n 1)" = success
           git checkout --detach "$commit"
+          python3 scripts/check_versions.py --tag "$TAG"
           printf 'commit=%s\n' "$commit" >> "$GITHUB_OUTPUT"
       - name: Test and build twice
         env:

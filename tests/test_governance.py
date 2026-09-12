@@ -25,7 +25,7 @@ class GovernanceTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         payload = json.loads(result.stdout)
         self.assertTrue(payload["ok"])
-        self.assertEqual(4, len(payload["contracts"]))
+        self.assertEqual(5, len(payload["contracts"]))
         workbench = next(
             item for item in payload["contracts"]
             if item["name"] == "Omarchy Plugin Workbench project definition"
@@ -68,7 +68,7 @@ class GovernanceTests(unittest.TestCase):
         self.assertIn("actionlint/cmd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca", text)
         self.assertIn('actionlint" .github/workflows/*.yml', text)
         self.assertIn("name: CI / Required", text)
-        self.assertIn("needs: [test, workflow-lint]", text)
+        self.assertIn("needs: [test, workflow-lint, claude-package]", text)
 
     def test_release_automation_is_draft_only_and_rechecks_remote_identity(self) -> None:
         workflow = (WORKFLOWS / "release-draft.yml").read_text(encoding="utf-8")

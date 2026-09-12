@@ -494,6 +494,8 @@ def scan_security(root: Path, report: Report) -> None:
             report.capability("bundled-executable-binary", "Bundled executable binary requires manual review.", path)
 
         name = path.name.lower()
+        if name in {"agents.md", "claude.md", "handoff.md"}:
+            report.capability("agent-control-payload", "Agent/session control filename in distributed plugin: inspect its contents and remove instructional payloads before marketplace review.", path)
         if re.search(r"(?:^|[-_.])(install|installer|setup|uninstall)(?:$|[-_.])", name):
             report.capability("installer", "Installer/setup/uninstall surface requires manual review.", path)
 
@@ -550,6 +552,8 @@ def scan_security(root: Path, report: Report) -> None:
                 report.capability("qml-dynamic-code", "Dynamic QML/JavaScript code construction requires manual review.", path)
             if re.search(r"\b(?:XMLHttpRequest|WebSocket)\b", text):
                 report.capability("qml-network", "QML network access requires manual review.", path)
+            if re.search(r"\b(?:StdioCollector|FileView)\s*\{", text):
+                report.capability("qml-collected-input", "Review producer-side byte limits before collection, plus deadlines and mutable-file identity where applicable; this pattern alone is not a defect.", path)
             if re.search(r"\bProcess\s*\{", text):
                 report.capability("qml-process", "QML process execution requires manual review.", path)
 

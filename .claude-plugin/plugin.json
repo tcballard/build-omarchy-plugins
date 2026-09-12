@@ -1,0 +1,21 @@
+{
+  "name": "build-omarchy-plugins",
+  "version": "0.3.0",
+  "description": "Design, scaffold, implement, test, debug, demo, release, migrate, and publish Omarchy 4 Quattro shell plugins.",
+  "author": {
+    "name": "Tom Ballard",
+    "url": "https://github.com/tcballard"
+  },
+  "homepage": "https://github.com/tcballard/build-omarchy-plugins",
+  "repository": "https://github.com/tcballard/build-omarchy-plugins",
+  "license": "MIT",
+  "keywords": [
+    "omarchy",
+    "quattro",
+    "quickshell",
+    "qml",
+    "agent-skills",
+    "plugin-development",
+    "developer-tools"
+  ]
+}

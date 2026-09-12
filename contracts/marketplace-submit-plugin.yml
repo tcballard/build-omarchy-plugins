@@ -1,0 +1,87 @@
+name: Submit a plugin
+description: Propose a public Omarchy plugin repository for the marketplace.
+title: "[Plugin]: "
+labels:
+  - submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing. Keep the plugin code, releases, and documentation in your own public GitHub repository.
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository URL
+      description: Public GitHub repository containing the plugin manifest.
+      placeholder: https://github.com/username/omarchy-plugin
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Appearance
+        - Desktop
+        - Developer Tools
+        - Hardware
+        - Kids
+        - Productivity
+        - System
+        - Widgets
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tags
+    attributes:
+      label: Tags
+      description: Select one to three reusable tags. Submissions with more than three are rejected.
+      multiple: true
+      options:
+        - AI
+        - Bar
+        - Education
+        - Games
+        - Hyprland
+        - Kids
+        - Launcher
+        - Media
+        - Power management
+        - Quickshell
+        - Security
+        - System
+        - Workspaces
+    validations:
+      required: true
+
+  - type: input
+    id: suggested-tag
+    attributes:
+      label: Suggest a missing tag
+      description: Optional. Suggest one reusable tag if none of the choices fits. Reviewers decide whether to add it.
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Maintainer notes
+      description: Anything reviewers should know about installation, permissions, or dependencies.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checklist
+      options:
+        - label: The repository is public and contains installation and removal instructions.
+          required: true
+        - label: I have documented the plugin license and any external dependencies.
+          required: true
+        - label: I confirm that I own or have permission to submit this plugin and its preview assets.
+          required: true
+        - label: The plugin does not overwrite user configuration without explicit consent.
+          required: true
+        - label: I understand that approval is for listing and is not a security review.
+          required: true

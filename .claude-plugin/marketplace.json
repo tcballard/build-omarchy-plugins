@@ -1,0 +1,14 @@
+{
+  "name": "tcballard-omarchy",
+  "owner": {
+    "name": "Tom Ballard"
+  },
+  "plugins": [
+    {
+      "name": "build-omarchy-plugins",
+      "source": "./",
+      "description": "Design, scaffold, implement, test, debug, demo, release, migrate, and publish Omarchy 4 Quattro shell plugins."
+    }
+  ],
+  "description": "Twelve skills for building and publishing Omarchy shell plugins."
+}

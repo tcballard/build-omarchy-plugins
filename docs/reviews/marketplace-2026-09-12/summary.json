@@ -1,0 +1,34 @@
+{
+  "repository": "omacom/omarchy-plugin-marketplace",
+  "collected_date": "2026-09-12",
+  "entries": 6531,
+  "pull_requests": 95,
+  "plugin_title_entries": 4495,
+  "verify_title_entries": 1839,
+  "expected_comments_at_inventory": 30033,
+  "collected_unique_comments": 30036,
+  "missing_comments": {},
+  "extra_comments_since_inventory": {
+    "6524": 1,
+    "6519": 1,
+    "6454": 1
+  },
+  "hancore_comments": 6286,
+  "hancore_distinct_issues": 3589,
+  "bot_comments": 16370,
+  "theme_distinct_threads_mentioning": {
+    "agent-control-payload": 170,
+    "credentials": 468,
+    "duplicate-workflow": 137,
+    "executable-environment": 289,
+    "file-identity": 1161,
+    "injection": 226,
+    "network-policy": 786,
+    "plain-text": 790,
+    "privilege-supply-chain": 535,
+    "process-lifetime": 507,
+    "resource-bounds": 1485,
+    "snapshot-form": 719
+  },
+  "interpretation": "Overlapping keyword mentions across all Hancore comments, including resolved findings and approvals; NOT defect or rejection rates. Title counts are requests, NOT unique plugins. No independent source audit of submitted repositories."
+}
