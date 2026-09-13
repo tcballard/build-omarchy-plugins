@@ -1,5 +1,27 @@
 # Acceptance evidence and remaining host checks
 
+## v0.3.2 preparation — 13 September 2026
+
+Executed locally for the release-preparation candidate:
+
+- `./scripts/test`: all 55 unit tests and portable/plugin/adapter validation,
+  version and contract checks, security scan and packaging checks passed.
+- `python3 scripts/package_submission.py --require-clean`: produced all five
+  v0.3.2 archives plus release/source manifests, SPDX SBOM and checksums.
+- `sha256sum --check SHA256SUMS`: all eight listed files passed.
+
+These are candidate checks, not publication evidence. GitHub's `CI / Required`
+result must bind the final PR commit; the release workflow must rebuild and
+attest assets from the reviewed merged main commit. No v0.3.2 tag or release
+was created during bookkeeping.
+
+Fresh Astra/Fable behavioral sessions, the cases in [HANDOFFS.md](HANDOFFS.md),
+live Omarchy acceptance and a real v0.3.1-to-v0.3.2 host upgrade smoke test
+remain unrun in this pass. Earlier Claude CLI and desktop-related evidence
+below belongs to v0.3.1 and is not a fresh v0.3.2 result.
+
+## Historical v0.3.1 evidence — 12 September 2026
+
 v0.3.1 release candidate, 12 September 2026. The release version is owner-selected.
 The checks below distinguish portable validation from provider and desktop
 execution; they do not imply these changes are in the published v0.3.0 assets.
