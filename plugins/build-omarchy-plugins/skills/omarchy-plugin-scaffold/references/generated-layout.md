@@ -57,3 +57,31 @@ required environment probes and Omarchy as optional. Plugin Workbench reads
 those commands during registration but deliberately leaves them untrusted until
 the user reviews the file and explicitly approves project commands and the
 workflow capability.
+
+
+## README badges and GitHub topics
+
+Pair the [community badge](https://github.com/tcballard/omarchy-badges) with
+consistent repository topics:
+
+| Badge | Topics |
+| --- | --- |
+| Built for Omarchy \| `omarchy` |
+| Built for Omarchy \| Plugin | `omarchy`, `omarchy-plugin` |
+| Built for Omarchy \| App | `omarchy`, `omarchy-app` |
+| Built for Omarchy \| Theme | `omarchy`, `omarchy-theme` |
+
+The Plugin category here means an Omarchy shell plugin. App covers standalone
+applications and games; Theme covers Omarchy colour schemes and themes. Use
+the general badge for tooling or integrations that do not fit those categories.
+
+The scaffold produces shell plugins, so its default pair is `omarchy` and
+`omarchy-plugin`. Recommend these topics alongside the README badge. When
+repository metadata changes are part of the user's request, add the appropriate
+topics while preserving existing relevant topics. Otherwise include the
+recommendation in the handoff. A generated README does not configure GitHub
+metadata: the repository owner can add topics using the gear beside About on
+GitHub.
+
+This is a community discovery convention, not a marketplace requirement or
+approval signal. Keep actual compatibility and testing evidence in the README.
