@@ -1,5 +1,7 @@
 # Build Omarchy Plugins
 
+[![Built for Omarchy — v0.3.2](assets/built-for-omarchy.svg)](https://github.com/tcballard/build-omarchy-plugins/releases)
+
 A model-provider-neutral Agent Plugin for building production-quality
 [Omarchy 4](https://omarchy.org/) Quattro shell plugins.
 
