@@ -6,6 +6,12 @@
 
 Kinds: {{KINDS}}
 
+## GitHub topics
+
+Pair this badge with `omarchy` and `omarchy-plugin` in your GitHub repository's
+About topics. The badge does not set topics automatically. Keep other relevant
+topics too. This is a community discovery convention, not marketplace approval.
+
 ## Requirements
 
 - Omarchy 4 with Quattro shell-plugin support.
