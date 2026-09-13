@@ -530,10 +530,9 @@ def scan_security(root: Path, report: Report) -> None:
         privilege_lines = [
             line for line in text.splitlines()
             if re.search(r"\b(?:sudo|pkexec)\b", line, re.IGNORECASE)
-            and not re.search(r"\b(?:no|not|without|does not|doesn't|never)\b[^\n]{0,30}\b(?:sudo|pkexec)\b", line, re.IGNORECASE)
         ]
         if privilege_lines:
-            report.capability("privilege", "Non-negated sudo or pkexec behavior requires review.", path)
+            report.capability("privilege", "Privilege-tool reference requires inspection, including negated documentation; this advisory match does not prove execution or predict marketplace approval.", path)
 
         if re.search(r"\bNOPASSWD\s*:\s*(?:ALL|.*\b(?:bash|sh|zsh|fish|python\d*|perl|ruby)\b|.*\b(?:kill|systemctl|rm|cp|mv)\b.*\*)", text, re.IGNORECASE):
             report.finding("sudoers-dangerous-passwordless-command", "Broad or interpreter-capable NOPASSWD sudoers rule detected.", path)

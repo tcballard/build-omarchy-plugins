@@ -41,7 +41,7 @@ preparing a release does not imply submitting it to the marketplace.
 | A legacy integration | [Migrate](../skills/omarchy-plugin-migrate/SKILL.md) → affected implementation and tests | Preserved machine responsibilities with the requested shell surface migrated. |
 | A working UI needing a screenshot | Demo | Reproducible fixtures, capture and restoration evidence, or a harness with capture explicitly pending. |
 | A tested candidate | Release → publish when requested | Source-bound release evidence and a reviewable submission. |
-| Marketplace review feedback | Publish's review-response guidance → affected implementation/test skills | Correction and evidence for the reviewed candidate, returned to the existing submission workflow. |
+| Marketplace review feedback | Publish's review-response guidance → affected implementation/test skills | Classify compatibility and security separately; inspect prose-only capability matches, then return a correction or explanation tied to the reviewed SHA. |
 
 ## What travels between skills
 

@@ -47,6 +47,30 @@ def validate(root: Path, *arguments: str, timeout: int = 10) -> subprocess.Compl
 
 
 class PluginTrustBoundaryTests(unittest.TestCase):
+    def test_privilege_advisory_keeps_negated_prose_and_real_commands_visible(self) -> None:
+        cases = (
+            ("README.md", "This plugin never requests `sudo`, installs packages, starts a systemd service,", True),
+            ("README.md", "No sudo or pkexec is required.", True),
+            ("README.md", "Runs with your normal user permissions.", False),
+            ("helper.sh", "sudo /usr/bin/example", True),
+            ("helper.sh", "echo never; sudo /usr/bin/example", True),
+            ("helper.sh", 'echo "no setup"; pkexec /usr/bin/example', True),
+        )
+        for filename, content, expected in cases:
+            with self.subTest(filename=filename, content=content), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "plugin"
+                write_plugin(root)
+                (root / filename).write_text(content + "\n", encoding="utf-8")
+                result = validate(root, "--security")
+                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                security = json.loads(result.stdout)["security"]
+                privilege = [item for item in security["capabilities"] if item["code"] == "privilege"]
+                self.assertEqual(expected, bool(privilege))
+                self.assertEqual([], security["findings"])
+                if expected:
+                    self.assertEqual(filename, privilege[0]["path"])
+                    self.assertEqual("review-required", security["outcome"])
+
     def test_duplicate_manifest_keys_and_oversized_manifest_fail_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "plugin"
