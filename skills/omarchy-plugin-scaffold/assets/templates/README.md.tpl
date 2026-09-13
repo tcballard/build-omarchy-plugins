@@ -1,5 +1,7 @@
 # {{PLUGIN_NAME}}
 
+[![Built for Omarchy](https://raw.githubusercontent.com/tcballard/omarchy-badges/85f859029e236e784e7b05ada6dbe73506d07a91/badges/v1/built-for-omarchy.svg)](https://github.com/tcballard/omarchy-badges)
+
 {{DESCRIPTION}}
 
 Kinds: {{KINDS}}
