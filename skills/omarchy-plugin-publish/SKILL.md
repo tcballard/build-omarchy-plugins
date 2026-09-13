@@ -20,7 +20,9 @@ the dated snapshot is current.
    removal instructions, documented dependencies, a unique non-`omarchy.*` ID,
    and an optional root `preview` image.
 3. Run release preflight and resolve structural or selectively blocking security
-   findings before submission.
+   findings before submission. Inspect capability warnings in code and the README;
+   use the review-response guidance to distinguish real behavior from prose
+   matches. A compatibility pass does not settle the security review.
 4. Generate the issue body without publishing it. Resolve `<skill-dir>` to the
    directory containing this loaded `SKILL.md`:
 

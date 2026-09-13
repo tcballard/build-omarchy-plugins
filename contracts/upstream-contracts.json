@@ -64,6 +64,19 @@
         "Reviewed 2026-09-12: Kids is an accepted category.",
         "Tags use form display labels; preserve exact headings and five acknowledgments."
       ]
+    },
+    {
+      "name": "Omarchy marketplace security review semantics",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "55efec9646cc24ca3ae8c427440043fa745ada49",
+      "path": "SECURITY.md",
+      "sha256": "87beed5e57813bb9efdb02ae3bd50cbbdfdecb4ed5beba67a8573dbd4202ec5f",
+      "assumptions": [
+        "Reviewed 2026-09-13: the root README is scanned; privilege negation recognizes specific forms, not arbitrary prose.",
+        "Compatibility success is separate from exact-commit security disposition, maintainer approval and publication.",
+        "The portable privilege advisory intentionally reports all tool references, including negated prose; it does not reproduce the authoritative baseline."
+      ]
     }
   ]
 }

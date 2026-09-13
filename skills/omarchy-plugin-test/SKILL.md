@@ -21,7 +21,12 @@ python3 "<skill-dir>/scripts/validate_plugin.py" --json --security /absolute/pat
 The validator mirrors Omarchy's documented schema, entry-point, reserved-ID,
 and symlink checks and adds quality and advisory security diagnostics. It never
 executes plugin code. Its security report is not the marketplace's authoritative
-baseline and is not proof that a plugin is safe.
+baseline and is not proof that a plugin is safe. The privilege advisory deliberately
+flags all `sudo`/`pkexec` mentions, including negated README prose: upstream
+recognizes narrower negation forms than natural language. Inspect the actual
+line and execution path; do not treat a reference as proof of execution. For
+submission, use the [review-response guidance](../omarchy-plugin-publish/references/review-response.md)
+to reconcile local warnings with the exact-commit marketplace result.
 
 ## Test layers
 
