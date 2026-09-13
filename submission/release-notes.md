@@ -1,47 +1,44 @@
-# Build Omarchy Plugins v0.3.1
+# Build Omarchy Plugins v0.3.2
 
-This patch release turns recurring Omarchy marketplace review feedback into
-targeted authoring guidance, and adds native Claude Code plugin packaging.
-The same twelve canonical skills remain provider-neutral across Codex, Claude
-Code, Cursor, Gemini CLI and OpenCode. Existing transactional installation and
-update safeguards are retained.
+This patch catches a marketplace review warning that our local preflight missed,
+and clarifies how evidence passes between the twelve provider-neutral skills.
+It retains native Claude Code packaging and transactional installation/update
+support for Codex, Claude Code, Cursor, Gemini CLI and OpenCode.
 
 ## What's changed
 
-- Native Claude plugin and community-marketplace manifests, a dedicated Claude
-  archive, and strict official Claude CLI validation in required CI.
-- Guidance for limiting data before collection, rendering external QML text as
-  plain text, preserving file and executable identity, cleaning up child
-  processes, and keeping credentials out of arguments and logs.
-- Advisory discovery checks for QML inputs and agent-control payloads, plus a
-  reviewer-response table connecting findings to fixes, reproductions and the
-  exact submitted commit. Static checks do not certify plugin security.
-- Updated Omacom submission forms, including Kids/Education and current tag
-  labels, with compatibility for existing CLI spellings.
-- Installation and stewardship documentation, aligned version metadata, and a
-  release workflow that can create a new annotated tag after verifying the
-  expected main commit and its required CI result.
+- The privilege advisory now reports `sudo` and `pkexec` references even in
+  negated README prose. This catches the Markets “never requests sudo” case
+  and avoids hiding real commands beside negative prose.
+- Review guidance distinguishes documentation-only matches from execution and
+  separates compatibility success, security review, approval and publication.
+  Real capability disclosures must remain intact; a wording change needs fresh
+  evidence at its new commit.
+- The marketplace security policy is pinned with an immutable source and digest.
+  Portable skills and the OpenAI adapter contain the same updated guidance.
+- Workflow navigation and handoff cases cover completing agreed builds,
+  checking the actual working tree, candidate drift and marketplace feedback.
 
-## Research and verification
+## Verification and limits
 
-The [marketplace findings report](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.1/docs/reviews/2026-09-12-marketplace-findings.md)
-draws on 6,531 issue/PR records and 30,036 comments, including 6,286 comments by
-HANCORE-linux across 3,589 threads. Every collected record was indexed and
-representative reviews were read in depth. This was not an independent source
-audit of every plugin; overlapping topic counts include resolved findings.
-
-Portable validation covers 54 unit tests, generated-plugin tooling, synchronized
+Portable validation covers 55 unit tests, generated-plugin tooling, synchronized
 adapters and deterministic archive builds. Required CI includes nine
 OS/Python combinations across Linux, macOS, and Windows, workflow lint and
-strict Claude packaging validation.
-Release automation builds twice, checks byte equality, generates provenance and
-verifies downloaded draft assets before owner publication. The workflow cannot publish
-a release; publication remains owner-controlled.
+strict Claude packaging validation. Candidate results are recorded in the
+[acceptance record](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.2/evals/ACCEPTANCE.md).
 
-Fresh Astra/Fable behavioral sessions and live Omarchy desktop acceptance remain
-outstanding. Packaging validation does not establish model performance or live
-desktop compatibility. See the
-[acceptance record](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.1/evals/ACCEPTANCE.md).
+The privilege check is deliberately broader than the upstream matcher. A warning
+is neither proof of execution nor a security finding. Passing portable checks
+is not marketplace approval or a security audit.
+
+Fresh Astra/Fable behavioral runs, the documented handoff evaluations and live
+Omarchy desktop acceptance remain outstanding. This bookkeeping pass does not
+claim a fresh-install or v0.3.1-to-v0.3.2 host upgrade smoke test.
+
+Release automation builds twice, checks byte equality, generates provenance and
+verifies downloaded draft assets. The workflow cannot publish a release;
+publication remains owner-controlled. Final artifacts must be rebuilt from the
+reviewed merged commit after its required CI passes.
 
 ## Installation
 
@@ -51,7 +48,8 @@ the Claude skills installer to avoid duplicate skill loading. The submission
 archive contains reviewer materials. Source manifests and the SPDX 2.3 SBOM bind
 the archives to the release source tree.
 
-Existing installations can preview and apply the update from a v0.3.1 checkout
-with `install_agent_skills.py --update --diff` and then `--update`, preserving
-their existing target and scope. Locally modified managed files require explicit
-resolution. No official OpenAI or Anthropic marketplace listing is implied.
+Once v0.3.2 is published, existing installations can preview and apply the update
+from its checkout with `install_agent_skills.py --update --diff` and then
+`--update`, preserving their existing target and scope. Locally modified managed
+files require explicit resolution. No official OpenAI or Anthropic marketplace
+listing is implied.

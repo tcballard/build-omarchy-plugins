@@ -2,6 +2,17 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.3.2 — Unreleased
+
+- Catch privilege-tool mentions in documentation before marketplace submission,
+  including negated prose and real commands on the same line.
+- Explain documentation-only capability warnings and distinguish compatibility,
+  security review, maintainer approval and publication at the exact candidate SHA.
+- Pin the marketplace security policy and synchronize portable/OpenAI guidance.
+- Document skill workflows and evidence handoffs, including stale-candidate and
+  marketplace-review behavioral cases; these cases are not recorded model runs.
+- Align version metadata, installation examples and submission materials with v0.3.2.
+
 ## 0.3.1 — 2026-09-12
 
 - Add native Claude Code packaging and adoption documentation.
