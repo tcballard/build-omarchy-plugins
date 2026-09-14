@@ -1,9 +1,11 @@
 ---
 name: omarchy-qml-patterns
-description: Build or refactor QML hosted inside the Omarchy 4 Quattro shell. Use for injected properties, Omarchy components, theme tokens, responsive layout, process execution, state, or multi-monitor behavior; not for standalone Quickshell applications.
+description: Build or refactor QML hosted inside the Omarchy 4 Quattro shell, including plugin theme-token bindings, responsive layout, process execution and state. Use for QML implementation; global palette or shell.toml styling belongs to theme skills, and standalone Quickshell apps are outside this skill.
 ---
 
 # Omarchy QML Patterns
+
+For colour or spacing requests, identify the owner before editing. Fix a plugin's literal values or incorrect token bindings in its QML. Change shared palette values or shell TOML through omarchy-theme-palette or omarchy-theme-shell when available. For mixed tasks, keep the QML consumer and theme source changes scoped to their respective files; do not create a plugin merely to recolour the desktop.
 
 Work inside Omarchy's existing shell process and preserve local repository
 conventions.

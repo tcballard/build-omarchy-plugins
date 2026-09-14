@@ -31,4 +31,4 @@ to a full immutable commit and verify the checked-out revision. Prefer packaged
 dependencies installed outside the shell plugin.
 
 For concrete producer limits, executable identity, descendant cleanup and
-state-file races, consult the [marketplace reviewer boundaries](../../omarchy-qml-patterns/references/reviewer-boundaries.md) when those paths exist.
+state-file races, consult the [marketplace reviewer boundaries](reviewer-boundaries.md) when those paths exist.
