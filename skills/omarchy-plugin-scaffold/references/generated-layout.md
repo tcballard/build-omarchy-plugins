@@ -66,7 +66,7 @@ consistent repository topics:
 
 | Badge | Topics |
 | --- | --- |
-| Built for Omarchy \| `omarchy` |
+| Built for Omarchy | `omarchy` |
 | Built for Omarchy \| Plugin | `omarchy`, `omarchy-plugin` |
 | Built for Omarchy \| App | `omarchy`, `omarchy-app` |
 | Built for Omarchy \| Theme | `omarchy`, `omarchy-theme` |
@@ -85,3 +85,51 @@ GitHub.
 
 This is a community discovery convention, not a marketplace requirement or
 approval signal. Keep actual compatibility and testing evidence in the README.
+
+
+## Compact README badge row
+
+Place one compact badge group directly below the project title and before the
+summary. Follow the familiar CI / licence / platform badge layout:
+
+1. CI status, when an actual workflow exists; link to that workflow and use its
+   live status badge rather than a static “passing” claim.
+2. Licence, matching the project's licence and linking to its licence file.
+3. Built for Omarchy with the appropriate category box.
+4. Omarchy version support, immediately beside identity, when the maintainer
+   has declared a supported range; link to the project's Compatibility section.
+
+Omit badges whose information is unavailable. Do not infer a support range
+from the scaffold's target version or from one passing test. Record exact
+versions tested, platform, date and limitations separately in Compatibility.
+An extension-format label such as Chrome's Manifest V3 is not equivalent to
+an operating-system support range.
+
+Use equal displayed heights and small, consistent gaps. Prefer 24 px to match
+these SVGs; if an existing README uses 20 px badges, display all at 20 px while
+preserving aspect ratios. Preserve the official icon, outlined font and category
+colours. Do not stretch widths to make badges equal-sized. Keep links and alt
+text on every badge. Use one paragraph with whitespace between linked images,
+not a table or a separate paragraph for each badge. Allow natural wrapping on
+mobile rather than forcing horizontal scrolling. Follow the title's existing
+left or centre alignment.
+
+Markdown image links work at the assets' native sizes. For mixed-height assets,
+use linked HTML images with the same `height` and omit `width` so their
+proportions remain intact. For example, after confirming 4.x is the project's
+actual support policy:
+
+```html
+<p>
+  <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="24" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
+  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.x" height="24" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/13894b1ad84089164fe8906aca661eea4d48171d/badges/v1/compatibility/omarchy-4.x.svg"></a>
+</p>
+```
+
+Add CI and licence links ahead of this pair only after resolving the project's
+actual workflow and licence. Add the destination Compatibility heading and its
+support/test notes before publishing the example. Choose the appropriate
+[compatibility preset](https://github.com/tcballard/omarchy-badges/blob/7e00b3342bddefab7fece63f4806e47f4b77bf7c/COMPATIBILITY.md)
+without changing an existing pinned badge's artwork. Check the rendered row at
+normal size and a narrow viewport; badge layout is presentation, not evidence
+of compatibility or marketplace approval.
