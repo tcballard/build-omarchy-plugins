@@ -25,8 +25,8 @@ Repeat `--kind` for a justified multi-kind plugin. The generator supports
 `bar-widget`, `panel`, `overlay`, `menu`, `service`, and `bar`.
 
 Read [references/generated-layout.md](references/generated-layout.md) when
-selecting optional flags, extending the output, or pairing README badges with
-GitHub repository topics. For a shell plugin, recommend `omarchy` and
+selecting optional flags, extending the output, arranging the compact README
+badge row, or pairing badges with GitHub repository topics. For a shell plugin, recommend `omarchy` and
 `omarchy-plugin`; preserve existing relevant topics. Topics are GitHub
 repository metadata and are not set by adding a badge to the README.
 
