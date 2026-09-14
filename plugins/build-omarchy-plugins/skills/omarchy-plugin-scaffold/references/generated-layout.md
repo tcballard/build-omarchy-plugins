@@ -117,13 +117,13 @@ left or centre alignment.
 
 Markdown image links work at the assets' native sizes. For mixed-height assets,
 use linked HTML images with the same `height` and omit `width` so their
-proportions remain intact. For example, after confirming 4.x is the project's
+proportions remain intact. For example, after confirming 4.0.0+ is the project's
 actual support policy:
 
 ```html
 <p>
   <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
-  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.x" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/8b0189738018961c1bd275d903dd37ceed6bf6ae/badges/v1/compatibility/omarchy-4.x.svg"></a>
+  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.0.0+" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/dd84bb21f19caf617caa5b3c1af7ff3c6cb847c3/badges/v1/compatibility/omarchy-4.0.0-plus.svg"></a>
 </p>
 ```
 
