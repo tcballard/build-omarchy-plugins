@@ -2,7 +2,15 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## 0.3.2 — Unreleased
+## 0.4.0 — Unreleased
+
+Includes the fixes prepared for the unpublished v0.3.2 draft.
+
+- Add commit-pinned Omarchy identity/category and compatibility badges with the official icon.
+- Standardise compact README badge rows: CI, licence, identity, then compatibility.
+- Apply the badge row to this repository and document consistent height and mobile wrapping.
+- Define compatibility as the installed Omarchy version, reported by `omarchy-version`.
+- Pair badge categories with consistent GitHub topics for project discovery.
 
 - Catch privilege-tool mentions in documentation before marketplace submission,
   including negated prose and real commands on the same line.
@@ -11,7 +19,7 @@ All notable changes to Build Omarchy Plugins are documented here.
 - Pin the marketplace security policy and synchronize portable/OpenAI guidance.
 - Document skill workflows and evidence handoffs, including stale-candidate and
   marketplace-review behavioral cases; these cases are not recorded model runs.
-- Align version metadata, installation examples and submission materials with v0.3.2.
+- Align version metadata, installation examples and submission materials with v0.4.0.
 
 ## 0.3.1 — 2026-09-12
 

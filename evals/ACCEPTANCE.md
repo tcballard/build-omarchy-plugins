@@ -1,5 +1,22 @@
 # Acceptance evidence and remaining host checks
 
+## v0.4.0 preparation — 14 September 2026
+
+- `./scripts/test`: all 55 unit tests and portable/plugin/adapter validation,
+  version and contract checks, security scan and packaging checks passed locally.
+- Clean candidate packaging produced all five v0.4.0 archives and source/release
+  manifests, SPDX SBOM and checksums; all eight checksum entries passed.
+- Includes the README badge-layout work from PR #23 and clarifies that
+  compatibility refers to the installed version reported by `omarchy-version`.
+
+This is preparation evidence. Required GitHub CI must pass on the final PR
+commit; tagged, attested assets must be rebuilt from reviewed main. No v0.4.0
+release has been published. The existing unpublished v0.3.2 draft is superseded
+by this candidate's scope but has not been deleted or retagged.
+
+Fresh Astra/Fable behavioral runs, handoff evaluations, live Omarchy desktop
+acceptance and a real v0.3.1-to-v0.4.0 host upgrade remain unrun.
+
 ## v0.3.2 preparation — 13 September 2026
 
 Executed locally for the release-preparation candidate:
