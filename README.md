@@ -1,6 +1,11 @@
 # Build Omarchy Plugins
 
-[![Built for Omarchy: Plugin](https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg)](https://github.com/tcballard/omarchy-badges)
+<p>
+  <a href="https://github.com/tcballard/build-omarchy-plugins/actions/workflows/ci.yml"><img alt="CI status" height="24" src="https://github.com/tcballard/build-omarchy-plugins/actions/workflows/ci.yml/badge.svg?branch=main"></a>
+  <a href="LICENSE"><img alt="License: MIT" height="24" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"></a>
+  <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="24" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
+  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.x" height="24" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/13894b1ad84089164fe8906aca661eea4d48171d/badges/v1/compatibility/omarchy-4.x.svg"></a>
+</p>
 
 A model-provider-neutral Agent Plugin for building production-quality
 [Omarchy 4](https://omarchy.org/) Quattro shell plugins.
@@ -9,6 +14,19 @@ It packages the complete workflow: architecture, repository generation, native
 QML patterns, bar widgets, panels and overlays, services and IPC, validation,
 debugging, deterministic demos, releases, marketplace publishing, and migration
 from older installer-style integrations.
+
+## Compatibility
+
+This toolkit targets **Omarchy 4.x with Quattro shell-plugin support**.
+That is the scope of the maintained guidance and generators, not a claim that
+every Omarchy 4.x release has been tested. Individual APIs and marketplace
+contracts are pinned in [the contract ledger](contracts/upstream-contracts.json).
+
+The CI badge reports this repository's `main` workflow status. Portable tests
+validate tooling and generated output; they do not establish live desktop
+compatibility for every generated plugin. See [acceptance evidence](evals/ACCEPTANCE.md)
+for completed checks and outstanding behavioural or live-host testing.
+Projects built with the bundle must declare and test their own supported range.
 
 ## Why this exists
 
