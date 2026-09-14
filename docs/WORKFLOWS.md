@@ -37,6 +37,8 @@ preparing a release does not imply submitting it to the marketplace.
 | A design question | Design | Recommendation and tradeoffs, without implementation for a design-only request. |
 | A specification and existing plugin | Relevant surface skill, with QML patterns as needed → test | Scoped implementation preserving settled decisions. |
 | A tooltip or layout correction | Relevant surface skill → affected checks | Focused patch without restarting design or scaffolding. |
+| One widget ignores the active theme | Debug → QML patterns for a requested repair | Diagnose the token consumer; preserve a correct global palette and diagnosis-only scope. |
+| Global bar colours or theme-owned spacing | Theme Shell from Build Omarchy Themes, when available | Change shared theme tokens; use Plugin skills only for any requested QML consumer or behaviour change. |
 | A discovery, load or runtime failure | [Debug](../skills/omarchy-plugin-debug/SKILL.md) → relevant checks after repair | Supported diagnosis, or a patch and evidence that the original failure is fixed. |
 | A legacy integration | [Migrate](../skills/omarchy-plugin-migrate/SKILL.md) → affected implementation and tests | Preserved machine responsibilities with the requested shell surface migrated. |
 | A working UI needing a screenshot | Demo | Reproducible fixtures, capture and restoration evidence, or a harness with capture explicitly pending. |

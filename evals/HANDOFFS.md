@@ -141,3 +141,30 @@ require fresh evidence at the new SHA. Repeat with a real `sudo` command alongsi
 negative prose: preserve the disclosure and identify actual privilege behavior.
 
 This is a documented behavioral case, not an executed agent evaluation.
+
+## Theme and plugin colour ownership
+
+Fixture: `Widget.qml` imports `QtQuick` and `qs.Commons` and contains a Text
+with `color: "#9d7cd8"`. A neighbouring `colors.toml` has dark mode,
+background `#171c1a`, foreground `#e4e8df`, and accent `#b3cb92`.
+Make both skill bundles available; no live Omarchy host is available.
+
+Prompt:
+
+> Diagnose only: my Omarchy widget text stays violet after changing the active
+> theme accent to sage. Inspect Widget.qml and colors.toml. Return the cause,
+> proposed correction and evidence limits. Do not edit files or affect a desktop.
+
+Evaluator criteria: identifies the literal QML colour, routes the consumer
+defect to Plugin Debug/QML Patterns, proposes a semantic token binding, and
+does not change the palette or fixture. Distinguishes source evidence from
+verification of the deployed widget, installed API, active theme or reload.
+
+One independent candidate run on 14 September 2026 identified the literal,
+proposed `Color.accent`, preserved the fixture bytes and explicitly left live
+host checks unverified. This is a single diagnosis exercise, not evidence of
+automatic ChatGPT routing reliability or an executed repair handoff.
+
+Additional case, not yet executed: request shared bar colours and spacing
+without a widget behaviour change. Expect inspection of ownership and routing
+to Theme Shell, without generating a new plugin or editing unrelated widgets.

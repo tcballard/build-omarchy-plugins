@@ -25,7 +25,7 @@ baseline and is not proof that a plugin is safe. The privilege advisory delibera
 flags all `sudo`/`pkexec` mentions, including negated README prose: upstream
 recognizes narrower negation forms than natural language. Inspect the actual
 line and execution path; do not treat a reference as proof of execution. For
-submission, use the [review-response guidance](../omarchy-plugin-publish/references/review-response.md)
+submission, use the [review-response guidance](references/review-response.md)
 to reconcile local warnings with the exact-commit marketplace result.
 
 ## Test layers

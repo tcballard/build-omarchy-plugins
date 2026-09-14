@@ -1,9 +1,11 @@
 ---
 name: omarchy-bar-widget
-description: Build or refactor an Omarchy Quattro bar widget, including settings, vertical layouts, optional popout panels, multiple instances, and shared services. Use when `kinds` includes `bar-widget`; not for replacing the entire bar.
+description: Build or refactor an Omarchy Quattro bar-widget implementation, including settings, orientation, popouts, instances and shared services. Use for widget QML or behaviour; global bar styling belongs to theme skills, and replacing the entire bar is outside this skill.
 ---
 
 # Omarchy Bar Widget
+
+Inspect the existing widget and requested effect before editing. For global bar colours, spacing or theme-owned surface tokens, use omarchy-theme-shell when available. For one widget that ignores the active theme, fix its QML token consumption with omarchy-qml-patterns. A mixed styling and behaviour request may need both workflows; avoid changing global theme values to mask a widget defect.
 
 Use Omarchy's `BarWidget` and `WidgetButton` primitives so placement,
 orientation, theme, tooltips, and popout behavior remain coherent with the

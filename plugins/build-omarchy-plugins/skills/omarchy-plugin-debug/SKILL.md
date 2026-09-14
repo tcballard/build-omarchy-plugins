@@ -5,6 +5,8 @@ description: Diagnose an Omarchy Quattro plugin that is not discovered, validate
 
 # Debug Omarchy Plugins
 
+For colour failures, distinguish the plugin consumer from the shared theme source. Inspect QML token bindings and reload state when one plugin is wrong. If the shared palette or generated shell TOML is wrong across surfaces, use omarchy-theme-debug when available. Keep diagnosis-only requests read-only across both workflows.
+
 For diagnosis-only requests, return the cause and proposed correction without
 editing. For a requested fix, patch the affected code in place and preserve
 unrelated content; report independent discoveries separately.
