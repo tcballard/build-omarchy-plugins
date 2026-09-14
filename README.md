@@ -18,6 +18,8 @@ from older installer-style integrations.
 ## Compatibility
 
 This toolkit targets **Omarchy 4.0.0 and later with Quattro shell-plugin support**.
+The badge refers to the installed Omarchy version, reported by `omarchy-version`,
+not the ISO image version or the underlying Quickshell engine version.
 That is the scope of the maintained guidance and generators, not a claim that
 every current or future Omarchy release has been tested. The `4.0.0+` label
 has no upper major-version bound; compatibility changes will be documented here. Individual APIs and marketplace
@@ -70,13 +72,13 @@ in the host and scale their workflow to the requested change.
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
-This checkout targets **v0.3.2**. Download published, checksummed assets from
+This checkout targets **v0.4.0**. Download published, checksummed assets from
 [GitHub Releases](https://github.com/tcballard/build-omarchy-plugins/releases).
-The commands below target v0.3.2; use them once that release is published.
+The commands below target v0.4.0; use them once that release is published.
 A draft release or a newer `main` checkout is not a published release.
 
 ```bash
-git clone --branch v0.3.2 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.4.0 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -103,7 +105,7 @@ every lifecycle change before applying it:
 
 ```bash
 git fetch --tags
-git checkout v0.3.2
+git checkout v0.4.0
 python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
 python3 scripts/install_agent_skills.py --target agents --scope user --update
 ```
@@ -233,9 +235,9 @@ safe. Review source and dependencies before enabling any plugin.
 
 MIT
 
-## Claude Code plugin (v0.3.2)
+## Claude Code plugin (v0.4.0)
 
-Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.3.2 checkout,
+Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.4.0 checkout,
 validate and try the plugin locally:
 
 ```bash
@@ -252,8 +254,8 @@ Code:
 ```
 
 Use either this plugin or the existing `--target claude` skills installer to
-avoid loading duplicate skills. The v0.3.2 release build includes a separate
-`build-omarchy-plugins-claude-plugin-0.3.2.zip`, with the same twelve canonical
+avoid loading duplicate skills. The v0.4.0 release build includes a separate
+`build-omarchy-plugins-claude-plugin-0.4.0.zip`, with the same twelve canonical
 skills and their helpers. This is a community marketplace, not an official
 Anthropic listing. OpenAI and Anthropic marketplace submissions remain on hold
 while stewardship is discussed.

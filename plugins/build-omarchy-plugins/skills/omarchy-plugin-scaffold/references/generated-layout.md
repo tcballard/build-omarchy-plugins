@@ -134,3 +134,6 @@ support/test notes before publishing the example. Choose the appropriate
 without changing an existing pinned badge's artwork. Check the rendered row at
 normal size and a narrow viewport; badge layout is presentation, not evidence
 of compatibility or marketplace approval.
+
+Compatibility badges refer to the installed Omarchy version, reported by
+`omarchy-version`, rather than the ISO image or Quickshell engine version.
