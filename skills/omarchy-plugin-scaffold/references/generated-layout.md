@@ -105,9 +105,10 @@ versions tested, platform, date and limitations separately in Compatibility.
 An extension-format label such as Chrome's Manifest V3 is not equivalent to
 an operating-system support range.
 
-Use equal displayed heights and small, consistent gaps. Prefer 24 px to match
-these SVGs; if an existing README uses 20 px badges, display all at 20 px while
-preserving aspect ratios. Preserve the official icon, outlined font and category
+Use equal displayed heights and small, consistent gaps. Use 20 px when mixing these SVGs with native GitHub CI or standard licence
+badges. GitHub treats the HTML height as a maximum, so 24 px does not enlarge
+an intrinsically 20 px badge. A row containing only our SVGs can use 24 px.
+Preserve aspect ratios. Preserve the official icon, outlined font and category
 colours. Do not stretch widths to make badges equal-sized. Keep links and alt
 text on every badge. Use one paragraph with whitespace between linked images,
 not a table or a separate paragraph for each badge. Allow natural wrapping on
@@ -121,8 +122,8 @@ actual support policy:
 
 ```html
 <p>
-  <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="24" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
-  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.x" height="24" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/13894b1ad84089164fe8906aca661eea4d48171d/badges/v1/compatibility/omarchy-4.x.svg"></a>
+  <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
+  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.x" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/13894b1ad84089164fe8906aca661eea4d48171d/badges/v1/compatibility/omarchy-4.x.svg"></a>
 </p>
 ```
 
