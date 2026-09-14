@@ -4,7 +4,7 @@
   <a href="https://github.com/tcballard/build-omarchy-plugins/actions/workflows/ci.yml"><img alt="CI status" height="20" src="https://github.com/tcballard/build-omarchy-plugins/actions/workflows/ci.yml/badge.svg?branch=main"></a>
   <a href="LICENSE"><img alt="License: MIT" height="20" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"></a>
   <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
-  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.x" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/8b0189738018961c1bd275d903dd37ceed6bf6ae/badges/v1/compatibility/omarchy-4.x.svg"></a>
+  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.0.0+" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/dd84bb21f19caf617caa5b3c1af7ff3c6cb847c3/badges/v1/compatibility/omarchy-4.0.0-plus.svg"></a>
 </p>
 
 A model-provider-neutral Agent Plugin for building production-quality
@@ -17,9 +17,10 @@ from older installer-style integrations.
 
 ## Compatibility
 
-This toolkit targets **Omarchy 4.x with Quattro shell-plugin support**.
+This toolkit targets **Omarchy 4.0.0 and later with Quattro shell-plugin support**.
 That is the scope of the maintained guidance and generators, not a claim that
-every Omarchy 4.x release has been tested. Individual APIs and marketplace
+every current or future Omarchy release has been tested. The `4.0.0+` label
+has no upper major-version bound; compatibility changes will be documented here. Individual APIs and marketplace
 contracts are pinned in [the contract ledger](contracts/upstream-contracts.json).
 
 The CI badge reports this repository's `main` workflow status. Portable tests
