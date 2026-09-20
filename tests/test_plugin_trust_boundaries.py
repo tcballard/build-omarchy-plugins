@@ -115,6 +115,17 @@ class PluginTrustBoundaryTests(unittest.TestCase):
             self.assertEqual([], security["findings"])
             self.assertFalse((root / "marker.txt").exists())
 
+    def test_workflow_blank_lines_do_not_stall_static_review(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "plugin"
+            write_plugin(root)
+            path = root / ".github/workflows/check.yml"
+            path.parent.mkdir(parents=True)
+            path.write_text(" \n" * 100_000 + "permissions: {}\njobs: {}\n", encoding="utf-8")
+            result = validate(root, "--security", timeout=5)
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.assertFalse(any(c["code"].startswith("workflow-") for c in json.loads(result.stdout)["security"]["capabilities"]))
+
     def test_privilege_advisory_keeps_negated_prose_and_real_commands_visible(self) -> None:
         cases = (
             ("README.md", "This plugin never requests `sudo`, installs packages, starts a systemd service,", True),

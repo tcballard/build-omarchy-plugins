@@ -486,7 +486,7 @@ def scan_workflow(path: Path, text: str, report: Report) -> None:
     These are advisory signals, not a complete parser or proof of dependency
     provenance. Comments and unrelated script bodies can still need inspection.
     """
-    for match in re.finditer(r"(?:^\s*(?:-\s*)?|[,{]\s*)[\"']?uses[\"']?\s*:\s*[\"']?([^\s\"',}]+)", text, re.MULTILINE):
+    for match in re.finditer(r"(?:^[ \t]*(?:-[ \t]*)?|[,{][ \t]*)[\"']?uses[\"']?[ \t]*:[ \t]*[\"']?([^\s\"',}]+)", text, re.MULTILINE):
         target = match.group(1)
         if target.startswith("./"):
             report.capability("workflow-local-action", "Review the local action and its own executable dependencies; a local path is not a provenance check.", path)
@@ -496,7 +496,7 @@ def scan_workflow(path: Path, text: str, report: Report) -> None:
         elif not re.fullmatch(r"[^@]+@[0-9a-fA-F]{40}", target):
             report.capability("workflow-mutable-action", "Action or reusable workflow is not pinned to a full commit SHA; inspect the cited workflow. This advisory does not establish upstream provenance.", path)
 
-    permissions = re.findall(r"^\s*[\"']?permissions[\"']?\s*:\s*([^\n]*)", text, re.MULTILINE)
+    permissions = re.findall(r"^[ \t]*[\"']?permissions[\"']?[ \t]*:[ \t]*([^\n]*)", text, re.MULTILINE)
     if not permissions:
         report.capability("workflow-permissions-review", "No explicit permissions block was recognized; review effective permissions for every job and declare the minimum required.", path)
     elif any(re.match(r"[\"']?write-all\b", value) for value in permissions):
