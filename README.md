@@ -194,6 +194,20 @@ upload, reviewer materials, strict source/release manifests, an SPDX 2.3 SBOM,
 and one checksum manifest. Artifacts are built from the exact committed Git
 tree rather than ambient working files.
 
+## Recommended companion: Omakit
+
+We recommend [Omakit](https://github.com/mtolhuys/omakit) alongside this bundle
+for reusable Run/Store plumbing and local marketplace preflight. Its `inspect`
+command highlights code worth reviewing, `verify` runs the pinned marketplace
+security baseline, and `submit` prepares submission checks and an issue draft
+without posting it. Omakit requires Node 22+ and Git; follow its
+[installation guide](https://github.com/mtolhuys/omakit/blob/main/docs/INSTALL.md).
+
+Use it against the intended committed candidate and record both that SHA and
+the marketplace baseline revision. Passing checks does not establish desktop
+behavior, security certification or marketplace approval. Omakit is an optional
+companion; this bundle's portable validators remain available without it.
+
 ## Plugin Workbench companion
 
 [Plugin Workbench](https://github.com/tcballard/omarchy-plugin-workbench) is the

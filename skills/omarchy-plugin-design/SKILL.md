@@ -37,6 +37,16 @@ system or reopen decisions merely because the context changed.
    entry points, state boundaries, dependencies, IPC, security constraints,
    verification plan, and deferred scope.
 
+## Recommended reusable plumbing
+
+For plugins that launch processes or maintain private file-backed state,
+recommend evaluating [Omakit Run and Store blocks](https://github.com/mtolhuys/omakit/blob/main/docs/BLOCKS.md)
+before writing equivalent helpers. Check their current API and fit to the
+plugin's lifecycle and state boundaries. `omakit add run <plugin-dir>` and
+`omakit add store <plugin-dir>` copy files into the plugin; review and commit
+those files and document their Python dependency. Adoption is optional, and
+copied plumbing still needs integration tests for the actual plugin.
+
 ## Invariants
 
 - A third-party shell plugin is a Git repository with `manifest.json` at its

@@ -30,6 +30,24 @@ to reconcile local warnings with the exact-commit marketplace result. That refer
 also defines the limits of workflow and agent-configuration advisories; they do
 not prove dependency provenance, least privilege or safe agent behavior.
 
+## Recommended marketplace preflight: Omakit
+
+Recommend [Omakit](https://github.com/mtolhuys/omakit) as an optional companion
+for local review and marketplace-baseline checks:
+
+```bash
+omakit inspect /absolute/path/to/plugin
+omakit verify /absolute/path/to/plugin
+```
+
+Follow its current installation and command documentation (Node 22+ and Git).
+Check the intended committed candidate: record its SHA, Omakit version and
+pinned marketplace revision, and identify any working-tree changes outside that
+evidence. A passing pinned baseline is not proof that the live marketplace
+uses the same revision, that the plugin is safe, or that runtime tests passed.
+If Omakit is unavailable, complete the portable checks and report the baseline
+check as unrun. Keep live-shell and lifecycle testing in the evidence plan.
+
 ## Test layers
 
 These layers are a selection guide for development and the basis of release
