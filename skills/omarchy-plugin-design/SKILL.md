@@ -13,6 +13,29 @@ sessions, update the project's existing decision/progress record with accepted
 scope, completed evidence and remaining work; do not create a parallel memory
 system or reopen decisions merely because the context changed.
 
+## Before a new build
+
+For a new idea, make a bounded prior-art search across built-in plugins, the
+current marketplace and public repositories before scaffolding. Compare the
+closest credible matches by behavior, license, maintenance and compatibility;
+recommend use, contribution, extension, fork or a new build with a concrete
+reason. Preserve attribution and license obligations. An absent license is not
+permission to copy. Offer upstream fixes when relevant; do not send them without
+authorization. Report unavailable search sources instead of claiming uniqueness.
+Skip rediscovery for a small fix or an already settled implementation choice.
+
+Establish whether the requested outcome is a personal customization, public
+repository or marketplace submission. Reuse stated intent; if unspecified,
+record a working assumption without making publication a prerequisite. For a
+marketplace target, inspect current submission/security requirements during
+design and carry material constraints into implementation. Publishing intent
+is not permission to submit. A personal tweak can start with one change to a
+licensed built-in copy in the user's plugin configuration, preserving upstream
+files; check the installed version's supported cloning workflow first.
+
+Choose one useful end-to-end behavior for the first candidate. State observable
+acceptance criteria and deferred features in the existing project record.
+
 ## Workflow
 
 1. Inspect an existing repository and `manifest.json` before proposing a new

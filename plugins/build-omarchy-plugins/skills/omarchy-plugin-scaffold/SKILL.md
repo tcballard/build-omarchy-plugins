@@ -7,6 +7,12 @@ description: Create a new Omarchy 4 Quattro shell-plugin repository or add its i
 
 Generate a working repository, then validate the generated result.
 
+For new ideas, carry forward the design's prior-art decision, distribution
+intent and smallest useful feature. If those decisions are missing, resolve
+only what affects this scaffold; a requested personal customization does not
+need a marketplace submission packet. Prefer adapting an appropriate licensed
+existing plugin when that already meets the requested outcome.
+
 ## Create a repository
 
 Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md` and

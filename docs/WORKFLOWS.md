@@ -7,9 +7,11 @@ Continue through authorized work without asking the user to invoke every stage.
 
 ## New plugin: idea to publication
 
-1. [Design](../skills/omarchy-plugin-design/SKILL.md) resolves the surface and
-   ownership decisions that are still open. An existing specification supplies
-   those decisions directly.
+1. [Design](../skills/omarchy-plugin-design/SKILL.md) checks prior art for new
+   ideas, establishes personal/public/marketplace intent, and resolves the
+   surface and ownership decisions still open. An existing specification
+   supplies settled decisions directly. Keep the first feature set small and
+   bring current publishing constraints into design when publication is intended.
 2. [Scaffold](../skills/omarchy-plugin-scaffold/SKILL.md) creates the repository
    at the agreed destination. Generated sample behavior is the starting point.
 3. Implement the requested behavior with the relevant surface skill:
