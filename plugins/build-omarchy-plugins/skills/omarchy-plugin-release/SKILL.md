@@ -24,6 +24,25 @@ historical tags are checked for reachability instead of equality with today's
 HEAD. The asset check requires strict release/source manifests, an SPDX 2.3
 SBOM, exact sizes and SHA-256 digests, and complete `SHA256SUMS` coverage.
 
+## Decide whether the candidate is ready
+
+Judge the declared feature set against observable behavior, not elapsed time or
+an indefinitely expanding wishlist. The core user journey must work on the
+supported target; failures must recover without leaking processes or corrupting
+state. Required validation, installation, update and removal checks must have
+source-bound evidence. Unresolved security, data-loss or core-function failures
+block a ready-to-publish claim. Document tolerable non-core limitations and
+narrow support claims to what was tested. A preview label does not waive gates.
+Use actual daily use as supporting evidence, not a replacement for checks; do
+not impose a universal one-week waiting period.
+
+For updates, exercise a fixture from the previous released configuration and
+stored-state format. Preserve user settings, defaults and established behavior,
+or provide a documented migration and recovery path. Explain feature removals
+before release. Declare supported CPU architectures and verify helper binaries
+and dependencies for each claimed target; x86_64 evidence does not establish
+ARM64 support. Do not silently expand the promised architecture range.
+
 ## Release boundary
 
 - The root `manifest.json` version, release notes, tested commit, and tag must

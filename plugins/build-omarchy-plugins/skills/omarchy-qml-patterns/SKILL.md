@@ -40,6 +40,22 @@ For external data, automatic execution or mutable state, consult
 [reviewer boundaries](references/reviewer-boundaries.md) for concrete failure
 paths and relevant adversarial checks from marketplace reviews.
 
+## Work from concrete examples
+
+Start from the closest local working component and the examples in
+[hosted QML](references/hosted-qml.md) and
+[process/state](references/process-and-state.md). Read the code and its checks
+before adapting it. Preserve the proven boundary, then verify the changed
+behavior with a fixture: stale completion after reload, repeated refresh,
+malformed output, or disablement while a helper is running, as applicable.
+For supervised processes or private storage, evaluate Omakit's Run/Store
+examples against the current API instead of inventing another helper.
+
+Record which example/revision was used and what its tests actually establish.
+Scaffold/static checks establish structure; only observed host checks establish
+Qt imports and shell lifecycle. Do not call copied code tested merely because
+its source project has a green badge.
+
 ## Verification
 
 For a new data-driven surface, exercise loading, empty, success, partial failure,

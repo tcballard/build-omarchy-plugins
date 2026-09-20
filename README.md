@@ -208,6 +208,13 @@ the marketplace baseline revision. Passing checks does not establish desktop
 behavior, security certification or marketplace approval. Omakit is an optional
 companion; this bundle's portable validators remain available without it.
 
+For deeper review, the optional
+[community security skill](https://github.com/wbso-ai/omarchy-plugin-security-skill)
+collects historical reviewer findings. For clean-desktop GUI testing,
+[OmaVM](https://github.com/mlclifton/omavm) provides QEMU/KVM guest workflows.
+Consult their current prerequisites and scope; neither establishes marketplace
+approval. The testing skill explains how to record their evidence and limits.
+
 ## Plugin Workbench companion
 
 [Plugin Workbench](https://github.com/tcballard/omarchy-plugin-workbench) is the

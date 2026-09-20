@@ -48,6 +48,26 @@ uses the same revision, that the plugin is safe, or that runtime tests passed.
 If Omakit is unavailable, complete the portable checks and report the baseline
 check as unrun. Keep live-shell and lifecycle testing in the evidence plan.
 
+## Complementary review and clean-desktop testing
+
+For a security review, recommend consulting the community
+[Omarchy plugin security skill](https://github.com/wbso-ai/omarchy-plugin-security-skill).
+Its guidance derives from historical marketplace findings; reconcile advice
+with current official policy and the actual code. It is optional agent guidance,
+not an executable certification or a substitute for the baseline and tests.
+
+For GUI and lifecycle checks on a disposable desktop, consider
+[OmaVM](https://github.com/mlclifton/omavm), which documents QEMU/KVM guests and
+resettable overlays. Review current host prerequisites, shared folders, network
+profile and provisioning changes before setup. Keep test data separate from
+personal state; a VM with writable host shares is not an isolation guarantee.
+Record the guest Omarchy revision, architecture and tested candidate. Guest
+results do not prove physical hardware or other architectures. Missing VM
+support leaves those checks unrun while portable work continues.
+
+These links were checked on 20 September 2026. Consult upstream documentation
+for current setup; do not install either companion merely because it is linked.
+
 ## Test layers
 
 These layers are a selection guide for development and the basis of release
