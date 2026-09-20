@@ -1,5 +1,25 @@
 # Acceptance evidence and remaining host checks
 
+## v0.4.1 preparation — 20 September 2026
+
+- `./scripts/test`: all 59 unit tests passed, with portable/plugin/adapter,
+  skill, version/contract and packaging checks.
+- `python3 scripts/check_versions.py --tag v0.4.1`: passed.
+- Clean committed candidate packaging was built twice using
+  `package_submission.py --require-clean --git-tree HEAD`. The two output
+  directories were byte-identical; all eight `SHA256SUMS` entries passed.
+- The five candidate archives cover portable skills, Agent Plugin, OpenAI adapter,
+  Claude plugin and submission materials, with source/release manifests and
+  SPDX 2.3 SBOM.
+- Canonical/packaged skills are synchronized and `git diff --check` passed.
+
+This is patch-release preparation, not publication. Required CI must bind the
+final PR commit. After merge, rebuild and attest the final assets using the
+existing Release draft workflow against the full merged main SHA and `v0.4.1`.
+No v0.4.1 tag or release has been published by this preparation. New model
+behavioral cases and live installed-host upgrade checks remain unrun.
+
+
 ## Marketplace follow-up — 20 September 2026
 
 - `./scripts/test`: all 59 unit tests passed, plus portable/plugin/adapter,
