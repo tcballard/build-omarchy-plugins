@@ -1,5 +1,22 @@
 # Acceptance evidence and remaining host checks
 
+## Marketplace follow-up — 20 September 2026
+
+- `./scripts/test`: all 58 unit tests passed, plus portable/plugin/adapter,
+  version/contract, skill validation and packaging checks.
+- New behavioral fixtures cover mutable/pinned Actions and reusable workflows,
+  Docker action digests, local actions, permissions, comments, non-workflow docs
+  and distributed agent configuration discovery. All signals remain advisory;
+  the validator does not execute the payloads.
+- Canonical skills and OpenAI packaged copies were synchronized.
+- `git diff --check` passed.
+
+These are local tooling checks, not live Omarchy execution, independent model
+behavioral evaluation, GitHub CI or a published release. New integration cases in
+HANDOFFS.md remain unrun. No desktop access is required for this guidance/linter
+change. Version and upstream contract pins are unchanged.
+
+
 ## v0.4.0 preparation — 14 September 2026
 
 - `./scripts/test`: all 55 unit tests and portable/plugin/adapter validation,

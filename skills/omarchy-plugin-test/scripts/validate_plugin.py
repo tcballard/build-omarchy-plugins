@@ -480,6 +480,29 @@ def validate_publish_surface(root: Path, report: Report, strict: bool) -> None:
             report.add("error", "preview-size", "Preview exceeds the current 50 MB marketplace limit.", preview)
 
 
+def scan_workflow(path: Path, text: str, report: Report) -> None:
+    """Discover common workflow forms, without interpreting YAML or running it.
+
+    These are advisory signals, not a complete parser or proof of dependency
+    provenance. Comments and unrelated script bodies can still need inspection.
+    """
+    for match in re.finditer(r"(?:^\s*(?:-\s*)?|[,{]\s*)[\"']?uses[\"']?\s*:\s*[\"']?([^\s\"',}]+)", text, re.MULTILINE):
+        target = match.group(1)
+        if target.startswith("./"):
+            report.capability("workflow-local-action", "Review the local action and its own executable dependencies; a local path is not a provenance check.", path)
+        elif target.startswith("docker://"):
+            if not re.fullmatch(r"docker://[^@]+@sha256:[0-9a-fA-F]{64}", target):
+                report.capability("workflow-mutable-action", "Container action is not bound to an immutable sha256 digest; inspect and pin the reviewed image.", path)
+        elif not re.fullmatch(r"[^@]+@[0-9a-fA-F]{40}", target):
+            report.capability("workflow-mutable-action", "Action or reusable workflow is not pinned to a full commit SHA; inspect the cited workflow. This advisory does not establish upstream provenance.", path)
+
+    permissions = re.findall(r"^\s*[\"']?permissions[\"']?\s*:\s*([^\n]*)", text, re.MULTILINE)
+    if not permissions:
+        report.capability("workflow-permissions-review", "No explicit permissions block was recognized; review effective permissions for every job and declare the minimum required.", path)
+    elif any(re.match(r"[\"']?write-all\b", value) for value in permissions):
+        report.capability("workflow-permissions-review", "Broad write-all permissions require review; scope permissions to each job's actual needs.", path)
+
+
 def scan_security(root: Path, report: Report) -> None:
     for path in iter_files(root):
         data = read_regular(path, MAX_FILE_BYTES)
@@ -494,8 +517,11 @@ def scan_security(root: Path, report: Report) -> None:
             report.capability("bundled-executable-binary", "Bundled executable binary requires manual review.", path)
 
         name = path.name.lower()
+        relative = path.relative_to(root)
         if name in {"agents.md", "claude.md", "handoff.md"}:
             report.capability("agent-control-payload", "Agent/session control filename in distributed plugin: inspect its contents and remove instructional payloads before marketplace review.", path)
+        if any(part in {".claude", ".codex", ".agents"} for part in relative.parts[:-1]):
+            report.capability("agent-configuration-payload", "Agent configuration, hook or skill directory in the distributed desktop plugin: inspect automatic loading/execution and keep development-only payloads outside the installed tree. Ordinary docs are not inherently executable.", path)
         if re.search(r"(?:^|[-_.])(install|installer|setup|uninstall)(?:$|[-_.])", name):
             report.capability("installer", "Installer/setup/uninstall surface requires manual review.", path)
 
@@ -505,6 +531,8 @@ def scan_security(root: Path, report: Report) -> None:
         if text is None:
             continue
         lower = text.lower()
+        if relative.parts[:2] == (".github", "workflows") and path.suffix.lower() in {".yml", ".yaml"}:
+            scan_workflow(path, text, report)
 
         if re.search(r"\b(?:curl|wget)\b[^\n]{0,500}(?:\||&&|;)\s*(?:sudo\s+|pkexec\s+)?(?:/\S*/)?(?:ba)?sh\b", text, re.IGNORECASE):
             report.finding("curl-pipe-shell", "Downloaded content is passed directly to a shell.", path)

@@ -69,3 +69,45 @@ See [review #2766](https://github.com/omacom/omarchy-plugin-marketplace/issues/2
 Do not elevate a script from a user-writable checkout. A privileged helper needs
 a trusted installation and immutable executable identity; a path check before
 `pkexec` is insufficient. Review downloaded executable provenance separately.
+
+## Image and aggregate limits
+
+Reviews checked 20 September 2026 make these producer boundaries explicit.
+MPRIS/API artwork is external input: avoid assigning arbitrary URLs directly to
+QML `Image.source`. Fetch through a bounded helper, validate schemes/redirects,
+bytes, format, decoded pixel dimensions and total duration, then expose only the
+validated local artifact. If the required decoder is absent, fail closed instead
+of passing unvalidated bytes through. Declare the validating dependency.
+See [artwork review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7180#issuecomment-5735649258).
+
+Bound aggregate retained events/bytes and total stream duration, not just each
+line or an inactivity timer. For transfers, reserve an aggregate budget across
+active work, enforce conservative per-file/concurrency limits and available-disk
+constraints, and clean up partials on overflow/cancellation. Test many individually
+valid inputs as well as a single oversized input.
+See [stream accumulation](https://github.com/omacom/omarchy-plugin-marketplace/issues/7047#issuecomment-5735500611)
+and [transfer budgets](https://github.com/omacom/omarchy-plugin-marketplace/issues/6068#issuecomment-5735045519).
+
+## Independent privileged trust
+
+A checksum supplied by the same mutable checkout as the elevated program does
+not authenticate that program. Use a separately installed trusted verifier or
+package path with independently authenticated expected identities before root
+executes or installs any payload. Inline `pkexec` shell strings and importing a
+signing key from that checkout retain the same problem. Authenticate final
+package bytes through installation, not just downloaded source.
+See [bootstrap re-review](https://github.com/omacom/omarchy-plugin-marketplace/issues/5371#issuecomment-5745040622).
+
+## Agent and credential-service boundaries
+
+When forwarding remote incidents/diffs to an agent, shell quoting does not stop
+prompt injection. Separate bounded data from trusted instructions, restrict the
+agent's actual files/tools and preserve authorization for its actions. A read-only
+bind of the whole filesystem still exposes secrets; allowlist only required
+inputs and CLI state, and fail closed when required isolation is unavailable.
+See [Chezmoi Hound](https://github.com/omacom/omarchy-plugin-marketplace/issues/7526#issuecomment-5746267624).
+
+Likewise, source in the repository does not attest a live OAuth broker deployment.
+Use user-controlled/local authentication or substantiate the deployed credential
+boundary before routing tokens through a shared service.
+See [Coinbase](https://github.com/omacom/omarchy-plugin-marketplace/issues/7520#issuecomment-5741977697).

@@ -52,3 +52,25 @@ For data-driven plugins, cover:
 Record date, full plugin SHA, Omarchy version/SHA, commands, fixture identity,
 environment limitations, and pass/fail status. Do not claim an unrun platform or
 state.
+
+## Integration and release regression cases
+
+Choose cases for the implemented boundary; these are not automatic results of
+static validation or mandatory work for unrelated edits. Guidance checked against
+[recent marketplace review](https://github.com/omacom/omarchy-plugin-marketplace/issues/3098#issuecomment-5744992291)
+on 20 September 2026:
+
+- fixed backend source but stale downloader/default/local executable: verify
+  clean install, affected-version upgrade and minimum-version rejection;
+- real installer uses the transitive lock and artifact hashes, not only CI;
+- image overflow, huge decoded dimensions, redirects and missing decoder: no
+  unvalidated bytes reach QML;
+- many valid stream events, drip-fed input and concurrent transfers: aggregate
+  memory/disk budgets and absolute deadlines hold;
+- hostile agent input requesting unrelated private files/actions: inspect actual
+  file/tool/network exposure, and ensure missing isolation does not enable it;
+- privileged bootstrap substitution: verify that trust values and final artifact
+  identity come from an independent trusted component, not the writable checkout.
+
+For each applicable case, record the production path, fixture and meaningful
+result. Source inspection alone must not be reported as an executed runtime test.

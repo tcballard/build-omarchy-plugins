@@ -2,6 +2,15 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## Unreleased
+
+- Incorporate 20 September marketplace review evidence for dependency/CI pinning,
+  agent integrations, independent privileged trust, image/aggregate limits and
+  stale backend releases.
+- Add advisory discovery of workflow action references/permissions and distributed
+  agent configuration directories, with behavioral regression fixtures.
+- Explain validator-pattern capability warnings without suppressing disclosures.
+
 ## 0.4.0 — Unreleased
 
 Includes the fixes prepared for the unpublished v0.3.2 draft.

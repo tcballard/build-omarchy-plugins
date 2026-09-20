@@ -69,3 +69,17 @@ and removal behavior, then leave capability acceptance to the maintainer.
 Prepare any response within the user's scope; send it only with authorization.
 The authoritative policy and limits are in the pinned
 [security policy](https://github.com/omacom/omarchy-plugin-marketplace/blob/55efec9646cc24ca3ae8c427440043fa745ada49/SECURITY.md#automated-security-baseline).
+
+## Wider checkout and validator evidence — 20 September 2026
+
+Inspect automatically loaded agent configurations and hooks, not only named
+Markdown instructions. [Workspace Summon](https://github.com/omacom/omarchy-plugin-marketplace/issues/7476#issuecomment-5746209569)
+was blocked for `.claude` settings/hooks and skills that executed shell actions.
+Keep these development-only payloads outside the installed desktop-plugin tree;
+ordinary documentation and intentional agent-skill bundles remain distinct.
+
+A scanner may also match command strings inside a bundled validator's rules.
+[Kamal's baseline](https://github.com/omacom/omarchy-plugin-marketplace/issues/7656#issuecomment-5742922054)
+cites such patterns alongside real setup/docs surfaces. Explain each cited path
+and its actual use; do not infer runtime behavior from a pattern literal, promise
+approval, or move real code/disclosures outside scan scope to clear a warning.
