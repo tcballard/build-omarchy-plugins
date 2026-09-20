@@ -28,6 +28,9 @@ system or reopen decisions merely because the context changed.
 4. Name every external command, package, credential source, network endpoint,
    and privileged operation. Prefer an existing authenticated CLI over reading
    or copying its credentials.
+   For agent invocation, hosted credential brokers or privileged setup, read
+   [integration boundaries](references/integration-boundaries.md) before choosing
+   the trust and authorization model.
 5. Define entry points, user-visible lifecycle, IPC methods, failure states,
    removal behavior, tests, demo fixtures, and screenshot evidence.
 6. For substantial new work, keep a short design record: ID, kinds,

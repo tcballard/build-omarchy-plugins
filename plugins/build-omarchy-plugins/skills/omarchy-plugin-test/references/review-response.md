@@ -69,3 +69,20 @@ and removal behavior, then leave capability acceptance to the maintainer.
 Prepare any response within the user's scope; send it only with authorization.
 The authoritative policy and limits are in the pinned
 [security policy](https://github.com/omacom/omarchy-plugin-marketplace/blob/55efec9646cc24ca3ae8c427440043fa745ada49/SECURITY.md#automated-security-baseline).
+
+## Advisory workflow and agent-configuration discovery — 20 September 2026
+
+The local validator recognizes common block/flow `uses:` forms in workflow YAML.
+It requests review for mutable action/reusable-workflow references, unpinned
+Docker actions, local actions, missing explicit permissions and `write-all`.
+This is lexical discovery, not a YAML interpreter: aliases, expressions, inherited
+permissions and script content need inspection. A recognized permissions block
+or SHA-shaped reference does not prove least privilege, provenance or complete
+pinning. Container jobs and transitive dependency resolution still need manual
+review. See [CI review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7491#issuecomment-5741754091).
+
+Files under `.claude`, `.codex` and `.agents` additionally trigger advisory
+inspection for auto-loaded settings, hooks and skills. Inspect contents before
+classifying ordinary documentation; keep development-only agent instructions
+outside the distributed desktop plugin. This is not a ban on intentional agent
+skill bundles. See [hook review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7476#issuecomment-5746209569).

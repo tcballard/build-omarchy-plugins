@@ -40,6 +40,9 @@ repository metadata and are not set by adding a badge to the README.
   `bar-widget`; do not declare kinds without corresponding functionality.
 - Keep external installation outside the shell-plugin scaffold. Document
   required packages and let users install them explicitly.
+- Preserve generated action SHA pins and explicit CI permissions. Review new
+  actions, executable images and installation dependencies when extending CI.
+  Keep authoring-agent hooks/settings/skills outside the installed plugin tree.
 - Generated QML is functional baseline code, not final product design. Replace
   the sample state and copy while preserving the lifecycle and injection
   contracts.

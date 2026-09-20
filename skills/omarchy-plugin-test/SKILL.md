@@ -26,7 +26,9 @@ flags all `sudo`/`pkexec` mentions, including negated README prose: upstream
 recognizes narrower negation forms than natural language. Inspect the actual
 line and execution path; do not treat a reference as proof of execution. For
 submission, use the [review-response guidance](references/review-response.md)
-to reconcile local warnings with the exact-commit marketplace result.
+to reconcile local warnings with the exact-commit marketplace result. That reference
+also defines the limits of workflow and agent-configuration advisories; they do
+not prove dependency provenance, least privilege or safe agent behavior.
 
 ## Test layers
 

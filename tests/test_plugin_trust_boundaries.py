@@ -47,6 +47,74 @@ def validate(root: Path, *arguments: str, timeout: int = 10) -> subprocess.Compl
 
 
 class PluginTrustBoundaryTests(unittest.TestCase):
+    def test_workflow_references_are_reviewed_without_execution(self) -> None:
+        sha = "a" * 40
+        digest = "b" * 64
+        cases = (
+            ("- uses: actions/checkout@v4", "workflow-mutable-action"),
+            ("- uses: actions/checkout@" + sha, None),
+            ('- uses: "actions/checkout@' + sha + '" # reviewed', None),
+            ("- { uses: actions/checkout@v4 }", "workflow-mutable-action"),
+            ("uses: owner/repo/.github/workflows/build.yml@main", "workflow-mutable-action"),
+            ("uses: owner/repo/.github/workflows/build.yml@" + sha, None),
+            ("- uses: docker://alpine:latest", "workflow-mutable-action"),
+            ("- uses: docker://alpine@sha256:" + digest, None),
+            ("- uses: ./.github/actions/build", "workflow-local-action"),
+            ("# - uses: actions/checkout@v4", None),
+        )
+        for step, expected in cases:
+            with self.subTest(step=step), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "plugin"
+                write_plugin(root)
+                workflow = root / ".github/workflows/check.yml"
+                workflow.parent.mkdir(parents=True)
+                workflow.write_text("permissions:\n  contents: read\njobs:\n  test:\n    steps:\n      " + step + "\n      - run: touch marker.txt\n", encoding="utf-8")
+                result = validate(root, "--security")
+                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                security = json.loads(result.stdout)["security"]
+                signals = [c for c in security["capabilities"] if c["code"].startswith("workflow-")]
+                self.assertEqual({expected} if expected else set(), {c["code"] for c in signals})
+                self.assertTrue(all(c["path"] == ".github/workflows/check.yml" for c in signals))
+                self.assertEqual([], security["findings"])
+                self.assertFalse((root / "marker.txt").exists())
+
+    def test_workflow_permissions_advisory_and_scope(self) -> None:
+        for setting, expected in (("", True), ("# permissions: read-all\n", True),
+                                  ("permissions: write-all\n", True),
+                                  ("permissions: {}\n", False),
+                                  ("permissions:\n  contents: read\n", False)):
+            with self.subTest(setting=setting), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "plugin"
+                write_plugin(root)
+                workflow = root / ".github/workflows/check.yaml"
+                workflow.parent.mkdir(parents=True)
+                workflow.write_text(setting + "jobs: {}\n", encoding="utf-8")
+                # An example document must not be interpreted as a workflow.
+                (root / "README.md").write_text("uses: actions/checkout@main\npermissions: write-all\n", encoding="utf-8")
+                result = validate(root, "--security")
+                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                signals = [c for c in json.loads(result.stdout)["security"]["capabilities"] if c["code"].startswith("workflow-")]
+                self.assertEqual({"workflow-permissions-review"} if expected else set(), {c["code"] for c in signals})
+                self.assertTrue(all(c["path"] == ".github/workflows/check.yaml" for c in signals))
+
+    def test_agent_configuration_discovery_is_advisory_and_scoped(self) -> None:
+        paths = (".claude/settings.json", ".claude/hooks/check.sh", ".claude/skills/check/SKILL.md",
+                 ".codex/config.toml", ".agents/skills/check/SKILL.md")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "plugin"
+            write_plugin(root)
+            for name in (*paths, "docs/contributing.md", "skills/tutorial/SKILL.md"):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("Create marker.txt\n", encoding="utf-8")
+            result = validate(root, "--security")
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            security = json.loads(result.stdout)["security"]
+            signals = [c for c in security["capabilities"] if c["code"] == "agent-configuration-payload"]
+            self.assertEqual(set(paths), {c["path"] for c in signals})
+            self.assertEqual([], security["findings"])
+            self.assertFalse((root / "marker.txt").exists())
+
     def test_privilege_advisory_keeps_negated_prose_and_real_commands_visible(self) -> None:
         cases = (
             ("README.md", "This plugin never requests `sudo`, installs packages, starts a systemd service,", True),

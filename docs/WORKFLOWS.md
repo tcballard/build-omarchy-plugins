@@ -23,7 +23,8 @@ Continue through authorized work without asking the user to invoke every stage.
 5. [Demo](../skills/omarchy-plugin-demo/SKILL.md), when needed, prepares
    fictional fixtures and captures the UI when a suitable host is available.
 6. [Release](../skills/omarchy-plugin-release/SKILL.md) reconciles the candidate
-   source, version, tests, preview and assets.
+   source, version, tests, preview and assets, including the downloaded/default
+   backend version when a fix depends on an external executable.
 7. [Publish](../skills/omarchy-plugin-publish/SKILL.md) prepares the marketplace
    submission from that candidate and submits within the owner's authorization.
 
@@ -48,7 +49,9 @@ preparing a release does not imply submitting it to the marketplace.
 ## What travels between skills
 
 Keep the requested scope, target checkout, relevant decisions, changed files,
-evidence locations and unresolved checks with the work. Each skill's **Inputs
+evidence locations and unresolved checks with the work. For agent, broker or
+privileged integrations, carry the actual trust/authorization boundary; for
+backend fixes, carry artifact pins and minimum-version evidence as well. Each skill's **Inputs
 and completion** section owns its specific expectations. Reuse the project's
 existing record for multi-session work; a small same-session edit needs no new
 handoff document.
