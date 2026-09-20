@@ -2,11 +2,11 @@
 
 ## Marketplace follow-up — 20 September 2026
 
-- `./scripts/test`: all 58 unit tests passed, plus portable/plugin/adapter,
+- `./scripts/test`: all 59 unit tests passed, plus portable/plugin/adapter,
   version/contract, skill validation and packaging checks.
 - New behavioral fixtures cover mutable/pinned Actions and reusable workflows,
   Docker action digests, local actions, permissions, comments, non-workflow docs
-  and distributed agent configuration discovery. All signals remain advisory;
+  and distributed agent configuration discovery, plus large whitespace input. All signals remain advisory;
   the validator does not execute the payloads.
 - Canonical skills and OpenAI packaged copies were synchronized.
 - `git diff --check` passed.
