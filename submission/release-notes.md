@@ -1,55 +1,56 @@
-# Build Omarchy Plugins v0.4.1
+# Build Omarchy Plugins v0.5.0
 
-A patch release that turns recent Omacom marketplace feedback into more useful
-build guidance and preflight checks across the twelve-skill provider-neutral bundle.
+Find what already exists. Build the smallest useful change. Know what needs to
+pass before you publish.
+
+v0.5.0 is the next planned release, bringing the Sunday Social discussion into
+the provider-neutral bundle's design, implementation, testing and publishing guidance.
 
 ## What's changed
 
-- Review the full dependency chain: pinned Actions and executable images,
-  transitive dependency locks, and the installer paths that actually consume them.
-- Cover agent prompt injection and private-data exposure, hosted OAuth brokers,
-  and independently trusted privileged installation.
-- Check that backend fixes reach release artifacts, downloader defaults and
-  minimum accepted versions, including upgrades from an affected installation.
-- Add concrete guidance for bounded image decoding and aggregate stream/transfer
-  budgets, including missing-decoder and missing-isolation failure behavior.
-- Add advisory workflow and agent-configuration discovery. Interpret command
-  strings in bundled validators separately from real setup/runtime behavior.
-- Keep workflow scanning responsive on long runs of blank lines.
-- Clarify plugin/theme ownership and keep installed references self-contained.
+- **Look before building.** Agents compare existing plugins and consider using,
+  contributing, extending or forking before starting another repository.
+- **Plan for the intended destination.** Personal tweaks stay small. Marketplace
+  projects consider submission requirements during design.
+- **Use the community's tools.** Omakit is recommended for Run/Store helpers,
+  local checks and submission drafts. The community security skill and OmaVM
+  are optional companions for review and clean-desktop testing.
+- **Make readiness concrete.** Check the core user journey, upgrades from saved
+  configuration, recovery and each claimed CPU architecture. Work from examples
+  and test the behavior being changed.
+- **Keep submission evidence current.** Verify the official workflow and exact
+  candidate SHA. An announcement of a new marketplace is not its specification.
 
-Canonical skills and the OpenAI adapter carry the same guidance. The skill names,
-supported hosts and upstream contract pins are unchanged.
+Thanks to the Sunday Social participants for describing where plugin development
+still gets awkward, and to the maintainers building tools to help.
 
 ## Verification and limits
 
-The candidate passes 59 portable unit tests plus skill/plugin validation,
-version/contract checks, adapter synchronization and packaging checks. CI tests
-Linux, macOS, and Windows across Python 3.11–3.13, workflow lint and Claude packaging.
-See the [acceptance record](https://github.com/tcballard/build-omarchy-plugins/blob/v0.4.1/evals/ACCEPTANCE.md)
-for observed candidate evidence and remaining checks.
+The candidate is checked with the portable test and packaging suite. See the
+[acceptance record](https://github.com/tcballard/build-omarchy-plugins/blob/main/evals/ACCEPTANCE.md)
+for observed results. The new behavioral evaluation scenarios remain unrun;
+external companions have not been runtime-tested as part of this release prep.
+Passing local checks does not establish live Omarchy behavior or marketplace
+approval. Companion tools remain optional and are not installed by this bundle.
 
-The new checks are advisory static discovery, not a full YAML parser, dependency
-provenance proof, marketplace approval or security audit. The new agent behavioral
-scenarios are documented but unrun. No fresh live Omarchy desktop or installed-host
-upgrade test is claimed.
+Version metadata and distribution names target 0.5.0. Required CI must pass on
+the merged release commit before the existing release workflow builds, compares,
+attests and verifies draft assets. This preparation does not publish a release.
 
-Release automation builds twice, compares bytes, generates provenance and verifies
-downloaded draft assets. Final release artifacts must be rebuilt from the reviewed
-merged commit after required CI passes. The workflow cannot publish a release; publication
-remains owner-controlled.
+CI covers Linux, macOS, and Windows across Python 3.11–3.13, plus workflow
+lint and Claude packaging. The release workflow cannot publish; final
+publication remains owner-controlled. Archives include source/release manifests
+and an SPDX 2.3 SBOM.
 
 ## Installation and update
 
-The transactional installer continues to support Codex, Claude Code, Cursor,
-Gemini CLI and OpenCode.
+The transactional installer supports Codex, Claude Code, Cursor, Gemini CLI
+and OpenCode.
 
-Choose the skills, portable Agent Plugin, OpenAI adapter or Claude plugin archive
-for your host and verify it against `SHA256SUMS`. Source/release manifests and the
-SPDX 2.3 SBOM identify the packaged source. Use either the Claude plugin or the
-Claude skills installer to avoid duplicate skill loading.
-
-Once v0.4.1 is published, existing installations can preview the update from its
-checkout using `python3 scripts/install_agent_skills.py --update --diff`, then
-apply it with `--update`, preserving the existing host target and scope. Resolve
-locally modified managed files explicitly. No marketplace listing is implied.
+Once v0.5.0 is published, choose the skills, portable Agent Plugin, OpenAI adapter
+or Claude plugin archive for your host and verify it against `SHA256SUMS`.
+From its checkout, preview an existing installation update with
+`python3 scripts/install_agent_skills.py --update --diff`, then apply it with
+`--update`, preserving your host target and scope. Resolve locally modified
+managed files explicitly. Use either the Claude plugin or the Claude skills
+installer to avoid duplicate skill loading.
