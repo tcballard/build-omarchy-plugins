@@ -1,5 +1,21 @@
 # Acceptance evidence and remaining host checks
 
+## v0.5.0 preparation — 21 September 2026
+
+- `./scripts/test`: all 59 unit tests passed, plus portable/plugin/adapter,
+  skill, version/contract and packaging checks. The archive test compares two
+  builds and validates checksums.
+- `python3 scripts/check_versions.py --tag v0.5.0`: passed.
+- `git diff --check`: passed; canonical and packaged skills remain synchronized.
+
+This records local release-preparation evidence. Required CI must pass on the
+final PR commit. After merge, build and attest final assets with the existing
+Release draft workflow against the full merged main SHA and `v0.5.0`.
+No v0.5.0 tag, draft assets or published release is claimed here. The new
+behavioral scenarios, live desktop and installed-host upgrade checks remain
+unrun. Omakit, the security skill and OmaVM remain optional recommendations;
+no fresh companion runtime testing is claimed.
+
 ## v0.4.1 preparation — 20 September 2026
 
 - `./scripts/test`: all 59 unit tests passed, with portable/plugin/adapter,

@@ -2,7 +2,22 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## 0.4.1 — Unreleased
+## 0.5.0 — Unreleased
+
+- Recommend Omakit for reusable Run/Store helpers, local marketplace checks and
+  submission preparation.
+- Check prior art before new builds and establish personal, public-repository
+  or marketplace intent early, with a small first feature and observable criteria.
+- Guide implementation through concrete examples and relevant fixture checks.
+- Define release readiness, configuration migration/recovery and evidence for
+  each supported CPU architecture.
+- Recommend the community security skill and OmaVM as optional companions.
+- Verify current marketplace mechanics, candidate SHA and authenticated submission
+  boundaries as the marketplace evolves.
+- Synchronize canonical and packaged skills; add three operator-run behavioral
+  scenarios without claiming they have been executed.
+
+## 0.4.1 — 2026-09-20
 
 - Incorporate 20 September marketplace review evidence for dependency/CI pinning,
   agent integrations, independent privileged trust, image/aggregate limits and
