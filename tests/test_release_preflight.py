@@ -72,7 +72,8 @@ class ReleasePreflightTests(unittest.TestCase):
             result = run([sys.executable, str(SCRIPT), "--json", "--validator", str(missing), str(root)], root)
             self.assertNotEqual(0, result.returncode)
             items = json.loads(result.stdout)["items"]
-            self.assertTrue(any(item["code"] == "validator-missing" and item["detail"] == str(missing) for item in items))
+            missing_details = [item["detail"] for item in items if item["code"] == "validator-missing"]
+            self.assertEqual([str(missing.resolve())], missing_details)
 
     def fixture(self, parent: Path) -> Path:
         root = parent / "fixture"
