@@ -70,6 +70,10 @@ it receives instead of treating the previous step's summary as proof.
 host's supported mechanism. A missing sibling is not a reason to invent a tool
 or stop independent work. For example, scaffolding can use its generated
 validator and report the narrower evidence when the test skill is absent.
+When the release and test skills are installed under different directory names,
+resolve the loaded test skill and pass its script through release preflight's
+`--validator` option. The release skill documents this explicit handoff; missing
+validation still blocks readiness.
 
 **Must setup happen before any work?** Only a prerequisite needed for the next
 action blocks it. Missing display access leaves runtime checks pending while

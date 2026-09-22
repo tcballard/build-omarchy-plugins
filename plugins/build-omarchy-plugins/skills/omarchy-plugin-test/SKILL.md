@@ -30,6 +30,11 @@ to reconcile local warnings with the exact-commit marketplace result. That refer
 also defines the limits of workflow and agent-configuration advisories; they do
 not prove dependency provenance, least privilege or safe agent behavior.
 
+The settings check accepts `multiselect`, including object-valued options as
+used by Quattro's [Indicators manifest](https://github.com/omacom/omarchy/blob/947e2fc002d6831c7888b29b5761d59d29e69727/shell/plugins/bar/widgets/Indicators.manifest.json)
+(reviewed 22 September 2026). Both `enum` and `multiselect` require an options
+array. Unknown settings types still fail strict validation.
+
 ## Recommended marketplace preflight: Omakit
 
 Recommend [Omakit](https://github.com/mtolhuys/omakit) as an optional companion
