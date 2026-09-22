@@ -77,6 +77,19 @@
         "Compatibility success is separate from exact-commit security disposition, maintainer approval and publication.",
         "The portable privilege advisory intentionally reports all tool references, including negated prose; it does not reproduce the authoritative baseline."
       ]
+    },
+    {
+      "name": "Omarchy Quattro multiselect settings example",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "947e2fc002d6831c7888b29b5761d59d29e69727",
+      "path": "shell/plugins/bar/widgets/Indicators.manifest.json",
+      "sha256": "3eea8a52c46d7e2436f8967abb4347d56163f7cef622caf0fe2d69bf6858d59b",
+      "vendoredPath": "contracts/omarchy-indicators.manifest.json",
+      "assumptions": [
+        "Reviewed 2026-09-22: Quattro uses multiselect in barWidget.schema.",
+        "Multiselect options may be objects with value, label and description; an options array is required by this portable checker."
+      ]
     }
   ]
 }

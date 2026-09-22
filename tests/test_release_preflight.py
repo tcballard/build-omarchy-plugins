@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -34,6 +35,45 @@ def write_json(path: Path, value: object) -> None:
 
 
 class ReleasePreflightTests(unittest.TestCase):
+    def test_explicit_validator_supports_renamed_skills_and_retains_strict_checks(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root = self.fixture(parent)
+            release_script = parent / "skill-release-id" / "scripts" / "release_preflight.py"
+            test_script = parent / "skill-test-id" / "scripts" / "validate_plugin.py"
+            release_script.parent.mkdir(parents=True)
+            test_script.parent.mkdir(parents=True)
+            shutil.copy2(SCRIPT, release_script)
+            shutil.copy2(PREFLIGHT.validator_path(), test_script)
+            manifest_path = root / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["barWidget"]["schema"] = [
+                {"key": "feeds", "label": "Feeds", "type": "multiselect", "options": [{"value": "news", "label": "News"}], "defaultValue": []},
+                {"key": "bad", "label": "Unsupported", "type": "unknown-control", "defaultValue": ""},
+            ]
+            write_json(manifest_path, manifest)
+            # Resolve an explicit relative path from the caller's directory,
+            # even though the validator itself runs in the plugin checkout.
+            result = run([
+                sys.executable, str(release_script), "--json", "--validator",
+                str(test_script.relative_to(parent)), str(root),
+            ], parent)
+            payload = json.loads(result.stdout)
+            codes = {item["code"] for item in payload["items"]}
+            self.assertNotEqual(0, result.returncode)
+            self.assertNotIn("validator-missing", codes)
+            self.assertIn("settings-type", codes)
+            self.assertEqual(1, sum(item["code"] == "settings-type" for item in payload["items"]))
+
+    def test_missing_explicit_validator_does_not_fall_back(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = self.fixture(Path(temporary))
+            missing = root.parent / "missing-validator.py"
+            result = run([sys.executable, str(SCRIPT), "--json", "--validator", str(missing), str(root)], root)
+            self.assertNotEqual(0, result.returncode)
+            items = json.loads(result.stdout)["items"]
+            self.assertTrue(any(item["code"] == "validator-missing" and item["detail"] == str(missing) for item in items))
+
     def fixture(self, parent: Path) -> Path:
         root = parent / "fixture"
         generated = run([

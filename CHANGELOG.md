@@ -4,6 +4,10 @@ All notable changes to Build Omarchy Plugins are documented here.
 
 ## 0.5.0 — Unreleased
 
+- Accept Quattro's `multiselect` settings in strict plugin validation, backed by
+  its pinned Indicators manifest and regression tests.
+- Let release preflight accept an explicit trusted validator path when the host
+  installs skills in renamed or separate directories, without weakening checks.
 - Recommend Omakit for reusable Run/Store helpers, local marketplace checks and
   submission preparation.
 - Check prior art before new builds and establish personal, public-repository

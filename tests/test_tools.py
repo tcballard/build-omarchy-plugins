@@ -62,6 +62,35 @@ def generate(output: Path, kinds: tuple[str, ...] = ("bar-widget",), git: bool =
 
 
 class ToolTests(unittest.TestCase):
+    def test_multiselect_contract_accepts_object_options_and_keeps_strict_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "fixture"
+            generated = generate(output)
+            self.assertEqual(0, generated.returncode, generated.stdout + generated.stderr)
+            manifest_path = output / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            upstream = json.loads((REPO / "contracts/omarchy-indicators.manifest.json").read_text(encoding="utf-8"))
+            field = upstream["barWidget"]["schema"][0]
+            field["defaultValue"] = []
+            manifest["barWidget"]["schema"] = [field]
+            for field_type, options, expected in (
+                ("multiselect", field["options"], None),
+                ("multiselect", None, "settings-options"),
+                ("enum", None, "settings-options"),
+                ("unknown-control", [], "settings-type"),
+            ):
+                with self.subTest(field_type=field_type, expected=expected):
+                    field["type"] = field_type
+                    field["options"] = options
+                    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+                    result = run([sys.executable, str(VALIDATOR), "--json", "--strict", str(output)])
+                    codes = {item["code"] for item in json.loads(result.stdout)["errors"]}
+                    if expected is None:
+                        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                    else:
+                        self.assertNotEqual(0, result.returncode)
+                        self.assertIn(expected, codes)
+
     def test_portable_agent_plugin_and_openai_adapter_are_valid_and_in_sync(self) -> None:
         portable = run([sys.executable, str(PORTABLE_VALIDATE), "--json", str(REPO)])
         self.assertEqual(0, portable.returncode, portable.stdout + portable.stderr)

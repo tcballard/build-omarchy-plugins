@@ -168,6 +168,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("plugin_dir", type=Path)
     parser.add_argument("--json", action="store_true", dest="as_json")
     parser.add_argument("--allow-dirty", action="store_true")
+    parser.add_argument("--validator", type=Path, help="Path to the trusted test skill's validate_plugin.py when skills are installed separately.")
     parser.add_argument("--tag", help="Verify an existing annotated vX.Y.Z release tag.")
     parser.add_argument("--published", action="store_true", help="Verify a historical published tag; requires --tag and --release-dir.")
     parser.add_argument("--release-dir", type=Path, help="Verify release manifests, SBOM, assets, and checksums in this directory.")
@@ -181,9 +182,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.published and (not args.tag or args.release_dir is None):
         add("error", "published-arguments", "--published requires both --tag and --release-dir.")
 
-    validator = validator_path()
+    validator = args.validator.expanduser().resolve() if args.validator is not None else validator_path()
     if not validator.is_file():
-        add("error", "validator-missing", "Bundled Omarchy validator is missing.", str(validator))
+        add("error", "validator-missing", "Omarchy validator is missing; use --validator with the loaded test skill's script path.", str(validator))
     elif root.is_dir():
         result = run([sys.executable, str(validator), "--json", "--security", "--publish", "--strict", str(root)], root)
         try:

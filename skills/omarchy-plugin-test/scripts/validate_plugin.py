@@ -373,12 +373,12 @@ def validate_bar_widget(widget: dict[str, Any], report: Report, path: Path, stri
                     report.add("error", "settings-key-duplicate", f"Duplicate settings key '{key}'.", path)
                 else:
                     keys.add(key)
-                if field_type not in {"boolean", "enum", "integer", "path", "string"}:
+                if field_type not in {"boolean", "enum", "integer", "multiselect", "path", "string"}:
                     report.add("error" if strict else "warning", "settings-type", f"Unrecognized current settings type '{field_type}'.", path)
                 if not isinstance(label, str) or not label:
                     report.add("warning", "settings-label", f"barWidget.schema[{index}] should have a readable label.", path)
-                if field_type == "enum" and not isinstance(field.get("options"), list):
-                    report.add("error", "settings-options", f"Enum setting '{key}' requires an options array.", path)
+                if field_type in {"enum", "multiselect"} and not isinstance(field.get("options"), list):
+                    report.add("error", "settings-options", f"{field_type.title()} setting '{key}' requires an options array.", path)
                 if is_plain_object(defaults) and isinstance(key, str) and key not in defaults and "defaultValue" not in field:
                     report.add("warning", "settings-default", f"Setting '{key}' has no declared default.", path)
 
