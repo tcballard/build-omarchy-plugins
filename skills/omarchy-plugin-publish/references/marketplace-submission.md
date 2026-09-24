@@ -2,7 +2,7 @@
 
 Verified against
 [`omacom/omarchy-plugin-marketplace`](https://github.com/omacom/omarchy-plugin-marketplace)
-at commit `8201d231688c0c8366bce4edf0dbf253cb4b5eb5` on 12 September 2026.
+at commit `bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3` on 24 September 2026.
 The submission form is vendored in the bundle contract ledger. These are pinned values, not a claim that today's destination,
 form, categories, or limits are unchanged. Verify upstream before submission;
 if it differs, adapt the draft and flag the generator/contract drift rather than
@@ -28,7 +28,7 @@ Categories are case-sensitive:
 Choose one to three tags:
 
 `AI`, `Bar`, `Education`, `Games`, `Hyprland`, `Kids`, `Launcher`, `Media`,
-`Power management`, `Quickshell`, `Security`, `System`, `Workspaces`.
+`Power management`, `Quickshell`, `Security`, `System`, `VPN`, `Workspaces`.
 The generator also accepts its older lowercase/hyphenated CLI spellings and
 emits these form labels.
 
@@ -59,5 +59,35 @@ security audit. Installation still clones mutable current upstream HEAD, so a
 later commit is outside the verified snapshot until a full-SHA update request is
 approved.
 
-Use the marketplace's unified verification form for an existing snapshot,
-standard-installation approval, or a newer full commit.
+## Verification and installation requests
+
+Use the unified verification form; preserve its exact headings and acknowledgments.
+Choose the action matching the intended result:
+
+| Action | Target and decision |
+| --- | --- |
+| Verify the currently listed snapshot | Exact `listingValidatedCommit`; automatic passing baseline or capability-only `maintainer-verified` review. |
+| Verify the listed snapshot and enable standard installation | Exact listed root plugin with a manual override; standard-installation acknowledgment and an authorized `standard-installation-approved` event. |
+| Verify and publish a newer upstream commit | Full current HEAD SHA; exact configured plugin ID set; `approved-and-verified` after current reports. |
+
+Standard installation may use a passing baseline or a valid, non-revoked
+installer-only review whose fresh scan matches the same listed commit and
+evidence. Reviews from either `maintainer-verified` or `approved-and-verified`
+can qualify. Findings, additional capabilities, revoked or mismatched evidence
+and scan failures do not. Removing the override changes installation presentation;
+it does not make the mutable install command commit-bound.
+
+Distinguish baseline outcome from selective publication disposition. New listings
+and updates may receive authorized acceptance of exact non-blocking findings;
+existing-snapshot `maintainer-verified` remains capability-only. Do not fabricate
+acceptance or treat `review-required` alone as a code defect.
+
+Finalize issue contents and setup labels before a maintainer applies
+`approved-and-verified` last. A retained label is not proof of publication.
+After fixing a pre-registration failure, request a fresh review/label event;
+rerunning the old workflow does not create one. If registration succeeded and
+deployment/finalization failed, recover that phase rather than resubmit.
+
+These rules are pinned in the bundle's verification form and
+[verification workflow](https://github.com/omacom/omarchy-plugin-marketplace/blob/bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3/VERIFICATION.md).
+Recheck the live contract before acting.

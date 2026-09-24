@@ -1,11 +1,11 @@
 ---
 name: omarchy-plugin-publish
-description: Prepare and submit a public Omarchy plugin to omarchyplugins.com through the HANCORE marketplace issue workflow. Use for category, tags, exact issue body, owner attestations, validation feedback, verification, or updates; requires explicit owner approval before issue creation.
+description: Prepare and submit a public Omarchy plugin to plugins.omarchy.org through the official marketplace issue workflow. Use for category, tags, exact issue body, owner attestations, validation feedback, verification, or updates; requires explicit owner approval before issue creation.
 ---
 
 # Publish Omarchy Plugins
 
-This workflow was verified against the marketplace repository on 12 September
+This workflow was verified against the marketplace repository on 24 September
 2026. Read [references/marketplace-submission.md](references/marketplace-submission.md)
 for the pinned contract. Before an actual submission or update, verify the
 current upstream form, destination, and target commit. If upstream is
