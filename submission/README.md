@@ -1,6 +1,6 @@
 # Submission packet
 
-This directory is the reviewer-ready packet for **Build Omarchy Plugins 0.5.0**.
+This directory is the reviewer-ready packet for **Build Omarchy Plugins 0.5.1**.
 It accompanies the skills-only archive produced by `scripts/package_submission.py`.
 
 ## Portal files
@@ -24,7 +24,7 @@ python3 scripts/package_submission.py --output-dir dist --require-clean --git-tr
 (cd dist && sha256sum -c SHA256SUMS)
 ```
 
-Submit `dist/build-omarchy-plugins-skills-0.5.0.zip` as the skill bundle. Keep the
+Submit `dist/build-omarchy-plugins-skills-0.5.1.zip` as the skill bundle. Keep the
 full plugin archive for OpenAI plugin installation and the submission archive
 for reviewer records. `RELEASE-MANIFEST.json`, `SOURCE-MANIFEST.json`, and
 `SBOM.spdx.json` bind every archive to the tested commit.
