@@ -2,7 +2,7 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## Unreleased
+## 0.5.1 — 2026-09-24
 
 - Refresh reviewed marketplace contracts, accept the VPN tag and track the
   verification form/workflow, including eligible installer-only review reuse.
@@ -15,6 +15,7 @@ All notable changes to Build Omarchy Plugins are documented here.
   its pinned Indicators manifest and regression tests.
 - Let release preflight accept an explicit trusted validator path when the host
   installs skills in renamed or separate directories, without weakening checks.
+
 ## 0.5.0 — 2026-09-21
 
 - Recommend Omakit for reusable Run/Store helpers, local marketplace checks and
