@@ -6,6 +6,18 @@ reviewed 12 September 2026. These are recurring review concerns, not a substitut
 for the current marketplace contract or an assertion that every concern applies
 to every plugin. Apply the relevant boundary while implementing the feature.
 
+
+## Navigation
+
+- External data and the shared shell
+- Execution and lifetime
+- Files, credentials and privileged helpers
+- Image and aggregate limits
+- Independent privileged trust
+- Local HTTP and agent endpoints
+- Cancellation and identity regressions
+- Presentation and action fidelity
+
 ## External data and the shared shell
 
 Set `textFormat: Text.PlainText` on text carrying remote content, window titles,
@@ -97,3 +109,49 @@ executes or installs any payload. Inline `pkexec` shell strings and importing a
 signing key from that checkout retain the same problem. Authenticate final
 package bytes through installation, not just downloaded source.
 See [bootstrap re-review](https://github.com/omacom/omarchy-plugin-marketplace/issues/5371#issuecomment-5745040622).
+
+## Local HTTP and agent endpoints
+
+For browser-facing local helpers, binding to loopback does not establish request
+identity. Authenticate sensitive reads, mutations and paid actions; validate
+allowed Host authorities and browser Origins as appropriate, and reject invalid
+requests before side effects. CORS response headers alone are not authentication.
+For local-only outbound endpoints, parse the URL and IP address instead of
+accepting a hostname prefix such as `127.`; `127.attacker.example` is not a
+loopback literal. Handle redirects and resolved destinations under the same
+policy. Remote use requires the agreed explicit opt-in.
+See [local API review](https://github.com/omacom/omarchy-plugin-marketplace/issues/8352#issuecomment-5819807404)
+and [local-only leak](https://github.com/omacom/omarchy-plugin-marketplace/issues/8434#issuecomment-5819147536),
+checked 24 September 2026. Test allowed clients, unauthenticated requests,
+hostile Host/Origin values and deceptive endpoint names without real credentials.
+
+## Cancellation and identity regressions
+
+A deadline checked only after a blocking read returns is not a total deadline.
+Test a peer that continuously trickles bytes without completing the requested
+read; enforce cancellation at the operation boundary, including transport children.
+On overflow or cancellation, make terminal queue writes non-blocking or bounded,
+close responses on every exit and join/reap readers within a bounded wait.
+Repeat cancellation with a full queue to expose retained threads and resources.
+See [slow reads](https://github.com/omacom/omarchy-plugin-marketplace/issues/8371#issuecomment-5819019831),
+[git children](https://github.com/omacom/omarchy-plugin-marketplace/issues/8392#issuecomment-5819774887)
+and [queue shutdown](https://github.com/omacom/omarchy-plugin-marketplace/issues/5619#issuecomment-5784771145).
+
+For stop actions, retain process identity from launch through signaling. Reading
+a reused PID's current start time twice does not bind it to the original service;
+a pathname check followed by numeric-PID signaling can race. Prefer a suitable
+user service/cgroup or a race-free process handle and avoid elevating user-process
+cleanup. See [DevWatch](https://github.com/omacom/omarchy-plugin-marketplace/issues/7927#issuecomment-5815441990)
+and [Phonecam](https://github.com/omacom/omarchy-plugin-marketplace/issues/7497#issuecomment-5795173133).
+
+## Presentation and action fidelity
+
+Keep bounded display previews separate from canonical action data. Truncating a
+clipboard row for display must not silently replace what gets pasted; reject
+oversized stored input explicitly if needed. Trace remote strings through
+persistence and shared child controls, bounding stored fields and setting each
+external Text sink to PlainText. Verify every visible button and IPC invocation
+uses the actual manifest ID, especially after a rename.
+See [Clipbar](https://github.com/omacom/omarchy-plugin-marketplace/issues/8478#issuecomment-5819340291),
+[persisted location](https://github.com/omacom/omarchy-plugin-marketplace/issues/8395#issuecomment-5819055337)
+and [panel target](https://github.com/omacom/omarchy-plugin-marketplace/issues/8463#issuecomment-5819309888).

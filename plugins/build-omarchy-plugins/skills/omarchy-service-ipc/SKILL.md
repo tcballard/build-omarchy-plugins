@@ -12,7 +12,10 @@ monitors or must survive a panel being closed.
 Read [references/service-contract.md](references/service-contract.md) for host
 injection, service lookup, and IPC patterns. Read
 [references/process-safety.md](references/process-safety.md) whenever the
-service launches an external command.
+service launches an external command. For external data, a local HTTP helper,
+process cancellation or mutable state, read
+[reviewer boundaries](references/reviewer-boundaries.md) and select checks for
+the production boundary actually used.
 
 ## State machine
 

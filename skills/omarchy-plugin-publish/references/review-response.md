@@ -68,7 +68,7 @@ For real privilege use, document why it is needed, its command/input boundary
 and removal behavior, then leave capability acceptance to the maintainer.
 Prepare any response within the user's scope; send it only with authorization.
 The authoritative policy and limits are in the pinned
-[security policy](https://github.com/omacom/omarchy-plugin-marketplace/blob/55efec9646cc24ca3ae8c427440043fa745ada49/SECURITY.md#automated-security-baseline).
+[security policy](https://github.com/omacom/omarchy-plugin-marketplace/blob/bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3/SECURITY.md#automated-security-baseline).
 
 ## Wider checkout and validator evidence — 20 September 2026
 
@@ -83,3 +83,13 @@ A scanner may also match command strings inside a bundled validator's rules.
 cites such patterns alongside real setup/docs surfaces. Explain each cited path
 and its actual use; do not infer runtime behavior from a pattern literal, promise
 approval, or move real code/disclosures outside scan scope to clear a warning.
+
+## Catalogue authority — 24 September 2026
+
+[Workbench review](https://github.com/omacom/omarchy-plugin-marketplace/issues/3795#issuecomment-5784382912)
+explicitly states that no marketplace catalogue-signing key or independently
+published digest was available. Do not invent a repository-local key and claim
+marketplace signature verification. For an installation tool, distinguish remote
+descriptive data from executable installation authority; use an actually trusted
+identity source and enforce the documented origin/redirect policy. Recheck the
+current official contract before claiming a signing facility exists.
