@@ -1,5 +1,25 @@
 # Acceptance evidence and remaining host checks
 
+## Marketplace follow-up — 24 September 2026
+
+- Base: `2d618374ec13dd7a07efeb0cf69115fc9fa2c4e3`; contract and guidance
+  changes recorded in `88c733e` and `bb2ccf0`, with this evidence/scenario update.
+- `./scripts/test`: all 63 unit tests passed, plus canonical/OpenAI adapter,
+  skill, version/contract, security and packaging checks on Linux.
+- Submission regression exercises every pinned form tag and CLI alias, including
+  VPN, and retains unknown-tag, duplicate-tag and over-limit rejection.
+- Four marketplace documents were retrieved at immutable commit
+  `bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3`; ledger digests were calculated
+  from those exact UTF-8 contents. The security document digest is unchanged.
+- [Fresh local-helper exercise](runs/2026-09-24/local-helper.md) met its scoped
+  criteria. Its raw fixture and digest are retained; this is not a full model
+  benchmark or a runtime test of a repaired plugin.
+- Loaded-tree/installer and standard-installation handoff cases are documented
+  but unrun. No live Omarchy, Omakit or cross-platform runtime pass is claimed.
+- Required remote CI must still run on the final PR SHA. No release, marketplace
+  issue or installed personal-skill update is included.
+
+
 ## v0.5.0 preparation — 21 September 2026
 
 - `./scripts/test`: all 59 unit tests passed, plus portable/plugin/adapter,

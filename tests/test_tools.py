@@ -362,6 +362,33 @@ class ToolTests(unittest.TestCase):
             self.assertEqual(positions, sorted(positions))
             self.assertEqual(5, payload["body"].count("- [x]"))
 
+    def test_submission_accepts_pinned_form_tags_and_preserves_rejections(self) -> None:
+        form = (REPO / "contracts/marketplace-submit-plugin.yml").read_text(encoding="utf-8")
+        options = form.split("id: tags", 1)[1].split("options:", 1)[1].split("validations:", 1)[0]
+        tags = [line.strip()[2:] for line in options.splitlines() if line.strip().startswith("- ")]
+        self.assertIn("VPN", tags)
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "fixture"
+            self.assertEqual(0, generate(output).returncode)
+            command = [
+                sys.executable, str(PUBLISH), "--plugin-dir", str(output),
+                "--repository", "https://github.com/example/fixture",
+                "--category", "System", "--json",
+            ]
+            for tag in tags:
+                for spelling in (tag, tag.lower().replace(" ", "-")):
+                    with self.subTest(tag=spelling):
+                        result = run(command + ["--tag", spelling])
+                        self.assertEqual(0, result.returncode, result.stderr)
+                        payload = json.loads(result.stdout)
+                        self.assertIn(f"### Tags\n\n{tag}\n", payload["body"])
+                        self.assertFalse(payload["submitted"])
+            for rejected in (("VPN", "vpn"), ("unlisted-tag",), ("vpn", "bar", "system", "security")):
+                with self.subTest(rejected=rejected):
+                    args = [value for tag in rejected for value in ("--tag", tag)]
+                    result = run(command + args)
+                    self.assertEqual(2, result.returncode, result.stdout)
+
     def test_release_preflight_accepts_committed_generated_plugin(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "fixture"

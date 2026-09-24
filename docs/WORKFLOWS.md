@@ -29,6 +29,9 @@ Continue through authorized work without asking the user to invoke every stage.
    backend version when a fix depends on an external executable.
 7. [Publish](../skills/omarchy-plugin-publish/SKILL.md) prepares the marketplace
    submission from that candidate and submits within the owner's authorization.
+   For a listed plugin, select recorded-snapshot verification, standard-installation
+   approval or newer-HEAD promotion explicitly; these have different evidence
+   and maintainer decisions.
 
 Stop at the outcome requested. Building a widget does not imply releasing it;
 preparing a release does not imply submitting it to the marketplace.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-08-31",
+  "reviewedAt": "2026-09-24",
   "contracts": [
     {
       "name": "Agent Skills specification",
@@ -56,12 +56,12 @@
       "name": "Omarchy marketplace submission form",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "8201d231688c0c8366bce4edf0dbf253cb4b5eb5",
+      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
       "path": ".github/ISSUE_TEMPLATE/submit-plugin.yml",
-      "sha256": "d88415fd8fa3992bfb56f084088ef60514076573b207c813e9b5d127feb229bd",
+      "sha256": "c1ad7232142853395352386b32b0cdaf9529b5372aa4182938297d26085cdea7",
       "vendoredPath": "contracts/marketplace-submit-plugin.yml",
       "assumptions": [
-        "Reviewed 2026-09-12: Kids is an accepted category.",
+        "Reviewed 2026-09-24: VPN is an accepted tag; categories and five acknowledgments are unchanged.",
         "Tags use form display labels; preserve exact headings and five acknowledgments."
       ]
     },
@@ -69,13 +69,13 @@
       "name": "Omarchy marketplace security review semantics",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "55efec9646cc24ca3ae8c427440043fa745ada49",
+      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
       "path": "SECURITY.md",
       "sha256": "87beed5e57813bb9efdb02ae3bd50cbbdfdecb4ed5beba67a8573dbd4202ec5f",
       "assumptions": [
-        "Reviewed 2026-09-13: the root README is scanned; privilege negation recognizes specific forms, not arbitrary prose.",
-        "Compatibility success is separate from exact-commit security disposition, maintainer approval and publication.",
-        "The portable privilege advisory intentionally reports all tool references, including negated prose; it does not reproduce the authoritative baseline."
+        "Reviewed 2026-09-24: security policy bytes are unchanged from the previous pin; the root README is scanned and privilege negation recognizes specific forms.",
+        "New listing/update selective disposition may accept exact non-blocking findings; existing-snapshot maintainer-verified remains capability-only.",
+        "The portable advisory does not reproduce the authoritative baseline or prove runtime safety."
       ]
     },
     {
@@ -89,6 +89,31 @@
       "assumptions": [
         "Reviewed 2026-09-22: Quattro uses multiselect in barWidget.schema.",
         "Multiselect options may be objects with value, label and description; an options array is required by this portable checker."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace verification form",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
+      "path": ".github/ISSUE_TEMPLATE/verify-plugin.yml",
+      "sha256": "7d31318916ad5afcf6029ea7744a69898c9f1111ca0405abeb56a685fff0bc0c",
+      "assumptions": [
+        "Reviewed 2026-09-24: three actions distinguish listed-snapshot verification, standard installation and newer-current-HEAD promotion.",
+        "The standard-installation acknowledgment applies only to removal of a manual override."
+      ],
+      "vendoredPath": "contracts/marketplace-verify-plugin.yml"
+    },
+    {
+      "name": "Omarchy marketplace verification workflow",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
+      "path": "VERIFICATION.md",
+      "sha256": "4679f3b49feef166588dd61107f7d9e311059ba5c87032fa1332f14f1c343ee9",
+      "assumptions": [
+        "Reviewed 2026-09-24: a non-revoked installer-only review can support standard installation after a matching exact-listed-commit rescan and authorized label event.",
+        "Publication, verified snapshot and mutable current-upstream installation are separate states."
       ]
     }
   ]

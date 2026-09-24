@@ -68,3 +68,35 @@ checked 20 September 2026, extend the earlier supply-chain guidance:
 
 Record the backend/artifact identities alongside the candidate SHA. These are
 release evidence checks, not capabilities proven by the static preflight script.
+
+## Installation, loaded source and provenance — 24 September 2026
+
+Preserve unmanaged commands, launchers, service files and destination directories.
+Before replacement, establish that the target belongs to this installer and is
+unchanged, or obtain explicit consent for the concrete conflict. Never use
+unconditional `ln -sf`, copying or `rsync --delete` as an ownership check. Removal
+must leave unrelated and user-modified files intact. Exercise fresh install,
+repeat install, conflicting target, modified managed file and removal cases.
+See [NetScope](https://github.com/omacom/omarchy-plugin-marketplace/issues/5619#issuecomment-5819540608)
+and [MoErgo](https://github.com/omacom/omarchy-plugin-marketplace/issues/7107#issuecomment-5819566127).
+
+For plugin update tools, a matching HEAD is not proof of the loaded tree. Refuse
+updates to dirty checkouts, including untracked files, without deleting user
+changes. Recheck the commit and complete loadable tree after checkout and before
+validation/rescan; account for ignored executable source too. Preserve that
+identity until loading. See [Plugin Updates](https://github.com/omacom/omarchy-plugin-marketplace/issues/8250#issuecomment-5801511763).
+
+Pin one exact compiler/toolchain release consistently across toolchain files and
+package recipes, then regenerate affected package metadata. A pinned source with
+a moving `stable` compiler is still mutable. Provenance acceptance must bind the
+artifact digest to the expected repository, trusted workflow and full source SHA;
+an owner-only attestation check is too broad. Check before extraction/execution.
+See [toolchain](https://github.com/omacom/omarchy-plugin-marketplace/issues/7631#issuecomment-5800962204)
+and [attestation identity](https://github.com/omacom/omarchy-plugin-marketplace/issues/7107#issuecomment-5792174978).
+
+Review required external setup instructions and copied commands as well as
+plugin-launched execution. Moving a mutable download-to-shell command into the
+UI does not authenticate the required backend. A checksum from the same movable
+tag as a root bootstrap supplies no independent trust. See
+[Omatalk](https://github.com/omacom/omarchy-plugin-marketplace/issues/8407#issuecomment-5818821005)
+and [OmaNitro](https://github.com/omacom/omarchy-plugin-marketplace/issues/5540#issuecomment-5819470495).

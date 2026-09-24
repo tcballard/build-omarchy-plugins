@@ -2,12 +2,21 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## 0.5.0 — Unreleased
+## Unreleased
+
+- Refresh reviewed marketplace contracts, accept the VPN tag and track the
+  verification form/workflow, including eligible installer-only review reuse.
+- Add local-API authority, loaded-tree identity, non-destructive installation,
+  exact toolchain/provenance and cancellation regression guidance.
+- Add functional payload/entry-point checks and targeted behavioral scenarios;
+  distinguish guidance and model exercises from executed desktop tests.
 
 - Accept Quattro's `multiselect` settings in strict plugin validation, backed by
   its pinned Indicators manifest and regression tests.
 - Let release preflight accept an explicit trusted validator path when the host
   installs skills in renamed or separate directories, without weakening checks.
+## 0.5.0 — 2026-09-21
+
 - Recommend Omakit for reusable Run/Store helpers, local marketplace checks and
   submission preparation.
 - Check prior art before new builds and establish personal, public-repository
