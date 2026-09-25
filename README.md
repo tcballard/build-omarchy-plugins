@@ -1,16 +1,24 @@
-<div align="center">
-  <h1>Build Omarchy Plugins</h1>
-  <p>Agent skills for building and shipping Omarchy 4 Quattro plugins.</p>
-  <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
-</div>
+<h1 align="center">Build Omarchy Plugins</h1>
 
-Building a Quattro plugin? Use twelve focused skills to choose the right shell
-surface, generate a working repository, implement hosted QML, test it, and
-prepare a release or marketplace submission. The bundle includes deterministic
-tools for scaffolding, validation and packaging; it does not replace live tests
-on the Omarchy version you support.
+<p align="center">
+  <a href="https://github.com/tcballard/omarchy-badges"><img src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg" alt="Built for Omarchy: Plugin" height="24"></a>
+</p>
 
-**Try it:** [Get v0.6.0](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.6.0), then [install the skills for your agent host](#install-the-agent-skills).
+**Tell your agent what to build. Give it the Omarchy contract.**
+
+A set of twelve agent skills for building Omarchy 4 Quattro shell plugins. They
+help your agent choose the right shell surface, create a working starting point,
+write hosted QML, debug failures, test the result and prepare a release or
+marketplace submission.
+Use the full bundle or install only the skills your project needs.
+
+I built this because a plugin that loads inside Omarchy's long-running shell
+needs more care than a manifest and a few QML examples. The bundle includes
+generators and checks for that work; the plugin you make still needs testing on
+your target Omarchy desktop.
+
+**Start here:** [Install the v0.6.0 skills](#install-the-agent-skills), then
+[choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.6.0).
 
 ## Compatibility
 
