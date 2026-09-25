@@ -38,6 +38,22 @@ preparing a release does not imply submitting it to the marketplace.
 
 ## Shorter routes
 
+Some skills meet at the same code. Pick the skill that owns the requested
+result; load a second one only when its contract is needed:
+
+| Boundary | Owner | Add when needed |
+| --- | --- | --- |
+| Widget with a popout | Bar widget owns the button, anchor and settings | Panel/overlay owns a separately mapped window and its dismissal lifecycle |
+| Shared polling behind a surface | Service/IPC owns process-wide state, commands and methods | QML patterns supplies common hosted component and process rules |
+| One plugin ignores theme | QML patterns owns that consumer's token bindings | Theme skills own shared palette or shell tokens |
+| Broken plugin | Debug isolates the failure and applies a requested repair | Test records evidence for the corrected path |
+| Review feedback | Publish owns the issue, disposition and reviewed SHA | Test verifies the changed behavior; release rebuilds versioned assets if affected |
+| Versioned release | Release owns source, tag, assets and lifecycle readiness | Publish owns marketplace submission and owner attestations |
+
+The QML/service reviewer reference and test/publish review reference each have
+two identical local copies so any selected skill works on its own. These are
+distribution copies, not separate policies.
+
 | What you have | Where to start | Expected result |
 | --- | --- | --- |
 | A design question | Design | Recommendation and tradeoffs, without implementation for a design-only request. |

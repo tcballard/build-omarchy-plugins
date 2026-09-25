@@ -110,20 +110,6 @@ signing key from that checkout retain the same problem. Authenticate final
 package bytes through installation, not just downloaded source.
 See [bootstrap re-review](https://github.com/omacom/omarchy-plugin-marketplace/issues/5371#issuecomment-5745040622).
 
-## Agent and credential-service boundaries
-
-When forwarding remote incidents/diffs to an agent, shell quoting does not stop
-prompt injection. Separate bounded data from trusted instructions, restrict the
-agent's actual files/tools and preserve authorization for its actions. A read-only
-bind of the whole filesystem still exposes secrets; allowlist only required
-inputs and CLI state, and fail closed when required isolation is unavailable.
-See [Chezmoi Hound](https://github.com/omacom/omarchy-plugin-marketplace/issues/7526#issuecomment-5746267624).
-
-Likewise, source in the repository does not attest a live OAuth broker deployment.
-Use user-controlled/local authentication or substantiate the deployed credential
-boundary before routing tokens through a shared service.
-See [Coinbase](https://github.com/omacom/omarchy-plugin-marketplace/issues/7520#issuecomment-5741977697).
-
 ## Local HTTP and agent endpoints
 
 For browser-facing local helpers, binding to loopback does not establish request

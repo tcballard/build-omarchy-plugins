@@ -30,5 +30,18 @@ Do not download and execute code at runtime. Pin build-time external Git source
 to a full immutable commit and verify the checked-out revision. Prefer packaged
 dependencies installed outside the shell plugin.
 
+## Agents and credential brokers
+
+When forwarding remote incidents or diffs to an agent, shell quoting does not
+stop prompt injection. Separate bounded data from trusted instructions, restrict
+the agent's actual files and tools, and preserve authorization for its actions.
+A read-only bind of the whole filesystem still exposes secrets; allowlist only
+required inputs and CLI state, and fail closed when isolation is unavailable.
+See [Chezmoi Hound](https://github.com/omacom/omarchy-plugin-marketplace/issues/7526#issuecomment-5746267624).
+
+Repository source cannot attest a live OAuth broker deployment. Use local or
+user-controlled authentication, or substantiate the deployed credential boundary
+before routing tokens through a shared service. See [Coinbase](https://github.com/omacom/omarchy-plugin-marketplace/issues/7520#issuecomment-5741977697).
+
 For concrete producer limits, executable identity, descendant cleanup and
 state-file races, consult the [marketplace reviewer boundaries](reviewer-boundaries.md) when those paths exist.

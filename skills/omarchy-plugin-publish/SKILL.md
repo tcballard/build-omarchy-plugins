@@ -1,6 +1,6 @@
 ---
 name: omarchy-plugin-publish
-description: Prepare and submit a public Omarchy plugin to plugins.omarchy.org through the official marketplace issue workflow. Use for category, tags, exact issue body, owner attestations, validation feedback, verification, or updates; requires explicit owner approval before issue creation.
+description: Prepare or submit an Omarchy plugin marketplace issue, and respond to listing review or updates. Use for current form, category, tags, exact issue body, owner attestations and reviewed SHA; use release for versioned assets and test for validation evidence. Obtain owner confirmation of attestations before issue creation.
 ---
 
 # Publish Omarchy Plugins

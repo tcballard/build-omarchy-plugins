@@ -1,26 +1,21 @@
-# Build Omarchy Plugins v0.5.1 — fewer repeat mistakes
+# Build Omarchy Plugins v0.6.0 — clearer skill boundaries
 
-I went back through the marketplace reviews and fed the lessons into the bundle.
-Your agent now gets clearer guidance on the things that keep sending plugins
-back for fixes.
+The twelve skills still cover the complete Omarchy 4 plugin workflow. This
+release makes it clearer which one to use when a task touches more than one
+surface: a widget and its popout, shared polling and QML, a broken plugin and
+its regression test, or a GitHub release and marketplace submission.
 
-- Updated submission rules, including the VPN tag and standard-installation review path.
-- Stronger guidance for local APIs, safe updates and installers that preserve user files.
-- More specific checks for pinned toolchains, stalled downloads and processes that survive cancellation.
-- Fixes for multiselect validation and release helpers installed in separate directories.
+The QML/service and test/publish review references remain in each independently
+installable skill. Their shared content is now identical and checked in the
+test suite. Service-specific agent and credential-broker guidance stays with
+the service process guide.
 
-All 63 local tests passed. That covers the bundle's tooling and packaging; it
-doesn't certify the plugins you build with it. One fresh-agent exercise checked
-the revised local-helper guidance. Other new scenarios and live Omarchy testing
-remain unrun.
+There is no new Omarchy API or marketplace contract claim in this release.
+Portable checks cover the skill bundle and packaging; live plugin behavior
+still needs testing on the target Omarchy host.
 
-Choose the skills, portable Agent Plugin, OpenAI adapter or Claude plugin archive
-for your host, and verify its download against `SHA256SUMS`.
+The provider-neutral bundle supports OpenCode and other skill hosts. Updates
+remain transactional, with CI across Linux, macOS, and Windows and an SPDX 2.3
+software bill of materials. Release automation prepares a draft but cannot publish it.
 
-For an existing installation, preview the update with
-`python3 scripts/install_agent_skills.py --update --diff`, then apply with
-`--update`, keeping your existing host target and scope.
-
-The provider-neutral bundle supports OpenCode and other skill hosts. Updates remain transactional, with CI across Linux, macOS, and Windows and an SPDX 2.3 software bill of materials. Release automation can prepare a draft but cannot publish it.
-
-[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.5.0...v0.5.1)
+[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.5.1...v0.6.0)

@@ -9,6 +9,10 @@ decision; repository installation remains available.
 
 - Keep the twelve canonical skills in `skills/`; generate the OpenAI adapter.
   Claude consumes the canonical tree with host-specific metadata at the root.
+- The QML/service reviewer-boundaries and test/publish review-response references
+  are deliberately duplicated: selected skills install independently. Keep each
+  pair identical and run the parity check; put surface-specific detail in its
+  own reference instead of silently diverging a shared copy.
 - For marketplace changes, verify current forms and dated reviewer evidence.
   Update affected guidance and useful checks; preserve advisory versus blocking
   distinctions. Do not turn every reviewer preference into a universal rule.

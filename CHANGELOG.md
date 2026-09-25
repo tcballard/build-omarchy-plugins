@@ -2,6 +2,16 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.6.0 — 2026-09-25
+
+- Clarify which skill owns widgets and panels, shared QML and services, debugging
+  and testing, and release preparation versus marketplace publishing.
+- Keep standalone review references synchronized while moving agent and broker
+  specifics into the service process-safety guide; guard the two shared pairs
+  against drift in the test suite.
+- Preserve the twelve independently installable skills and the generated OpenAI
+  adapter, with no change to the Omarchy manifest or marketplace contract.
+
 ## 0.5.1 — 2026-09-24
 
 - Refresh reviewed marketplace contracts, accept the VPN tag and track the
