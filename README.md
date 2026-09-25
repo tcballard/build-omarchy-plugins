@@ -1,31 +1,28 @@
-# Build Omarchy Plugins
-
-<p>
-  <a href="https://github.com/tcballard/build-omarchy-plugins/actions/workflows/ci.yml"><img alt="CI status" height="20" src="https://github.com/tcballard/build-omarchy-plugins/actions/workflows/ci.yml/badge.svg?branch=main"></a>
-  <a href="LICENSE"><img alt="License: MIT" height="20" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"></a>
+<div align="center">
+  <h1>Build Omarchy Plugins</h1>
+  <p>Agent skills for building and shipping Omarchy 4 Quattro plugins.</p>
   <a href="https://github.com/tcballard/omarchy-badges"><img alt="Built for Omarchy: Plugin" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg"></a>
-  <a href="#compatibility"><img alt="Supported Omarchy versions: 4.0.0+" height="20" src="https://raw.githubusercontent.com/tcballard/omarchy-badges/dd84bb21f19caf617caa5b3c1af7ff3c6cb847c3/badges/v1/compatibility/omarchy-4.0.0-plus.svg"></a>
-</p>
+</div>
 
-A model-provider-neutral Agent Plugin for building production-quality
-[Omarchy 4](https://omarchy.org/) Quattro shell plugins.
+Building a Quattro plugin? Use twelve focused skills to choose the right shell
+surface, generate a working repository, implement hosted QML, test it, and
+prepare a release or marketplace submission. The bundle includes deterministic
+tools for scaffolding, validation and packaging; it does not replace live tests
+on the Omarchy version you support.
 
-It packages the complete workflow: architecture, repository generation, native
-QML patterns, bar widgets, panels and overlays, services and IPC, validation,
-debugging, deterministic demos, releases, marketplace publishing, and migration
-from older installer-style integrations.
+**Try it:** [Get v0.6.0](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.6.0), then [install the skills for your agent host](#install-the-agent-skills).
 
 ## Compatibility
 
 This toolkit targets **Omarchy 4.0.0 and later with Quattro shell-plugin support**.
-The badge refers to the installed Omarchy version, reported by `omarchy-version`,
+The supported range refers to the installed Omarchy version, reported by `omarchy-version`,
 not the ISO image version or the underlying Quickshell engine version.
 That is the scope of the maintained guidance and generators, not a claim that
 every current or future Omarchy release has been tested. The `4.0.0+` label
 has no upper major-version bound; compatibility changes will be documented here. Individual APIs and marketplace
 contracts are pinned in [the contract ledger](contracts/upstream-contracts.json).
 
-The CI badge reports this repository's `main` workflow status. Portable tests
+The CI workflow reports this repository's `main` checks. Portable tests
 validate tooling and generated output; they do not establish live desktop
 compatibility for every generated plugin. See [acceptance evidence](evals/ACCEPTANCE.md)
 for completed checks and outstanding behavioural or live-host testing.
