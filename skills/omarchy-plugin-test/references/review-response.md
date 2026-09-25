@@ -87,6 +87,12 @@ classifying ordinary documentation; keep development-only agent instructions
 outside the distributed desktop plugin. This is not a ban on intentional agent
 skill bundles. See [hook review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7476#issuecomment-5746209569).
 
+A scanner may also match command strings inside a bundled validator's rules.
+[Kamal's baseline](https://github.com/omacom/omarchy-plugin-marketplace/issues/7656#issuecomment-5742922054)
+cites such patterns alongside real setup/docs surfaces. Explain each cited path
+and its actual use; do not infer runtime behavior from a pattern literal, promise
+approval, or move real code/disclosures outside scan scope to clear a warning.
+
 ## Catalogue authority — 24 September 2026
 
 [Workbench review](https://github.com/omacom/omarchy-plugin-marketplace/issues/3795#issuecomment-5784382912)

@@ -70,13 +70,22 @@ Prepare any response within the user's scope; send it only with authorization.
 The authoritative policy and limits are in the pinned
 [security policy](https://github.com/omacom/omarchy-plugin-marketplace/blob/bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3/SECURITY.md#automated-security-baseline).
 
-## Wider checkout and validator evidence — 20 September 2026
+## Advisory workflow and agent-configuration discovery — 20 September 2026
 
-Inspect automatically loaded agent configurations and hooks, not only named
-Markdown instructions. [Workspace Summon](https://github.com/omacom/omarchy-plugin-marketplace/issues/7476#issuecomment-5746209569)
-was blocked for `.claude` settings/hooks and skills that executed shell actions.
-Keep these development-only payloads outside the installed desktop-plugin tree;
-ordinary documentation and intentional agent-skill bundles remain distinct.
+The local validator recognizes common block/flow `uses:` forms in workflow YAML.
+It requests review for mutable action/reusable-workflow references, unpinned
+Docker actions, local actions, missing explicit permissions and `write-all`.
+This is lexical discovery, not a YAML interpreter: aliases, expressions, inherited
+permissions and script content need inspection. A recognized permissions block
+or SHA-shaped reference does not prove least privilege, provenance or complete
+pinning. Container jobs and transitive dependency resolution still need manual
+review. See [CI review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7491#issuecomment-5741754091).
+
+Files under `.claude`, `.codex` and `.agents` additionally trigger advisory
+inspection for auto-loaded settings, hooks and skills. Inspect contents before
+classifying ordinary documentation; keep development-only agent instructions
+outside the distributed desktop plugin. This is not a ban on intentional agent
+skill bundles. See [hook review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7476#issuecomment-5746209569).
 
 A scanner may also match command strings inside a bundled validator's rules.
 [Kamal's baseline](https://github.com/omacom/omarchy-plugin-marketplace/issues/7656#issuecomment-5742922054)

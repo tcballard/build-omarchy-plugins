@@ -1,6 +1,6 @@
 ---
 name: omarchy-plugin-release
-description: Preflight and prepare an Omarchy plugin release from a public Git repository. Use for versioning, clean-tree checks, CI, documentation, preview, dependencies, install/remove instructions, tag boundaries, checksums, and release evidence.
+description: Preflight and prepare a versioned Omarchy plugin release from a public Git repository. Use for readiness, version and tag alignment, CI, install/update/removal evidence, preview, dependencies, checksums and assets; marketplace issue creation belongs to the publish skill.
 ---
 
 # Release Omarchy Plugins

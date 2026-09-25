@@ -1,6 +1,6 @@
 ---
 name: omarchy-service-ipc
-description: Build or review an Omarchy Quattro headless service and its IPC contract. Use for singleton polling, process execution, shared state, authenticated CLI integration, timers, retries, or `IpcHandler`; not for generic systemd services.
+description: Build or review a process-wide Omarchy Quattro QML service and IPC contract. Use when state, polling or command execution must survive a panel closing or be shared across widgets; use QML patterns for shared implementation details, not for generic systemd services.
 ---
 
 # Omarchy Service and IPC

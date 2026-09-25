@@ -62,6 +62,17 @@ def generate(output: Path, kinds: tuple[str, ...] = ("bar-widget",), git: bool =
 
 
 class ToolTests(unittest.TestCase):
+    def test_standalone_skills_share_review_references_without_drift(self) -> None:
+        pairs = (
+            ("omarchy-qml-patterns", "omarchy-service-ipc", "reviewer-boundaries.md"),
+            ("omarchy-plugin-test", "omarchy-plugin-publish", "review-response.md"),
+        )
+        for first, second, filename in pairs:
+            with self.subTest(first=first, second=second):
+                left = (SKILLS / first / "references" / filename).read_bytes()
+                right = (SKILLS / second / "references" / filename).read_bytes()
+                self.assertEqual(left, right)
+
     def test_multiselect_contract_accepts_object_options_and_keeps_strict_errors(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "fixture"
@@ -421,7 +432,7 @@ class ToolTests(unittest.TestCase):
             checksums = run(["sha256sum", "-c", "SHA256SUMS"], cwd=first)
             self.assertEqual(0, checksums.returncode, checksums.stdout + checksums.stderr)
 
-            portable = first / "build-omarchy-plugins-agent-plugin-0.5.1.zip"
+            portable = first / "build-omarchy-plugins-agent-plugin-0.6.0.zip"
             self.assertTrue(portable.is_file())
             import zipfile
             with zipfile.ZipFile(portable) as archive:

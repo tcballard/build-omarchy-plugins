@@ -1,6 +1,6 @@
 ---
 name: omarchy-plugin-test
-description: Validate and test an Omarchy 4 Quattro plugin. Use for manifest and path checks, advisory security linting, QML syntax or unit tests, fixture tests, live-shell smoke tests, and release evidence; not as a claim of security certification.
+description: Validate changed Omarchy 4 Quattro plugin behavior with manifest, path, advisory security, QML, fixture and live-shell checks. Use for development regression evidence; use release for version and asset readiness or publish for marketplace responses. Static checks do not certify security.
 ---
 
 # Test Omarchy Plugins
