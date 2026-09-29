@@ -55,3 +55,12 @@ service creation.
 Use the `WidgetButton` press callback's button argument. Make left-click the
 primary action, reserve right/middle click for predictable secondary behavior,
 and document it in the tooltip and README.
+
+## Service-backed widgets under replacement bars
+
+Quattro's [reviewed 29 September contract](https://github.com/omacom/omarchy/blob/e332dc975d5f635294c497ebb54feb98dc3d89eb/docs/omarchy-shell.md)
+gives widgets hosted by a third-party replacement bar a service-less entry
+facade. Full own-service integration is retained under the trusted built-in bar.
+Rendering a widget under a replacement bar does not prove its data integration
+works. Handle an unavailable service explicitly, avoid duplicate pollers, and
+record which bar was tested. Do not bypass the facade through scene traversal.

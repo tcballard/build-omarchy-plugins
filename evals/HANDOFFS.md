@@ -313,3 +313,25 @@ newer HEAD. Keeps the mutable installation boundary explicit.
 
 Execution status: local-helper-authority has a bounded model exercise recorded
 in ACCEPTANCE.md. Other cases remain operator-run scenarios, not executed passes.
+
+## Quattro scoped interfaces — v0.6.1
+
+Source: `omacom/omarchy` commit
+`e332dc975d5f635294c497ebb54feb98dc3d89eb`, reviewed 29 September 2026.
+
+1. A service-backed widget renders under a third-party replacement bar but loses
+   data; the same widget works under the trusted built-in bar. Route through
+   bar-widget/service guidance. Identify the service-less entry facade, handle
+   unavailable service state, avoid duplicate pollers and scene-traversal
+   workarounds. Record each tested bar and host version.
+2. A service with `keepLoaded: true` keeps returning old output after an edit and
+   rescan. Route through debug/service guidance. Identify the retained instance,
+   distinguish reload from restart, and arrange an authorized restart without
+   interfering with active session-lock state.
+3. A plugin mutates injected configuration or tries to resolve another plugin's
+   authentication service. Route through hosted-QML guidance. Explain detached
+   snapshots and scoped authority, choose supported own-plugin operations, and
+   do not describe these interfaces as a same-process sandbox.
+
+Live-desktop execution of these scenarios remains unrun. A text-only guidance
+exercise, when recorded in ACCEPTANCE.md, does not close the runtime checks.

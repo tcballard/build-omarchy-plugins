@@ -77,7 +77,7 @@ in the host and scale their workflow to the requested change.
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
-This checkout targets **v0.6.0**. Download published, checksummed assets from
+This checkout prepares **v0.6.1**. The latest published release is **v0.6.0**. Download published, checksummed assets from
 [GitHub Releases](https://github.com/tcballard/build-omarchy-plugins/releases).
 The commands below target v0.6.0; use them once that release is published.
 A draft release or a newer `main` checkout is not a published release.
