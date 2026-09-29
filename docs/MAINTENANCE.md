@@ -41,3 +41,13 @@ A handover is complete only when the receiving maintainer can install the bundle
 run the tests, reproduce the archives and prepare a verified draft release.
 Neither a repository transfer nor a public marketplace submission is performed
 by this document.
+
+## Contract monitoring
+
+`check_contracts.py --check-heads` verifies the reviewed pinned document and
+resolves each tracked head to an immutable commit before fetching its document.
+A newer commit with identical bytes is informational (`headsMoved` / `headMoved`);
+changed bytes are reported as `drifted` and fail the check. Missing documents,
+fetch failures and corrupt pinned bytes also fail. `headSha256` records the
+observed digest. Monitoring never rewrites pins or substitutes upstream content
+in a release. Update the ledger only after reviewing the affected contract.

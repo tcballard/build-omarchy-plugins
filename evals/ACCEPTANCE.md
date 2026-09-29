@@ -1,5 +1,26 @@
 # Acceptance evidence and remaining host checks
 
+## v0.6.1 preparation — 29 September 2026
+
+- Base: `ad917be03a37f8ec1b306f2c8243cdc8b53aa85c`.
+- Retrieved all nine contract documents at the immutable commits in the updated
+  ledger through the GitHub connector. Eight document digests are unchanged;
+  Quattro's shell document changed. No moving branch content enters the bundle.
+- Added five contract-monitoring tests for unchanged heads, moved heads with
+  identical bytes, changed documents, missing/network-failed documents, and
+  corrupt pins. Monitoring does not rewrite the ledger.
+- A fresh, text-only subagent session used the supplied skills to answer two
+  tasks: a service-backed widget losing data only under a replacement bar, and
+  stale output after a `keepLoaded` service edit. It identified the service-less
+  facade and retained instance, recommended explicit unavailability/restart,
+  and rejected duplicate pollers and scene-traversal workarounds.
+- This is a qualitative guidance smoke check, not a measured model comparison.
+  The session inherited the parent model; no independently exposed model ID or
+  runtime transcript artifact is claimed.
+- Live Omarchy/bar compatibility and edit/restart scenarios remain unrun.
+  Required CI and publication are separate gates; no release is claimed here.
+
+
 ## Marketplace follow-up — 24 September 2026
 
 - Base: `2d618374ec13dd7a07efeb0cf69115fc9fa2c4e3`; contract and guidance

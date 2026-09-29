@@ -99,34 +99,48 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ledger", type=Path, default=Path(__file__).resolve().parent.parent / "contracts/upstream-contracts.json")
     parser.add_argument("--online", action="store_true", help="Fetch each exact pinned document and verify its digest.")
-    parser.add_argument("--check-heads", action="store_true", help="Fail when a tracked upstream ref has moved beyond the reviewed pin.")
+    parser.add_argument("--check-heads", action="store_true", help="Verify pins and fail when contract content at a tracked upstream head has changed.")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
     try:
         ledger = load(args.ledger)
         results = []
         for entry in ledger["contracts"]:
-            item = {"name": entry["name"], "pinValid": True, "contentVerified": False, "vendoredVerified": False, "head": None, "drifted": False}
+            item = {"name": entry["name"], "pinValid": True, "contentVerified": False, "vendoredVerified": False, "head": None, "headMoved": False, "headSha256": None, "drifted": False}
             if "vendoredPath" in entry:
                 vendored = args.ledger.resolve().parent.parent / entry["vendoredPath"]
                 actual = hashlib.sha256(vendored.read_bytes()).hexdigest()
                 if actual != entry["sha256"]:
                     raise ValueError(f"vendored content digest mismatch for {entry['name']}")
                 item["vendoredVerified"] = True
-            if args.online:
+            if args.online or args.check_heads:
                 actual = hashlib.sha256(fetch(pinned_url(entry))).hexdigest()
                 if actual != entry["sha256"]:
                     raise ValueError(f"pinned content digest mismatch for {entry['name']}")
                 item["contentVerified"] = True
             if args.check_heads:
                 item["head"] = remote_head(entry)
-                item["drifted"] = item["head"] != entry["pinnedCommit"]
+                item["headMoved"] = item["head"] != entry["pinnedCommit"]
+                # Resolve once, then read immutable bytes rather than the moving ref.
+                item["headSha256"] = (
+                    hashlib.sha256(fetch(pinned_url({**entry, "pinnedCommit": item["head"]}))).hexdigest()
+                    if item["headMoved"] else entry["sha256"]
+                )
+                item["drifted"] = item["headSha256"] != entry["sha256"]
             results.append(item)
         drifted = [item["name"] for item in results if item["drifted"]]
-        payload = {"ok": not drifted, "reviewedAt": ledger["reviewedAt"], "contracts": results, "drifted": drifted}
+        moved = [item["name"] for item in results if item["headMoved"]]
+        payload = {"ok": not drifted, "reviewedAt": ledger["reviewedAt"], "contracts": results, "drifted": drifted, "headsMoved": moved}
     except (OSError, ValueError, json.JSONDecodeError, urllib.error.URLError, subprocess.SubprocessError) as error:
         payload = {"ok": False, "error": str(error)}
-    print(json.dumps(payload, indent=2, sort_keys=True) if args.json else ("Contracts verified." if payload["ok"] else f"Contract check failed: {payload.get('error') or ', '.join(payload['drifted'])}"))
+    if args.json:
+        print(json.dumps(payload, indent=2, sort_keys=True))
+    elif payload["ok"]:
+        print("Contracts verified.")
+        if payload["headsMoved"]:
+            print("Upstream heads moved; contract bytes unchanged: " + ", ".join(payload["headsMoved"]))
+    else:
+        print(f"Contract check failed: {payload.get('error') or ', '.join(payload['drifted'])}")
     return 0 if payload["ok"] else 1
 
 

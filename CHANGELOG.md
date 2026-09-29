@@ -2,6 +2,17 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.6.1 — 2026-09-29
+
+- Document Quattro's scoped third-party host interfaces, detached snapshots and
+  replacement-bar service limits without implying a QML sandbox.
+- Explain retained `keepLoaded` services and when code changes require a shell
+  restart; add scoped compatibility exercises for the affected workflows.
+- Distinguish upstream commit movement from changed contract content, retaining
+  exact pinned-content checks and failing on unavailable or changed documents.
+- Refresh all nine reviewed contract pins; marketplace, Workbench and skill
+  specification documents are unchanged. Keep the twelve-skill bundle.
+
 ## 0.6.0 — 2026-09-25
 
 - Clarify which skill owns widgets and panels, shared QML and services, debugging

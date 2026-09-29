@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-09-24",
+  "reviewedAt": "2026-09-29",
   "contracts": [
     {
       "name": "Agent Skills specification",
@@ -18,7 +18,7 @@
       "name": "Codex skill discovery",
       "repository": "https://github.com/openai/codex",
       "trackedRef": "HEAD",
-      "pinnedCommit": "a9519cbcdd2d664530edb2469224ee03c1056799",
+      "pinnedCommit": "c248f6d48b97eb4a2aa56147a0b11b7d763278b9",
       "path": "docs/skills.md",
       "sha256": "e59789d09692310bbf94e2ef8db0aaf00d97f2226982c8c5330d2d260583a97d",
       "assumptions": [
@@ -28,21 +28,24 @@
     },
     {
       "name": "Omarchy Quattro shell contract",
-      "repository": "https://github.com/basecamp/omarchy",
+      "repository": "https://github.com/omacom/omarchy",
       "trackedRef": "refs/heads/quattro",
-      "pinnedCommit": "b686ed892d9c3020c3336203f6d34cc75b544e2b",
+      "pinnedCommit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
       "path": "docs/omarchy-shell.md",
-      "sha256": "7868ad487f349d773e0ff8eb41191e0fa28669ef1d3a0349e2dbfe12e6dc0d08",
+      "sha256": "ef510b55ddb15b1f809cf9fa03ed37941b3ca75536e30982bfedcde295da1399",
       "assumptions": [
         "Quattro plugins use a root manifest.json and hosted QML entry points.",
-        "Third-party plugin code executes inside the long-running shell process."
+        "Third-party plugin code executes inside the long-running shell process.",
+        "Reviewed 2026-09-29: third-party entry points receive capability-scoped facades and detached configuration snapshots, not trusted host objects; these are not same-process QML sandboxes.",
+        "Service-backed third-party widgets retain full own-service integration under the trusted built-in bar; replacement bars provide service-less entry facades.",
+        "keepLoaded services survive plugin hot-reload and require a shell restart for code changes."
       ]
     },
     {
       "name": "Omarchy Plugin Workbench project definition",
       "repository": "https://github.com/tcballard/omarchy-plugin-workbench",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "48e211becaf7fa5df7676b1315ca26b0cab3fedc",
+      "pinnedCommit": "eee779c060d8567687128c205cd8fb357c607217",
       "path": "contracts/project-definition.schema.json",
       "sha256": "c9b003c9810a653ac2da0febca9277d880c8f1a4369b7d3de94d824bdc830e00",
       "vendoredPath": "contracts/workbench-project-definition.schema.json",
@@ -56,7 +59,7 @@
       "name": "Omarchy marketplace submission form",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
+      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
       "path": ".github/ISSUE_TEMPLATE/submit-plugin.yml",
       "sha256": "c1ad7232142853395352386b32b0cdaf9529b5372aa4182938297d26085cdea7",
       "vendoredPath": "contracts/marketplace-submit-plugin.yml",
@@ -69,7 +72,7 @@
       "name": "Omarchy marketplace security review semantics",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
+      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
       "path": "SECURITY.md",
       "sha256": "87beed5e57813bb9efdb02ae3bd50cbbdfdecb4ed5beba67a8573dbd4202ec5f",
       "assumptions": [
@@ -82,7 +85,7 @@
       "name": "Omarchy Quattro multiselect settings example",
       "repository": "https://github.com/omacom/omarchy",
       "trackedRef": "refs/heads/quattro",
-      "pinnedCommit": "947e2fc002d6831c7888b29b5761d59d29e69727",
+      "pinnedCommit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
       "path": "shell/plugins/bar/widgets/Indicators.manifest.json",
       "sha256": "3eea8a52c46d7e2436f8967abb4347d56163f7cef622caf0fe2d69bf6858d59b",
       "vendoredPath": "contracts/omarchy-indicators.manifest.json",
@@ -95,7 +98,7 @@
       "name": "Omarchy marketplace verification form",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
+      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
       "path": ".github/ISSUE_TEMPLATE/verify-plugin.yml",
       "sha256": "7d31318916ad5afcf6029ea7744a69898c9f1111ca0405abeb56a685fff0bc0c",
       "assumptions": [
@@ -108,7 +111,7 @@
       "name": "Omarchy marketplace verification workflow",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3",
+      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
       "path": "VERIFICATION.md",
       "sha256": "4679f3b49feef166588dd61107f7d9e311059ba5c87032fa1332f14f1c343ee9",
       "assumptions": [
