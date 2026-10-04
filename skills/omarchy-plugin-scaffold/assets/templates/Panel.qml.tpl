@@ -45,8 +45,8 @@ Item {
 
       Column {
         spacing: Style.spacing.md
-        Text { text: "{{PLUGIN_NAME_QML}}"; color: Color.popups.text; font.pixelSize: Style.font.title }
-        Text { text: root.detail; color: Color.popups.text; font.pixelSize: Style.font.body }
+        Text { textFormat: Text.PlainText; text: "{{PLUGIN_NAME_QML}}"; color: Color.popups.text; font.pixelSize: Style.font.title }
+        Text { textFormat: Text.PlainText; text: root.detail; color: Color.popups.text; font.pixelSize: Style.font.body }
       }
     }
   }

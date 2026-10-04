@@ -33,6 +33,16 @@ the production boundary actually used.
   status and data; do not read, copy, persist, or log its tokens.
 - Apply optimistic updates only when rollback or a clear failure state exists.
 
+## Boundary adapters
+
+Keep process, network and private-state operations behind narrow named methods
+with explicit success/error results and cancellation semantics. The caller should
+not select arbitrary executables, destinations or secret recipients. Review the
+adapter implementation once and test its real production path; each consumer
+still needs lifecycle/integration checks. Reuse a suitable reviewed helper when
+available and record its revision. Avoid a generic wrapper that preserves every
+unsafe option of the underlying API.
+
 ## IPC
 
 Name the `IpcHandler` target after the plugin ID. Expose a small stable surface

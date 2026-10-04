@@ -49,7 +49,7 @@ Item {
         anchors.fill: parent
         focus: root.opened
         Keys.onEscapePressed: root.close()
-        Text { anchors.centerIn: parent; text: "{{PLUGIN_NAME_QML}}"; color: Color.menu.text; font.pixelSize: Style.font.title }
+        Text { textFormat: Text.PlainText; anchors.centerIn: parent; text: "{{PLUGIN_NAME_QML}}"; color: Color.menu.text; font.pixelSize: Style.font.title }
       }
     }
   }

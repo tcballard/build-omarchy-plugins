@@ -35,6 +35,33 @@ used by Quattro's [Indicators manifest](https://github.com/omacom/omarchy/blob/9
 (reviewed 22 September 2026). Both `enum` and `multiselect` require an options
 array. Unknown settings types still fail strict validation.
 
+## Optional architecture checks
+
+For a project whose agreed design routes network requests through a helper,
+make recognized direct QML/JS network use fail CI:
+
+```bash
+python3 "<skill-dir>/scripts/validate_plugin.py" --json \
+  --deny-capability qml-network --deny-capability qml-dynamic-code \
+  /absolute/path/to/plugin
+```
+
+`--deny-capability` implies the advisory scan. It accepts `qml-network`,
+`qml-dynamic-code`, `qml-collected-input` and `qml-process`, and emits separate
+`project-policy-*` errors with exit status 1. Other advisory findings retain their
+report but cause exit status 2 only when `--security` is explicitly requested.
+Unreadable/oversized QML/JS also
+fails the policy check. No deny rule is enabled by default. These conservative
+lexical matches can include comments, strings and fixtures and can miss indirect
+or aliased behavior; inspect results and retain runtime tests. This is a local
+architecture contract, not an authoritative baseline or a universal ban on
+processes, collectors or networking. Keep the command in the project's CI;
+do not merely document a rule the build never executes. Use a trusted installed
+validator by absolute path, or pin it as a separate development dependency.
+Copying a scanner into the plugin makes its rule strings part of the scanned
+checkout and can produce self-matches; inspect these as tooling evidence,
+without concealing actual runtime code or weakening scanner rules.
+
 ## Recommended marketplace preflight: Omakit
 
 Recommend [Omakit](https://github.com/mtolhuys/omakit) as an optional companion

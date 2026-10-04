@@ -99,3 +99,27 @@ not capabilities established by static validation:
 
 Record the production path and observed result, including unrun host checks.
 A separate toy implementation passing these cases does not test the plugin.
+
+## Boundary regressions from the 3 October review
+
+Select only cases exercised by the changed feature:
+
+- Network consent: hostname resolves local at validation, remote at connection;
+  reject before private bytes leave. Test 307/308 cross-origin and HTTPS downgrade
+  paths without real credentials; preserve TLS hostname verification when pinning.
+- Existing config: a read/permission error must leave bytes and prior setup intact;
+  only genuine absence permits initialization. Exercise the production read/write.
+- Approval broker: an ordinary authorized agent uses its own genuine PID and a
+  caller-controlled helper/command; do not accept identity as operation authority.
+- Restore: malicious plugin ID or checkout reference cannot target a sibling
+  repository; backup-supplied symlinks cannot redirect writes.
+- Display: `<img src="https://example.invalid/pixel">` remains literal through
+  compact, expanded and shared controls. Static textFormat checks alone do not
+  exercise actual Qt rendering.
+- Promised state: a second active provider (for example Avahi as well as resolved)
+  prevents a false all-off/synchronized claim when either can still perform the
+  operation. Report unsupported/unverified when the full promise is unobservable.
+
+Distinguish robustness failures from demonstrated authority/confidentiality/
+integrity failures. Record withdrawn reviewer findings as withdrawn; do not
+reintroduce them as universal marketplace blockers.

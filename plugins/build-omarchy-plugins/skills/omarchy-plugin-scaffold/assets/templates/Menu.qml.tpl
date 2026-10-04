@@ -59,6 +59,7 @@ Item {
         Keys.onEscapePressed: root.close()
         Keys.onReturnPressed: if (currentIndex === count - 1) root.close()
         delegate: Text {
+          textFormat: Text.PlainText
           required property string modelData
           width: list.width
           height: Style.space(42)

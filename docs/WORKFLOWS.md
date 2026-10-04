@@ -21,7 +21,9 @@ Continue through authorized work without asking the user to invoke every stage.
    [QML patterns](../skills/omarchy-qml-patterns/SKILL.md) supplies shared
    implementation guidance, including hosted QML for a full bar.
 4. [Test](../skills/omarchy-plugin-test/SKILL.md) checks the actual changed
-   source and records observed results and remaining host checks.
+   source and records observed results and remaining host checks. Carry any
+   architecture rules chosen in design into executable CI commands, including
+   the test skill's opt-in capability checks where applicable.
 5. [Demo](../skills/omarchy-plugin-demo/SKILL.md), when needed, prepares
    fictional fixtures and captures the UI when a suitable host is available.
 6. [Release](../skills/omarchy-plugin-release/SKILL.md) reconciles the candidate

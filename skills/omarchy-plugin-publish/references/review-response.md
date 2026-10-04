@@ -102,3 +102,26 @@ marketplace signature verification. For an installation tool, distinguish remote
 descriptive data from executable installation authority; use an actually trusted
 identity source and enforce the documented origin/redirect policy. Recheck the
 current official contract before claiming a signing facility exists.
+
+## Current disposition and concrete impact — 3 October 2026
+
+Read the complete thread, including retractions, before carrying a finding
+forward. Track active, fixed, withdrawn and unverified separately. Hancore
+withdrew earlier allocation concerns as security listing blockers in
+[Touch Bar](https://github.com/omacom/omarchy-plugin-marketplace/issues/9262#issuecomment-5970593063)
+and [OmaRead](https://github.com/omacom/omarchy-plugin-marketplace/issues/9174#issuecomment-5970439231),
+while preserving the previously reviewed authority boundaries. Keep proportional
+resource limits as engineering requirements; do not present every local-content
+allocation issue as current marketplace security policy.
+
+For a claimed security blocker, state who controls the input, the actual path,
+the crossed authority/confidentiality/integrity boundary and the consequence.
+Distinguish a demonstrated issue, a static concern and a robustness limitation.
+A source review is not runtime/hardware testing; an author's claimed fix is not
+independent confirmation. An accepted capability is not proof of safe arbitrary
+behavior. Review the whole promised boundary, not just the last exploit example.
+
+For example, [Doorman](https://github.com/omacom/omarchy-plugin-marketplace/issues/9558#issuecomment-5952627749)
+shows why a test with a forged PID does not settle a request using the caller's
+own real PID. Bind the authorized operation and secret recipient, not merely
+process continuity. Keep incomplete review scope explicit after each local fix.

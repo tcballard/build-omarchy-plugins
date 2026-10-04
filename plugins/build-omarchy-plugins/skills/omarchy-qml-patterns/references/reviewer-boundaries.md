@@ -5,6 +5,8 @@ Derived from HANCORE-linux's public reviews in
 reviewed 12 September 2026. These are recurring review concerns, not a substitute
 for the current marketplace contract or an assertion that every concern applies
 to every plugin. Apply the relevant boundary while implementing the feature.
+Read the final section for the 3 October dispositions, including withdrawn
+resource-only listing blockers; earlier examples are historical evidence.
 
 
 ## Navigation
@@ -17,6 +19,7 @@ to every plugin. Apply the relevant boundary while implementing the feature.
 - Local HTTP and agent endpoints
 - Cancellation and identity regressions
 - Presentation and action fidelity
+- Concrete authority and consent checks (3 October dispositions)
 
 ## External data and the shared shell
 
@@ -155,3 +158,43 @@ uses the actual manifest ID, especially after a rename.
 See [Clipbar](https://github.com/omacom/omarchy-plugin-marketplace/issues/8478#issuecomment-5819340291),
 [persisted location](https://github.com/omacom/omarchy-plugin-marketplace/issues/8395#issuecomment-5819055337)
 and [panel target](https://github.com/omacom/omarchy-plugin-marketplace/issues/8463#issuecomment-5819309888).
+
+## Concrete authority and consent checks — 3 October 2026
+
+Read current reviewer disposition before calling a concern a listing blocker.
+[Touch Bar](https://github.com/omacom/omarchy-plugin-marketplace/issues/9262#issuecomment-5970593063)
+and [OmaRead](https://github.com/omacom/omarchy-plugin-marketplace/issues/9174#issuecomment-5970439231)
+withdraw earlier resource-allocation blockers. Retain proportional robustness
+budgets, but distinguish those from actual credential, command or write authority.
+
+Bind a DNS-based local-only/consent decision to the addresses actually used by
+the transport before private content is sent. Resolving once for a precheck and
+again in the HTTP client permits rebinding. Preserve TLS hostname verification;
+apply the policy to redirects and proxy routing too. For credential-bearing
+requests, prefer refusing redirects; never forward secrets to a new origin.
+See [Sift](https://github.com/omacom/omarchy-plugin-marketplace/issues/9858#issuecomment-5970803404)
+and [TMOS](https://github.com/omacom/omarchy-plugin-marketplace/issues/8574#issuecomment-5823505773).
+
+Treat an unreadable existing configuration as an error, not an absent file;
+initialization must not destroy unrelated settings. Recheck sensitive command
+state in the backend immediately before forwarding input; a masked UI field
+or polled password-prompt state cannot protect secrets in argv/scrollback.
+See [Pianobar](https://github.com/omacom/omarchy-plugin-marketplace/issues/8898#issuecomment-5855383375)
+and its [stale prompt check](https://github.com/omacom/omarchy-plugin-marketplace/issues/8898#issuecomment-5858550108).
+
+For an approval broker, kernel peer credentials and stable PID identify a
+process, not its authority to receive a reusable password. Bind the displayed
+operation, trusted helper and secret recipient to the same verified flow; names,
+caller-supplied command text and an arbitrary child of real sudo are insufficient.
+See [Doorman](https://github.com/omacom/omarchy-plugin-marketplace/issues/9558#issuecomment-5961920299).
+Loopback alone also does not isolate private history from other local accounts;
+authenticate those reads or use a suitably protected Unix socket.
+See [Umbra](https://github.com/omacom/omarchy-plugin-marketplace/issues/8928#issuecomment-5928250307).
+
+Validate restored IDs and immutable checkout references before deriving paths
+or invoking Git; reject backup-supplied symlinks before writes. A restore must
+stay within the authorized plugin set. See
+[Settings Sync](https://github.com/omacom/omarchy-plugin-marketplace/issues/9849#issuecomment-5970334443).
+Ensure success describes the full promised state across all active providers;
+checking only resolved cannot establish discovery is disabled if Avahi still
+publishes. See [Network Persona](https://github.com/omacom/omarchy-plugin-marketplace/issues/9854#issuecomment-5970652519).

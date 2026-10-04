@@ -2,6 +2,19 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
+## 0.7.0 — Unreleased
+
+- Review marketplace changes and Hancore feedback through 3 October: form-error
+  reporting, repository migration resolution, refresh delays, manual setup and
+  active versus withdrawn findings.
+- Define narrow reusable boundary contracts with proportionate CI enforcement;
+  add opt-in QML/JS capability denial without changing marketplace policy.
+- Fix generated panel, overlay and menu Text sinks to use PlainText, and cover
+  nested JS networking in advisory discovery.
+- Refresh marketplace contract pins and add executable intake/subject drift
+  tracking; keep the submission forms unchanged.
+- Prepare portable, OpenAI and Claude packages and submission metadata for v0.7.0.
+
 ## 0.6.1 — 2026-09-29
 
 - Document Quattro's scoped third-party host interfaces, detached snapshots and

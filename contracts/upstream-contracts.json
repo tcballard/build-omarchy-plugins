@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-09-29",
+  "reviewedAt": "2026-10-03",
   "contracts": [
     {
       "name": "Agent Skills specification",
@@ -59,12 +59,12 @@
       "name": "Omarchy marketplace submission form",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
       "path": ".github/ISSUE_TEMPLATE/submit-plugin.yml",
       "sha256": "c1ad7232142853395352386b32b0cdaf9529b5372aa4182938297d26085cdea7",
       "vendoredPath": "contracts/marketplace-submit-plugin.yml",
       "assumptions": [
-        "Reviewed 2026-09-24: VPN is an accepted tag; categories and five acknowledgments are unchanged.",
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
         "Tags use form display labels; preserve exact headings and five acknowledgments."
       ]
     },
@@ -72,11 +72,11 @@
       "name": "Omarchy marketplace security review semantics",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
       "path": "SECURITY.md",
       "sha256": "87beed5e57813bb9efdb02ae3bd50cbbdfdecb4ed5beba67a8573dbd4202ec5f",
       "assumptions": [
-        "Reviewed 2026-09-24: security policy bytes are unchanged from the previous pin; the root README is scanned and privilege negation recognizes specific forms.",
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
         "New listing/update selective disposition may accept exact non-blocking findings; existing-snapshot maintainer-verified remains capability-only.",
         "The portable advisory does not reproduce the authoritative baseline or prove runtime safety."
       ]
@@ -98,11 +98,11 @@
       "name": "Omarchy marketplace verification form",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
       "path": ".github/ISSUE_TEMPLATE/verify-plugin.yml",
       "sha256": "7d31318916ad5afcf6029ea7744a69898c9f1111ca0405abeb56a685fff0bc0c",
       "assumptions": [
-        "Reviewed 2026-09-24: three actions distinguish listed-snapshot verification, standard installation and newer-current-HEAD promotion.",
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
         "The standard-installation acknowledgment applies only to removal of a manual override."
       ],
       "vendoredPath": "contracts/marketplace-verify-plugin.yml"
@@ -111,12 +111,34 @@
       "name": "Omarchy marketplace verification workflow",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "b5c8f32b5735babdcf4931548da1059fe8659422",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
       "path": "VERIFICATION.md",
       "sha256": "4679f3b49feef166588dd61107f7d9e311059ba5c87032fa1332f14f1c343ee9",
       "assumptions": [
-        "Reviewed 2026-09-24: a non-revoked installer-only review can support standard installation after a matching exact-listed-commit rescan and authorized label event.",
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
         "Publication, verified snapshot and mutable current-upstream installation are separate states."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace CLI intake",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": "scripts/submission.mjs",
+      "sha256": "d77d59d106662e97ca861936f7cb83c01382074c6ebe6313dc4b79aff40ba511",
+      "assumptions": [
+        "Malformed [Plugin]: requests are labeled for form-error reporting; this does not establish validation or approval."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace canonical verification subject",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": "scripts/verification-subject.mjs",
+      "sha256": "e1ce6507ce91aa963ef302aea3a08e51e1e130bd84807ce9d5b2c3cf0b694ae4",
+      "assumptions": [
+        "A recorded former repository resolves only for its own existing listing; later scans and approval use the canonical repository."
       ]
     }
   ]

@@ -54,6 +54,10 @@ MAX_FILE_BYTES = 64 * 1024 * 1024
 MAX_TREE_BYTES = 512 * 1024 * 1024
 MAX_TREE_FILES = 20_000
 MAX_TREE_DEPTH = 64
+# Optional project architecture rules; never marketplace dispositions.
+DENIABLE_CAPABILITIES = (
+    "qml-network", "qml-dynamic-code", "qml-collected-input", "qml-process",
+)
 
 
 @dataclass(frozen=True)
@@ -574,15 +578,32 @@ def scan_security(root: Path, report: Report) -> None:
         if "sudoers" in lower or "/etc/sudoers" in lower:
             report.capability("sudoers-modification", "Sudoers policy behavior requires complete manual review.", path)
 
-        if path.suffix.lower() == ".qml":
+        if path.suffix.lower() in {".qml", ".js"}:
             if re.search(r"\b(?:eval|Function|Qt\.createQmlObject)\s*\(", text):
                 report.capability("qml-dynamic-code", "Dynamic QML/JavaScript code construction requires manual review.", path)
             if re.search(r"\b(?:XMLHttpRequest|WebSocket)\b", text):
-                report.capability("qml-network", "QML network access requires manual review.", path)
+                report.capability("qml-network", "QML/JavaScript network access requires manual review.", path)
             if re.search(r"\b(?:StdioCollector|FileView)\s*\{", text):
                 report.capability("qml-collected-input", "Review producer-side byte limits before collection, plus deadlines and mutable-file identity where applicable; this pattern alone is not a defect.", path)
             if re.search(r"\bProcess\s*\{", text):
                 report.capability("qml-process", "QML process execution requires manual review.", path)
+
+
+def enforce_project_policy(root: Path, report: Report, denied: list[str]) -> None:
+    """Promote selected lexical matches, without changing baseline-like facts."""
+    for capability in report.capabilities:
+        if capability.code in denied:
+            report.add(
+                "error", "project-policy-" + capability.code,
+                "Project policy forbids this recognized pattern; use the agreed adapter "
+                "or review the architecture rule. This is not a marketplace finding.",
+                root / capability.path,
+            )
+    if denied:
+        for path in iter_files(root):
+            if path.suffix.lower() in {".qml", ".js"} and read_text(path) is None:
+                report.add("error", "project-policy-unreadable",
+                           "Cannot check QML/JS source within the text scan limit.", path)
 
 
 def print_text(result: dict[str, Any]) -> None:
@@ -608,11 +629,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--security", action="store_true", help="Run advisory deterministic security checks.")
     parser.add_argument("--strict", action="store_true", help="Promote publish-surface and compatibility warnings to errors where defined.")
     parser.add_argument("--publish", action="store_true", help="Check root README, license, install/remove docs, and preview limits.")
+    parser.add_argument("--deny-capability", action="append", default=[],
+                        choices=DENIABLE_CAPABILITIES,
+                        help="Fail on a selected QML/JS pattern as a project architecture rule; runs advisory scan. Repeat as needed.")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
+    security_requested = args.security
+    args.security = args.security or bool(args.deny_capability)
     root = Path(os.path.abspath(args.plugin_dir.expanduser()))
     report = Report(root)
     linked = path_has_symlink(root)
@@ -630,14 +656,16 @@ def main(argv: list[str] | None = None) -> int:
                 validate_publish_surface(root, report, args.strict)
             if args.security:
                 scan_security(root, report)
+                enforce_project_policy(root, report, args.deny_capability)
     result = report.result(args.security)
+    result["projectPolicy"] = {"deniedCapabilities": sorted(set(args.deny_capability))}
     if args.as_json:
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
         print_text(result)
     if report.errors:
         return 1
-    if args.security and report.findings:
+    if security_requested and report.findings:
         return 2
     return 0
 
