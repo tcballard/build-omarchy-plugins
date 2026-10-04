@@ -5,7 +5,7 @@ description: Prepare or submit an Omarchy plugin marketplace issue, and respond 
 
 # Publish Omarchy Plugins
 
-This workflow was verified against the marketplace repository on 24 September
+This workflow was verified against the marketplace repository on 3 October
 2026. Read [references/marketplace-submission.md](references/marketplace-submission.md)
 for the pinned contract. Before an actual submission or update, verify the
 current upstream form, destination, and target commit. If upstream is
@@ -33,6 +33,11 @@ python3 "<skill-dir>/scripts/prepare_submission.py" \
   --tag quickshell \
   --tag bar
 ```
+
+Distinguish required external installation/build steps from normal account
+configuration and optional integrations when describing setup. Read the current
+maintainer classification; `installer` alone does not imply mandatory manual
+setup. A verification request cannot create a new listing.
 
 When responding to review or preparing the final snapshot, read
 [review-response guidance](references/review-response.md). It covers evidence

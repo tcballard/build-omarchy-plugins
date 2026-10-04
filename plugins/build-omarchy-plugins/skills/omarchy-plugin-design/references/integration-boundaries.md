@@ -40,3 +40,15 @@ a key from the same mutable checkout does not establish independent trust.
 
 Evidence: [OmaNomad](https://github.com/omacom/omarchy-plugin-marketplace/issues/5371#issuecomment-5745040622),
 [signing-key bootstrap](https://github.com/omacom/omarchy-plugin-marketplace/issues/5402#issuecomment-5672481038).
+
+## Approval is operation-specific — 3 October 2026
+
+Bind what the user sees, the operation actually executed, and the secret recipient
+to one trusted flow. Kernel peer PID/UID checks establish caller identity, not
+permission to receive a reusable credential. A caller's real PID, mutable process
+name, or caller-selected askpass child of genuine sudo does not establish the
+promised recipient. Prefer a reviewed narrow privileged operation over a general
+password broker. Test the authorized caller attempting an unauthorized operation,
+not only an obviously forged identity. Keep fail-closed behavior when the trusted
+helper/identity is unavailable. See
+[Doorman follow-up](https://github.com/omacom/omarchy-plugin-marketplace/issues/9558#issuecomment-5961920299).

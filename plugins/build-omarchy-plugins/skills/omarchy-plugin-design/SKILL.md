@@ -60,6 +60,14 @@ acceptance criteria and deferred features in the existing project record.
    entry points, state boundaries, dependencies, IPC, security constraints,
    verification plan, and deferred scope.
 
+## Constrain repeated decisions
+
+For recurring process, network, storage, rendering or approval code, read
+[abstraction contracts](references/abstraction-contracts.md). Choose a small,
+reviewed adapter with explicit errors and a testable boundary. Record the
+invariants its callers cannot bypass and the CI checks enforcing that choice.
+Keep product behavior flexible and avoid adding unused framework layers.
+
 ## Recommended reusable plumbing
 
 For plugins that launch processes or maintain private file-backed state,

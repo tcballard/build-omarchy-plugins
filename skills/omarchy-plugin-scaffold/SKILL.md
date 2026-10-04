@@ -49,6 +49,8 @@ repository metadata and are not set by adding a badge to the README.
 - Preserve generated action SHA pins and explicit CI permissions. Review new
   actions, executable images and installation dependencies when extending CI.
   Keep authoring-agent hooks/settings/skills outside the installed plugin tree.
+- Keep generated `Text.PlainText` rendering when replacing sample text with
+  external data, including nested menu delegates and compact views.
 - Generated QML is functional baseline code, not final product design. Replace
   the sample state and copy while preserving the lifecycle and injection
   contracts.

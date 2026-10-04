@@ -1,5 +1,25 @@
 # Acceptance evidence and remaining host checks
 
+## v0.7.0 preparation — 4 October 2026
+
+- Recovered the 3 October work in local commits `11d7e9b` and `c2172ef`, based
+  on published v0.6.1/main `f6e2f7c4957e284cfa10c91a69ac2d8962b6e20e`.
+- `./scripts/test`: all 75 tests passed on the committed v0.7.0 candidate,
+  including deterministic archives/checksums, opt-in capability rules,
+  portable/OpenAI parity, version/contract validation and packaging.
+- `python3 scripts/check_versions.py --tag v0.7.0` and `git diff --check` passed.
+- Aligned portable, OpenAI, Claude and submission versions; README installation
+  commands target the verified published v0.6.1 release until v0.7.0 is published.
+- Added the architecture-rule handoff to workflow navigation and prepared
+  release notes with the scanner and runtime evidence limits explicit.
+
+This is local preparation evidence. Required GitHub CI belongs to the final PR
+commit and is reported on the PR. No v0.7.0 tag or release is claimed. The earlier
+forward-test record below is historical evidence, not a newly executed model
+comparison. Live Omarchy rendering/lifecycle and installed-host checks remain
+unrun; token savings remain unmeasured.
+
+
 ## v0.6.1 preparation — 29 September 2026
 
 - Base: `ad917be03a37f8ec1b306f2c8243cdc8b53aa85c`.
@@ -185,3 +205,39 @@ in a shared QML control, an oversized response checked only after collection,
 and an agent-control handoff in the desktop-plugin checkout. Ask for the narrow
 fix, preserve the initial bytes and inspect the production boundary and truthful
 verification report. These are proposed cases, not recorded passes.
+
+
+## Marketplace and abstraction refresh — 3 October 2026
+
+Executed on the local Linux/Python 3.12 runtime:
+
+- `./scripts/test`: all 75 tests and portable plugin/skill/version/contract,
+  security, adapter-parity and packaging checks passed. Six added regression
+  tests cover generated literal Text sinks, nested JS, each selectable policy,
+  unscannable source, invalid policy names and separation from unselected
+  advisory findings. These source checks do not prove actual Qt rendering.
+- Skill-creator validation ran against the writable personal skill directories;
+  all twelve skill frontmatters passed.
+- An isolated fresh agent used the scaffold/test skills to build a panel/menu
+  Reading fixture with summon titles and no direct QML/JS networking or dynamic
+  code. Portable checks and 13 production-parser cases passed. A deliberately
+  inserted nested JS file triggered both chosen policy errors and failed the CI
+  entry point; removal restored success. The updated external validator returned
+  0 on the clean fixture and 1 with the violation, both with and without explicit
+  `--security`.
+- Forward-test discovery: a copied scanner matched its own Cargo-rule prose and
+  predicate text, initially exiting 2 under `--security`. The temporary fixture
+  agent reformatted those strings without changing its predicates, then verified
+  the fixture independently with the installed external validator. This is a
+  limitation of lexical discovery, not evidence that copying scanners is safe.
+  Guidance now recommends an external trusted validator and explicitly explains
+  self-matches; no production scanner rule was weakened. A separate regression
+  verifies deny-only does not promote unrelated advisory findings into errors.
+
+Forward-test fixture digest (reported by the isolated agent):
+`a25e033a1b4b81fd89d70a015adbb687a13400d7a0ad86054e6999c527543d9d`.
+This is one local agent exercise, not a controlled multi-model comparison or
+measurement of token savings. The fixture/report are temporary evaluation data.
+Live Omarchy/Quickshell rendering, IPC/lifecycle, install/remove, Omakit baseline,
+hardware behavior and a new release remain unrun. Provider CI results are
+reported separately on the associated PR rather than inferred from local checks.

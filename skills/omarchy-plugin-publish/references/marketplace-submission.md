@@ -2,7 +2,7 @@
 
 Verified against
 [`omacom/omarchy-plugin-marketplace`](https://github.com/omacom/omarchy-plugin-marketplace)
-at commit `bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3` on 24 September 2026.
+at commit `3e38844761e5a4045243fd1c9ca272e4c6b61c12` on 3 October 2026.
 The submission form is vendored in the bundle contract ledger. These are pinned values, not a claim that today's destination,
 form, categories, or limits are unchanged. Verify upstream before submission;
 if it differs, adapt the draft and flag the generator/contract drift rather than
@@ -91,3 +91,34 @@ deployment/finalization failed, recover that phase rather than resubmit.
 These rules are pinned in the bundle's verification form and
 [verification workflow](https://github.com/omacom/omarchy-plugin-marketplace/blob/bdf7c4fd1c0cb2bc1175dc0931362727aa4a0cb3/VERIFICATION.md).
 Recheck the live contract before acting.
+
+## Intake and operational updates — 3 October 2026
+
+The submission/verification forms, SECURITY.md and VERIFICATION.md are unchanged
+from the previous reviewed pin. Hancore's implementation changes matter to
+troubleshooting, without creating new author-facing schema requirements:
+
+- [Malformed CLI intake](https://github.com/omacom/omarchy-plugin-marketplace/commit/1f845b73e7324ee0bde2f7c121032066aa9cc295):
+  malformed `[Plugin]:` requests now receive the submission label so their actual
+  form-error report can publish. The label is not a successful validation. Fix
+  the existing body and retry; do not diagnose every intake error as plugin code.
+- [Migrated repositories](https://github.com/omacom/omarchy-plugin-marketplace/commit/8be8e3be5fc0a0592cc90b9d37d858177a624a84):
+  verification/update requests may name a recorded former repository of their
+  own listing. The workflow resolves it to the canonical repository before
+  access; a redirect alone is not sufficient and unrelated mismatches still fail.
+  Prefer the current registered canonical URL. Do not repurpose Verify for a new
+  listing or rewrite historical evidence to make a mismatch disappear.
+- [Refresh scheduling](https://github.com/omacom/omarchy-plugin-marketplace/commit/74836ff40c4f55f04aafbb401e557deb0a770bd0):
+  unchanged previously passing sources can defer policy-only revalidation to
+  later catalog refreshes. New, changed, failing and registry-changed sources
+  cannot. A queue/admission delay or stale display is not a new security finding
+  or a waiver of exact-commit approval.
+
+Required native packages/builds or external helper installation can require a
+manual-installation listing. Ordinary account configuration or optional setup
+alone does not establish that requirement. Describe actual prerequisites and
+retain maintainer authority over classification; no local helper here sets the
+marketplace's manual override. Examples:
+[Pocket](https://github.com/omacom/omarchy-plugin-marketplace/issues/9872#issuecomment-5971720907),
+[OMeetingBar](https://github.com/omacom/omarchy-plugin-marketplace/issues/9860#issuecomment-5970904348),
+[TMOS](https://github.com/omacom/omarchy-plugin-marketplace/issues/8574#issuecomment-5972030850).

@@ -17,8 +17,8 @@ needs more care than a manifest and a few QML examples. The bundle includes
 generators and checks for that work; the plugin you make still needs testing on
 your target Omarchy desktop.
 
-**Start here:** [Install the v0.6.0 skills](#install-the-agent-skills), then
-[choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.6.0).
+**Start here:** [Install the v0.6.1 skills](#install-the-agent-skills), then
+[choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.6.1).
 
 ## Compatibility
 
@@ -77,13 +77,13 @@ in the host and scale their workflow to the requested change.
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
-This checkout prepares **v0.6.1**. The latest published release is **v0.6.0**. Download published, checksummed assets from
+This checkout prepares **v0.7.0**. The latest published release is **v0.6.1**. Download published, checksummed assets from
 [GitHub Releases](https://github.com/tcballard/build-omarchy-plugins/releases).
-The commands below target v0.6.0; use them once that release is published.
+The commands below install the published v0.6.1 release.
 A draft release or a newer `main` checkout is not a published release.
 
 ```bash
-git clone --branch v0.6.0 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.6.1 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -110,7 +110,7 @@ every lifecycle change before applying it:
 
 ```bash
 git fetch --tags
-git checkout v0.6.0
+git checkout v0.6.1
 python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
 python3 scripts/install_agent_skills.py --target agents --scope user --update
 ```
@@ -261,9 +261,9 @@ safe. Review source and dependencies before enabling any plugin.
 
 MIT
 
-## Claude Code plugin (v0.6.0)
+## Claude Code plugin (v0.6.1)
 
-Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.6.0 checkout,
+Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.6.1 checkout,
 validate and try the plugin locally:
 
 ```bash
@@ -280,8 +280,8 @@ Code:
 ```
 
 Use either this plugin or the existing `--target claude` skills installer to
-avoid loading duplicate skills. The v0.6.0 release build includes a separate
-`build-omarchy-plugins-claude-plugin-0.6.0.zip`, with the same twelve canonical
+avoid loading duplicate skills. The v0.6.1 release build includes a separate
+`build-omarchy-plugins-claude-plugin-0.6.1.zip`, with the same twelve canonical
 skills and their helpers. This is a community marketplace, not an official
 Anthropic listing. OpenAI and Anthropic marketplace submissions remain on hold
 while stewardship is discussed.

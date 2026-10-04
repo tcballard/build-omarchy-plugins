@@ -23,6 +23,11 @@ conventions.
 - Treat one visual widget per monitor as normal. Keep shared polling and remote
   state in a service; keep hover, selection, and open state local to the visual
   instance.
+- Keep external text literal with `Text.PlainText` at every sink, including
+  shared controls and compact views. Preserve this default when adapting templates.
+- Put repeated network/process/state policy in a narrow reviewed adapter. Keep
+  UI consumers on its typed result/state contract; enforce chosen boundaries
+  with project checks and actual adapter tests.
 - Run processes with argument arrays. Avoid `bash -c`; when a shell is truly
   required, quote every external value with Omarchy's `Util.shellQuote` and
   explain the boundary.
