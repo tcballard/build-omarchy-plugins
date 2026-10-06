@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "pluginPath": ".",
+  "checks": [{"name": "project-tests", "argv": ["./tests/run"], "timeoutSeconds": 300}],
+  "environment": [
+    {"name": "node", "argv": ["node", "--version"], "required": true},
+    {"name": "git", "argv": ["git", "--version"], "required": true},
+    {"name": "omarchy", "argv": ["omarchy", "--version"], "required": false}
+  ],
+  "workflows": [{"name": "portable-tests", "capability": "validate", "argv": ["./tests/run"], "timeoutSeconds": 300, "requires": []}]
+}

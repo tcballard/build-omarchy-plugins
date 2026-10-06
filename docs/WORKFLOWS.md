@@ -13,7 +13,9 @@ Continue through authorized work without asking the user to invoke every stage.
    supplies settled decisions directly. Keep the first feature set small and
    bring current publishing constraints into design when publication is intended.
 2. [Scaffold](../skills/omarchy-plugin-scaffold/SKILL.md) creates the repository
-   at the agreed destination. Generated sample behavior is the starting point.
+   at the agreed destination. For a GitHub-ready bar widget, use the bundled
+   offline repository template; for other kinds or multi-kind projects, use
+   the existing generator. Generated sample behavior is the starting point.
 3. Implement the requested behavior with the relevant surface skill:
    [bar widget](../skills/omarchy-bar-widget/SKILL.md),
    [panel, overlay or menu](../skills/omarchy-panel-overlay/SKILL.md), or

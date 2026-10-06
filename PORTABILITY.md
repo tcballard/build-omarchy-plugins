@@ -18,6 +18,13 @@ package or its Omarchy tools.
 
 ## Host adapters
 
+The optional full repository scaffold needs Node.js 22+; it creates projects
+offline from its bundled, checksummed assets. Generated `./tests/run` also
+requires Bash, or run the two Node commands documented in the scaffold
+reference. GitHub configuration is a separate explicit step requiring GitHub
+CLI and administration access. These requirements do not change the existing
+Python generator or the bundle installer's prerequisites.
+
 | Host | Project location | User location | Repository verification |
 | --- | --- | --- | --- |
 | Shared Agent Skills | `.agents/skills/` | `~/.agents/skills/` | Install and idempotency tested |

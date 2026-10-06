@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.tcballard.plugin_starter",
+  "name": "Omarchy Plugin Starter",
+  "version": "0.1.0",
+  "author": "Tom Ballard",
+  "license": "MIT",
+  "description": "A small Quattro bar widget to extend into your own plugin.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {"barWidget": "StarterWidget.qml"},
+  "barWidget": {
+    "displayName": "Omarchy Plugin Starter",
+    "description": "A small Quattro bar widget to extend into your own plugin.",
+    "category": "Other",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {},
+    "schema": []
+  }
+}

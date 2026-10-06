@@ -16,6 +16,8 @@ python3 "$repo/scripts/sync_openai_adapter.py" --check
 python3 "$repo/scripts/validate_codex_plugin.py" "$plugin"
 python3 "$repo/scripts/validate_skills.py" "$skills"
 python3 "$repo/scripts/validate_skills.py" --require-openai-metadata "$openai_skills"
+node "$skills/omarchy-plugin-scaffold/scripts/new_repository.mjs" --check
+node --test "$repo/tests/test_repository_template.mjs"
 python3 -m compileall -q "$repo/scripts" "$skills" "$openai_skills"
 python3 -m unittest discover -s "$repo/tests" -p 'test_*.py' -v
 python3 "$repo/scripts/package_submission.py" --output-dir "$temporary/dist" >/dev/null

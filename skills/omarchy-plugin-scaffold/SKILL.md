@@ -15,6 +15,24 @@ existing plugin when that already meets the requested outcome.
 
 ## Create a repository
 
+For a new GitHub-ready bar-widget project, prefer the bundled repository
+template. It includes the shared README, CI, release and repository-policy
+defaults. Read [references/repository-template.md](references/repository-template.md)
+for inputs, provenance, GitHub setup and validation:
+
+```bash
+node "<skill-dir>/scripts/new_repository.mjs" \
+  --output /absolute/path/to/plugin-name \
+  --owner your-account --repo omarchy-plugin-name --slug plugin-name \
+  --id io.github.your_account.plugin_name \
+  --name "Plugin Name" --author "Author Name"
+```
+
+Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
+This offline route requires Node.js 22+, refuses any existing destination and
+does not create a Git repository or configure GitHub. It supplies a bar widget;
+use the existing generator below for other kinds or multi-kind scaffolds.
+
 Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md` and
 run its bundled generator by absolute path:
 
@@ -38,7 +56,7 @@ repository metadata and are not set by adding a badge to the README.
 
 ## Guardrails
 
-- Inspect the target first. The generator refuses a non-empty destination and
+- Inspect the target first. The generators refuse a non-empty destination and
   never merges into an existing repository.
 - Use a globally unique, lowercase, reverse-domain-style ID. Treat it as
   permanent once published.

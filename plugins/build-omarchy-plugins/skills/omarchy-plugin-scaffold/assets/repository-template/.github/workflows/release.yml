@@ -1,0 +1,36 @@
+name: Release source
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing accepted tag (for example v0.1.0)
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - run: ./tests/run
+      - run: node scripts/archive.mjs
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: source-release
+          path: dist/*
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: gh release create "$RELEASE_TAG" dist/* --verify-tag --draft --title "$RELEASE_TAG" --notes "Source release. Review acceptance evidence and complete the release notes before publishing."
