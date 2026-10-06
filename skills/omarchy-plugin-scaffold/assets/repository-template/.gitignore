@@ -1,0 +1,6 @@
+/target/
+/dist/
+/node_modules/
+*.pkg.tar.zst
+/pkgbuilds/*/src/
+/pkgbuilds/*/pkg/

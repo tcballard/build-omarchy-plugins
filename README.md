@@ -172,6 +172,15 @@ release. Each skill defines the inputs it uses and the evidence it hands on.
 
 ## Deterministic tools
 
+The scaffold skill now also includes the complete
+[plugin repository template](https://github.com/tcballard/omarchy-plugin-template)
+at a fixed commit. Ask for a new GitHub-ready bar-widget project, or follow the
+[offline starter instructions](skills/omarchy-plugin-scaffold/references/repository-template.md).
+Node.js 22+ generates the project without npm dependencies or network access;
+the existing six-kind generator remains available. The template travels with
+individual skill installs and every plugin/skills archive. This addition is
+on the development branch; existing published releases are unchanged.
+
 The portable skills include reusable scripts that:
 
 - generate all six Quattro plugin kinds;
