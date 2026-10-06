@@ -1,5 +1,37 @@
 # Acceptance evidence and remaining host checks
 
+## Bundled repository template — 6 October 2026
+
+- Implementation candidate: `94b0e749c07929de08854cd30af3d7c07f477b52` on base
+  `93f68e47c2f0cc1e8ecc07e4d14c7b5a0e97ef05` (uploaded tree verified equal to
+  the locally tested implementation tree).
+  The template snapshot is `tcballard/omarchy-plugin-template` at
+  `f99681e69937d21c2d4414ac9f65a0fd01fea714`; all 41 files are locked by hash
+  and Git mode. No template runtime contract was changed.
+- `./scripts/test` passed on Linux: 77 existing/extended Python tests plus
+  five new Node scaffold tests, adapter parity, pinned contracts, skill
+  structure, security scan, version checks and deterministic packaging.
+- Generated projects worked from all four installable release archives and
+  an individually installed scaffold skill. Added toolkit validation to each
+  packaging/install generation case and reran all six release-artifact tests.
+- An independent fresh-session scaffold exercise used a relocated copy of the
+  skill, created the requested Focus starter and ran the generated and toolkit
+  checks. [Unedited agent report and exact commands](runs/2026-10-06/repository-template.md).
+  The prompt is recorded in HANDOFFS.md. This was a qualitative smoke exercise,
+  not a comparative host/model evaluation; no independent model ID is claimed.
+- The agent correctly noted that the generated template's initialization test
+  returns early after initialization. The bundle's new end-to-end tests cover
+  invalid input, existing destinations and corrupt/extra source assets instead
+  of treating that generated test's reported pass as overwrite evidence.
+- Two path-compatibility adjustments are applied only to generated copies;
+  source provenance records them. Source checks and GitHub dry-run execution
+  were tested in paths containing spaces. Remote matrix results belong to the
+  final PR SHA; local evidence alone does not establish Windows/macOS execution.
+
+Live Omarchy, native QML rendering, GitHub policy application and marketplace
+acceptance remain unrun. No new release or installed personal-skill update is
+included in this change.
+
 ## v0.7.0 preparation — 4 October 2026
 
 - Recovered the 3 October work in local commits `11d7e9b` and `c2172ef`, based

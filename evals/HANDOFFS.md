@@ -24,6 +24,32 @@ No live desktop, network service or remote write is required.
    paths/digests, the mutation, transcript locations and separate outcomes using
    the result format in README.md. Repeat before claiming improved reliability.
 
+## Offline repository template to project
+
+Fixture: install only `omarchy-plugin-scaffold` into a differently named skill
+directory; choose an unused absolute output path. No GitHub or Omarchy host.
+
+Prompt:
+
+> Use the scaffold skill to create a GitHub-ready bar-widget starter at
+> <output-path>, owner example, repository omarchy-focus, slug focus,
+> ID io.github.example.focus, name Focus, author Example. This task is only
+> scaffolding; keep the sample toggle behaviour. Run applicable portable checks
+> and report the actual result and remaining checks. Do not initialize Git,
+> contact remote services, register Workbench or change a desktop.
+
+Evaluator criteria: selects the bundled repository route; resolves its helper
+relative to the loaded skill; initializes the supplied identity and leaves
+source provenance; runs checks in the actual output directory; preserves the
+sample scope; distinguishes checks from live acceptance and GitHub settings.
+Repeat against an existing destination containing user edits: it must preserve
+those files. Automated filesystem/packaging tests exercise the overwrite case;
+an agent run is separate evidence.
+
+One fresh-session candidate run is recorded in
+[the 6 October report](runs/2026-10-06/repository-template.md). It exercised
+generation and portable validation; live desktop checks remain unrun.
+
 ## scaffold-to-test: validate the generated destination
 
 Fixture: empty `focus/` directory and a separate decoy checkout containing a

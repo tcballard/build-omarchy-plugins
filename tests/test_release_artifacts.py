@@ -30,6 +30,11 @@ class ReleaseArtifactTests(unittest.TestCase):
         self.assertIn("PASS: plugin", result.stdout)
         self.assertTrue((output / ".template/source.json").is_file())
         self.assertTrue((output / ".github/workflows/ci.yml").is_file())
+        validation = subprocess.run([
+            sys.executable, str(REPO / "skills/omarchy-plugin-test/scripts/validate_plugin.py"),
+            str(output),
+        ], text=True, capture_output=True)
+        self.assertEqual(0, validation.returncode, validation.stdout + validation.stderr)
 
     def test_repository_template_runs_from_every_installable_archive(self) -> None:
         with tempfile.TemporaryDirectory(prefix="bundle archives ") as temporary:
