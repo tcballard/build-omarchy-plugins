@@ -1,34 +1,36 @@
-# Build Omarchy Plugins v0.7.0 — Give your agent enforceable rules
+# Build Omarchy Plugins v0.8.0 — Start with the repo sorted
 
-This v0.7.0 candidate turns selected architecture decisions into checks your
-plugin can run in CI, and brings the skills up to date with the marketplace
-reviewed on 3 October.
+The plugin repository template now ships inside the skills bundle. Ask your
+agent for a GitHub-ready bar widget and it can create the whole starting point
+offline, with your project name, plugin ID and repository details already set.
 
-- **Make chosen boundaries stick.** The validator can now reject recognized
-  QML/JS networking, dynamic code, process execution or collected-input patterns
-  with repeatable `--deny-capability` flags. Rules are opt-in; ordinary advisory
-  findings keep their existing behaviour.
-- **Start with literal text.** Generated panels, menus and overlays explicitly
-  render text as plain text, including external summon data and titles.
-- **Follow current reviewer decisions.** Guidance separates withdrawn resource
-  findings from active credential, command and filesystem concerns, and explains
-  form errors, repository migrations, refresh delays and manual setup.
-- **Reuse small, testable boundaries.** Design and service guidance now defines
-  narrow contracts for network readers, process runners, private storage, display
-  text and approvals. Callers get explicit results and errors; implementation
-  details stay inside the adapter.
+- **The boring setup comes with it.** README, credits, licence, CI, issue and PR
+  templates, release workflow and an optional GitHub policy setup command.
+- **One reviewed starting point.** The bundled template is pinned to an exact
+  commit and checked against file hashes before generation. Each new project
+  records where it came from. Existing directories are never overwritten.
+- **Use the bundle your way.** The starter travels with an individual scaffold
+  skill install and the portable, Claude, OpenAI plugin and skills archives.
+  The existing generator still supports all six plugin kinds.
+- **Works from real install paths.** Generated projects handle folders with
+  spaces and Windows paths. The new route needs Node.js 22+; no npm install or
+  network access is needed to create the project.
 
-The provider-neutral bundle still contains twelve skills, with synchronized
-portable and OpenAI copies, OpenCode support and native Claude packaging.
-The package retains transactional updates and an SPDX 2.3 SBOM.
-CI targets Linux, macOS, and Windows; release automation prepares drafts and
-cannot publish them. Install commands continue to point at the
-published v0.6.1 release while this candidate is under review.
+All 77 toolkit tests and five new scaffold tests passed, with CI green across
+Linux, macOS, and Windows. We also generated plugins from every installable
+archive and ran a fresh-session scaffold exercise. That checks the tooling;
+the plugin you build still needs testing on your Omarchy desktop.
 
-The new gate is lexical: comments can match and indirect code can escape it.
-It does not sandbox QML or establish marketplace approval. Live Omarchy rendering
-and lifecycle checks remain unrun, and token savings have not been measured.
-Validation evidence is recorded in `evals/ACCEPTANCE.md`; final CI and publication
-are separate gates.
+The twelve provider-neutral skills retain OpenCode support, transactional
+updates and an SPDX 2.3 SBOM. Release automation builds verified drafts and
+cannot publish them. Creating a project does not create a remote repository,
+apply GitHub settings or change your desktop.
 
-[Changes since v0.6.1](https://github.com/tcballard/build-omarchy-plugins/compare/v0.6.1...release/v0.7.0)
+Choose the archive for your host and check it against `SHA256SUMS`. For an
+existing CLI installation, preview the update with `--update --diff`, then use
+`--update`, keeping your usual installer target and scope.
+
+Try: **“Create a GitHub-ready Omarchy bar-widget repository using the bundled
+template.”**
+
+[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.7.0...v0.8.0)

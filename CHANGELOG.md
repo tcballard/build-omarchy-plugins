@@ -2,7 +2,19 @@
 
 All notable changes to Build Omarchy Plugins are documented here.
 
-## 0.7.0 — Unreleased
+## 0.8.0 — 2026-10-06
+
+- Ship the complete plugin repository template inside the scaffold skill at a
+  reviewed commit, with file hashes, modes and generated-project provenance.
+- Add offline Node.js scaffolding for GitHub-ready bar widgets, retaining the
+  existing six-kind generator and refusing existing destinations.
+- Include the starter in individual installs and every installable archive;
+  verify generation from those payloads in the cross-platform CI matrix.
+- Apply documented path fixes to generated projects for Windows and folders
+  with spaces while preserving the original bundled snapshot.
+- Update release metadata and installation examples for v0.8.0.
+
+## 0.7.0 — 2026-10-04
 
 - Review marketplace changes and Hancore feedback through 3 October: form-error
   reporting, repository migration resolution, refresh delays, manual setup and
