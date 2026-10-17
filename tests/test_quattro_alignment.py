@@ -24,12 +24,12 @@ class QuattroAlignmentTests(unittest.TestCase):
                 with self.subTest(section=section):
                     output = Path(temporary) / section
                     self.generate(output, '--kind', 'bar-widget', '--default-section', section)
-                    manifest = json.loads((output / 'manifest.json').read_text())
+                    manifest = json.loads((output / 'manifest.json').read_text(encoding="utf-8"))
                     self.assertEqual(section, manifest['barWidget']['defaultSection'])
                     result = subprocess.run([sys.executable, str(VALIDATOR), '--strict', '--json', str(output)], capture_output=True, text=True)
                     self.assertEqual(0, result.returncode, result.stdout + result.stderr)
                     manifest['barWidget']['defaultSection'] = 'drawer-typo'
-                    (output / 'manifest.json').write_text(json.dumps(manifest))
+                    (output / 'manifest.json').write_text(json.dumps(manifest), encoding="utf-8")
                     rejected = subprocess.run([sys.executable, str(VALIDATOR), '--json', str(output)], capture_output=True, text=True)
                     self.assertNotEqual(0, rejected.returncode)
                     self.assertIn('default-section', {e['code'] for e in json.loads(rejected.stdout)['errors']})
@@ -43,12 +43,12 @@ class QuattroAlignmentTests(unittest.TestCase):
                     sources = list(output.glob('*.qml'))
                     self.assertTrue(sources)
                     for source in sources:
-                        text = source.read_text()
+                        text = source.read_text(encoding="utf-8")
                         self.assertNotRegex(text, r'(?<![\w.])Color\.')
                         if 'Commons.Color.' in text:
                             self.assertIn('import qs.Commons as Commons', text)
                     if kind != 'bar-widget':
-                        self.assertTrue(any('Commons.Color.' in source.read_text() for source in sources))
+                        self.assertTrue(any('Commons.Color.' in source.read_text(encoding="utf-8") for source in sources))
 
 if __name__ == '__main__':
     unittest.main()
