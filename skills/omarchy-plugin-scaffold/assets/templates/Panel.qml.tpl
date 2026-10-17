@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import qs.Commons
+import qs.Commons as Commons
 import qs.Ui
 
 Item {
@@ -38,15 +39,15 @@ Item {
 
     BorderSurface {
       anchors.fill: parent
-      color: Color.popups.background
+      color: Commons.Color.popups.background
       radius: Style.cornerRadius
-      borderSpec: Border.surfaceSpec("popups", "border", Color.popups.border, 1)
+      borderSpec: Border.surfaceSpec("popups", "border", Commons.Color.popups.border, 1)
       padding: Style.spacing.panelPadding
 
       Column {
         spacing: Style.spacing.md
-        Text { textFormat: Text.PlainText; text: "{{PLUGIN_NAME_QML}}"; color: Color.popups.text; font.pixelSize: Style.font.title }
-        Text { textFormat: Text.PlainText; text: root.detail; color: Color.popups.text; font.pixelSize: Style.font.body }
+        Text { textFormat: Text.PlainText; text: "{{PLUGIN_NAME_QML}}"; color: Commons.Color.popups.text; font.pixelSize: Style.font.title }
+        Text { textFormat: Text.PlainText; text: root.detail; color: Commons.Color.popups.text; font.pixelSize: Style.font.body }
       }
     }
   }

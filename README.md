@@ -20,6 +20,14 @@ your target Omarchy desktop.
 **Start here:** [Install the v0.8.0 skills](#install-the-agent-skills), then
 [choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.8.0).
 
+## Use with Omarchy's Agents panel
+
+On current Quattro development builds, the Agents panel's **Plugin** button launches your default coding agent with Omarchy's built-in plugin guide. This bundle adds focused engineering guidance; the button does not automatically load it.
+
+After installing the skills, tell your agent: “Use the installed Build Omarchy Plugins skills where useful, alongside Omarchy's built-in guide. Build the smallest working version, enable it locally and verify the interaction.” See [the host workflow](skills/omarchy-plugin-design/references/host-workflow.md) for personal tweaks and the exact entry point.
+
+The instructions can be read by any agent or harness with file access. No model API, proprietary tool names, planner, worker topology or companion service is required. Bundled helpers have their own explicit runtimes; provider-specific discovery and packaging remain optional adapters.
+
 ## Compatibility
 
 This toolkit targets **Omarchy 4.0.0 and later with Quattro shell-plugin support**.
@@ -67,8 +75,8 @@ skills/
 See [PORTABILITY.md](PORTABILITY.md) for the tested host paths and exact
 compatibility boundary.
 
-For Astra, Claude Fable and other frontier models, see the
-[usage guide](docs/FRONTIER-MODELS.md) and
+For agent/harness-independent usage, see the
+[workflow guide](docs/WORKFLOWS.md) and
 [behavioral evaluation cases](evals/README.md). The skills keep model selection
 in the host and scale their workflow to the requested change.
 

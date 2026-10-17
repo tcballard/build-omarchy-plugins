@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import qs.Commons
+import qs.Commons as Commons
 import qs.Ui
 
 Item {
@@ -37,16 +38,16 @@ Item {
     WlrLayershell.keyboardFocus: root.opened ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     exclusionMode: ExclusionMode.Ignore
 
-    Rectangle { anchors.fill: parent; color: Color.menu.scrim }
+    Rectangle { anchors.fill: parent; color: Commons.Color.menu.scrim }
     MouseArea { anchors.fill: parent; onClicked: root.close() }
 
     BorderSurface {
       width: Math.min(parent.width - Style.space(48), Style.space(420))
       height: Math.min(parent.height - Style.space(48), list.contentHeight + Style.space(80))
       anchors.centerIn: parent
-      color: Color.menu.background
+      color: Commons.Color.menu.background
       radius: Style.cornerRadius
-      borderSpec: Border.surfaceSpec("menu", "border", Color.menu.border, 1)
+      borderSpec: Border.surfaceSpec("menu", "border", Commons.Color.menu.border, 1)
       padding: Style.spacing.panelPadding
 
       MouseArea { anchors.fill: parent; onClicked: {} }
@@ -65,7 +66,7 @@ Item {
           height: Style.space(42)
           verticalAlignment: Text.AlignVCenter
           text: modelData
-          color: index === list.currentIndex ? Color.menu.selectedText : Color.menu.text
+          color: index === list.currentIndex ? Commons.Color.menu.selectedText : Commons.Color.menu.text
         }
       }
     }

@@ -1,112 +1,25 @@
-# Choose a workflow
+# Choose the smallest useful workflow
 
-Start at the work you actually have. A small fix needs the affected skill and
-relevant checks; the full route is useful when building and shipping a plugin.
-Describe the outcome in ordinary language or name the skill in your host.
-Continue through authorized work without asking the user to invoke every stage.
+Read the installed Omarchy guide and relevant project instructions first. Use only the skills needed for the requested outcome; no fixed sequence, plan format, delegation model or agent-specific tool is required. The twelve skill names remain stable, and each can be installed separately. If a sibling is absent, finish independent work and identify any missing prerequisite rather than inventing a tool.
 
-## New plugin: idea to publication
-
-1. [Design](../skills/omarchy-plugin-design/SKILL.md) checks prior art for new
-   ideas, establishes personal/public/marketplace intent, and resolves the
-   surface and ownership decisions still open. An existing specification
-   supplies settled decisions directly. Keep the first feature set small and
-   bring current publishing constraints into design when publication is intended.
-2. [Scaffold](../skills/omarchy-plugin-scaffold/SKILL.md) creates the repository
-   at the agreed destination. For a GitHub-ready bar widget, use the bundled
-   offline repository template; for other kinds or multi-kind projects, use
-   the existing generator. Generated sample behavior is the starting point.
-3. Implement the requested behavior with the relevant surface skill:
-   [bar widget](../skills/omarchy-bar-widget/SKILL.md),
-   [panel, overlay or menu](../skills/omarchy-panel-overlay/SKILL.md), or
-   [service and IPC](../skills/omarchy-service-ipc/SKILL.md).
-   [QML patterns](../skills/omarchy-qml-patterns/SKILL.md) supplies shared
-   implementation guidance, including hosted QML for a full bar.
-4. [Test](../skills/omarchy-plugin-test/SKILL.md) checks the actual changed
-   source and records observed results and remaining host checks. Carry any
-   architecture rules chosen in design into executable CI commands, including
-   the test skill's opt-in capability checks where applicable.
-5. [Demo](../skills/omarchy-plugin-demo/SKILL.md), when needed, prepares
-   fictional fixtures and captures the UI when a suitable host is available.
-6. [Release](../skills/omarchy-plugin-release/SKILL.md) reconciles the candidate
-   source, version, tests, preview and assets, including the downloaded/default
-   backend version when a fix depends on an external executable.
-7. [Publish](../skills/omarchy-plugin-publish/SKILL.md) prepares the marketplace
-   submission from that candidate and submits within the owner's authorization.
-   For a listed plugin, select recorded-snapshot verification, standard-installation
-   approval or newer-HEAD promotion explicitly; these have different evidence
-   and maintainer decisions.
-
-Stop at the outcome requested. Building a widget does not imply releasing it;
-preparing a release does not imply submitting it to the marketplace.
-
-## Shorter routes
-
-Some skills meet at the same code. Pick the skill that owns the requested
-result; load a second one only when its contract is needed:
-
-| Boundary | Owner | Add when needed |
+| Request | Start with | Completion |
 | --- | --- | --- |
-| Widget with a popout | Bar widget owns the button, anchor and settings | Panel/overlay owns a separately mapped window and its dismissal lifecycle |
-| Shared polling behind a surface | Service/IPC owns process-wide state, commands and methods | QML patterns supplies common hosted component and process rules |
-| One plugin ignores theme | QML patterns owns that consumer's token bindings | Theme skills own shared palette or shell tokens |
-| Broken plugin | Debug isolates the failure and applies a requested repair | Test records evidence for the corrected path |
-| Review feedback | Publish owns the issue, disposition and reviewed SHA | Test verifies the changed behavior; release rebuilds versioned assets if affected |
-| Versioned release | Release owns source, tag, assets and lifecycle readiness | Publish owns marketplace submission and owner attestations |
+| Agents panel → Plugin | Built-in Omarchy guide, then design/scaffold and the relevant implementation skill | Requested interaction works and is enabled locally, or exact live checks are disclosed as unrun. |
+| Personal built-in tweak | `omarchy plugin clone`, then the relevant surface skill | User-owned clone implements the change without editing packaged files. |
+| New plugin | Design → scaffold → relevant surface → affected checks | Smallest requested behavior, actual source and relevant verification. |
+| Existing widget/panel/service change | Bar widget, panel/overlay or service/IPC; QML patterns as needed | Focused patch preserving settled APIs and settings. |
+| Broken plugin | Debug; test after an authorized repair | Cause and recommendation for diagnosis-only; correction and observed checks for repair. |
+| Screenshot/demo | Demo | Fictional fixtures, real capture when available and restoration evidence. |
+| Legacy integration | Migrate | Requested shell surface moves while helper, credentials and data retain ownership. |
+| Release | Release | Source/version/assets reconciled, required evidence and unresolved gates explicit. |
+| Marketplace preparation/submission | Publish | Exact-SHA draft or authorized remote write, verified against current official contract. |
 
-The QML/service reviewer reference and test/publish review reference each have
-two identical local copies so any selected skill works on its own. These are
-distribution copies, not separate policies.
+Keep ordinary widget options inline in `shell.json`. Shared theme styling belongs to theme skills; a single plugin's incorrect token binding belongs to QML patterns. Use plugin-owned translation catalogs and current placement APIs only after checking host support.
 
-| What you have | Where to start | Expected result |
-| --- | --- | --- |
-| A design question | Design | Recommendation and tradeoffs, without implementation for a design-only request. |
-| A specification and existing plugin | Relevant surface skill, with QML patterns as needed → test | Scoped implementation preserving settled decisions. |
-| A tooltip or layout correction | Relevant surface skill → affected checks | Focused patch without restarting design or scaffolding. |
-| One widget ignores the active theme | Debug → QML patterns for a requested repair | Diagnose the token consumer; preserve a correct global palette and diagnosis-only scope. |
-| Global bar colours or theme-owned spacing | Theme Shell from Build Omarchy Themes, when available | Change shared theme tokens; use Plugin skills only for any requested QML consumer or behaviour change. |
-| A discovery, load or runtime failure | [Debug](../skills/omarchy-plugin-debug/SKILL.md) → relevant checks after repair | Supported diagnosis, or a patch and evidence that the original failure is fixed. |
-| A legacy integration | [Migrate](../skills/omarchy-plugin-migrate/SKILL.md) → affected implementation and tests | Preserved machine responsibilities with the requested shell surface migrated. |
-| A working UI needing a screenshot | Demo | Reproducible fixtures, capture and restoration evidence, or a harness with capture explicitly pending. |
-| A tested candidate | Release → publish when requested | Source-bound release evidence and a reviewable submission. |
-| Marketplace review feedback | Publish's review-response guidance → affected implementation/test skills | Classify compatibility and security separately; inspect prose-only capability matches, then return a correction or explanation tied to the reviewed SHA. |
+See [the host workflow](../skills/omarchy-plugin-design/references/host-workflow.md) for the exact Agents-panel prompt and companion-skill usage. That button launches the configured default agent with the built-in guide; it does not automatically load this bundle.
 
-## What travels between skills
+Helpers use the loaded skill's absolute directory, not the current project directory. Python 3 is required for the bundled Python tools; the optional full repository starter requires Node.js 22+. Reading the instructions requires neither runtime. Workbench, Omakit, VM tooling and provider adapters are optional integrations, not prerequisites for plugin development.
 
-Keep the requested scope, target checkout, relevant decisions, changed files,
-evidence locations and unresolved checks with the work. For agent, broker or
-privileged integrations, carry the actual trust/authorization boundary; for
-backend fixes, carry artifact pins and minimum-version evidence as well. Each skill's **Inputs
-and completion** section owns its specific expectations. Reuse the project's
-existing record for multi-session work; a small same-session edit needs no new
-handoff document.
+Carry forward existing decisions, actual changed files and source-bound results in the project's own format. Evidence may refer to commit plus working changes or a fixture digest. Later source edits invalidate affected results. Never turn scaffold validation, a prepared harness or an issue submission into a claim of runtime correctness, release publication or marketplace approval.
 
-Evidence belongs to a source state. During development, that includes relevant
-working-tree changes; for release and publication, use the exact candidate
-commit and artifact identities. Recheck affected behavior after changes rather
-than carrying an old pass forward. A consumer inspects the files and results
-it receives instead of treating the previous step's summary as proof.
-
-## Common questions
-
-**Must every skill be installed?** Use available focused skills through the
-host's supported mechanism. A missing sibling is not a reason to invent a tool
-or stop independent work. For example, scaffolding can use its generated
-validator and report the narrower evidence when the test skill is absent.
-When the release and test skills are installed under different directory names,
-resolve the loaded test skill and pass its script through release preflight's
-`--validator` option. The release skill documents this explicit handoff; missing
-validation still blocks readiness.
-
-**Must setup happen before any work?** Only a prerequisite needed for the next
-action blocks it. Missing display access leaves runtime checks pending while
-portable work continues. Missing owner attestations prevent submission, while
-the title and body can still be prepared.
-
-**When is it working?** The requested behavior exists in the actual target
-checkout, results refer to that source, later skills can find their inputs, and
-the final report identifies unfinished work. A scaffold, successful preflight,
-prepared capture harness or created issue proves only that particular stage.
-
-Maintainers can exercise these boundaries with the
-[handoff evaluation cases](../evals/HANDOFFS.md).
+For substantial changes, use the [behavioral cases](../evals/README.md) and [handoff cases](../evals/HANDOFFS.md). Their criteria describe outcomes, not tool-call sequences.

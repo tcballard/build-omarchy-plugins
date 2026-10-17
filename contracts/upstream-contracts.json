@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-03",
+  "reviewedAt": "2026-10-17",
   "contracts": [
     {
       "name": "Agent Skills specification",
@@ -30,15 +30,16 @@
       "name": "Omarchy Quattro shell contract",
       "repository": "https://github.com/omacom/omarchy",
       "trackedRef": "refs/heads/quattro",
-      "pinnedCommit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
       "path": "docs/omarchy-shell.md",
-      "sha256": "ef510b55ddb15b1f809cf9fa03ed37941b3ca75536e30982bfedcde295da1399",
+      "sha256": "35e8da707317954fd9deb2b401f70e287416c4da4646c65805626fabc6fc184b",
       "assumptions": [
         "Quattro plugins use a root manifest.json and hosted QML entry points.",
         "Third-party plugin code executes inside the long-running shell process.",
         "Reviewed 2026-09-29: third-party entry points receive capability-scoped facades and detached configuration snapshots, not trusted host objects; these are not same-process QML sandboxes.",
         "Service-backed third-party widgets retain full own-service integration under the trusted built-in bar; replacement bars provide service-less entry facades.",
-        "keepLoaded services survive plugin hot-reload and require a shell restart for code changes."
+        "keepLoaded services survive plugin hot-reload and require a shell restart for code changes.",
+        "Reviewed 2026-10-17 against current Quattro; installed host support remains authoritative."
       ]
     },
     {
@@ -85,13 +86,14 @@
       "name": "Omarchy Quattro multiselect settings example",
       "repository": "https://github.com/omacom/omarchy",
       "trackedRef": "refs/heads/quattro",
-      "pinnedCommit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
       "path": "shell/plugins/bar/widgets/Indicators.manifest.json",
-      "sha256": "3eea8a52c46d7e2436f8967abb4347d56163f7cef622caf0fe2d69bf6858d59b",
+      "sha256": "b192e657959b2d5639cbccb2d59045723adc626a7760d358ed9df53643657228",
       "vendoredPath": "contracts/omarchy-indicators.manifest.json",
       "assumptions": [
         "Reviewed 2026-09-22: Quattro uses multiselect in barWidget.schema.",
-        "Multiselect options may be objects with value, label and description; an options array is required by this portable checker."
+        "Multiselect options may be objects with value, label and description; an options array is required by this portable checker.",
+        "Reviewed 2026-10-17 against current Quattro; installed host support remains authoritative."
       ]
     },
     {
@@ -139,6 +141,52 @@
       "sha256": "e1ce6507ce91aa963ef302aea3a08e51e1e130bd84807ce9d5b2c3cf0b694ae4",
       "assumptions": [
         "A recorded former repository resolves only for its own existing listing; later scans and approval use the canonical repository."
+      ]
+    },
+    {
+      "name": "Omarchy Agents panel plugin starter",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "shell/plugins/agents/Panel.qml",
+      "sha256": "5d2d36bef5552e04da13bc94043a73ee6116d5544b78870ebd83f2b8514e59e1",
+      "assumptions": [
+        "Plugin starter launches the default agent through omarchy-agent-prompt and requests the built-in plugin guide; it does not load this bundle."
+      ]
+    },
+    {
+      "name": "Omarchy installed plugin guide",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "default/agents/skills/omarchy/plugins.md",
+      "sha256": "b69f240c7ea091bd6a86a098bc0ab2ba6055c90ce50c3217315c98842525fa95",
+      "assumptions": [
+        "Personal customization clones built-ins; user plugin code reloads on save.",
+        "Plugin-owned Commons.Translations catalogs support live switching, pluralization and RTL.",
+        "Layout includes centerBegin, centerEnd and tray; center placement must preserve clock geometry."
+      ]
+    },
+    {
+      "name": "Omarchy bar placement contract",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "shell/services/PluginRegistry.qml",
+      "sha256": "277a4a8db6769f1a71ae893a78da9d903de456fc759bb8eb57062099787b39a7",
+      "assumptions": [
+        "defaultSection accepts all Util.barSections; automatic center placement maps to centerEnd."
+      ]
+    },
+    {
+      "name": "Omarchy Qt import contract",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "agents/skills/shell-dev.md",
+      "sha256": "a0e5a63519256c5a7ea7756dac1b48b67226741e78c2354c93bf6f695d414251",
+      "assumptions": [
+        "Qt 6.12 Color shadows unqualified palette references; use Commons.Color with an aliased import."
       ]
     }
   ]

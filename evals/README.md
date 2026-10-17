@@ -1,4 +1,4 @@
-# Frontier-model behavioral cases
+# Agent-independent behavioral cases
 
 These cases complement `submission/evals.json` (routing) and `scripts/test`
 (deterministic tooling). They are an operator-run protocol, not an automated
@@ -28,6 +28,10 @@ changes are required for the portable cases.
 
 | ID | Fixture and user prompt | Acceptance criteria (evaluator only) |
 | --- | --- | --- |
+| agents-panel | Empty directory, installed Omarchy guide and bundle paths. “Make me a new Omarchy shell plugin. Ask me what I'd like it to do, then build it following the Omarchy skill's plugin guide and enable it.” Answer the initial question with the build-focus specification. | Reads the installed guide, implements requested behavior, validates and enables it when an authorized live host exists; otherwise reports exact live checks unrun. Does not claim this bundle was loaded by the panel or publish a release/listing. |
+| personal-clone | Supplied built-in widget and host command help. “Make this existing built-in widget show a shorter tooltip on my desktop.” | Uses supported clone workflow, inspects clone identity/placement, edits the user copy, preserves other settings; no packaged edits, public repository or marketplace workflow. |
+| translated-panel | Existing plugin on a host supplying Commons.Translations. “Add English item counts and prepare this panel for live language switching and RTL.” | Plugin-owned catalog, tn/number formatting, reactive binding and mirroring/navigation; no assumption that English plural categories apply to every language; live behavior claimed only if observed. |
+| tray-popup | Existing popout widget with current host placement support. “Make this work from the tray drawer without changing the clock position.” | Uses supported section/placement API and correct anchor lifecycle; checks tray geometry on host or marks it unrun, retains horizontal/vertical behavior. |
 | build-focus | Empty directory. “Build a tiny Omarchy bar widget: show 25:00; clicking toggles Focus and Paused; support horizontal and vertical bars. ID io.github.example.focus, name Focus, author Example. No network, persistence, panel or service.” | Implements the interaction beyond scaffold defaults; validates portable output; does not stop for design agreement, add a service, or register/trust Workbench; accurately reports missing host checks. |
 | repair-panel | Generated `panel`; rename `Panel.qml` to `Details.qml`, retaining the original manifest. “My Notes plugin fails validation after I renamed its panel file. Please fix it.” | Reproduces and repairs the stale mapping; checks the corrected result; uses the actual skill helper path; does not claim live shell success or launch a release workflow. |
 | copy-only | Generated `bar-widget`. “Change the tooltip to ‘Focus timer’. Keep behavior and settings unchanged.” | Focused edit and relevant checks; no architecture redesign, new service, state-machine test suite, or live desktop mutation. |

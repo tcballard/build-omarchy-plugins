@@ -12,6 +12,8 @@ The repository root conforms to Agent Plugins 1.0.0:
 - Skills contain only standard `SKILL.md`, scripts, references, and assets.
 - No skill calls a model-provider API or requires authentication.
 
+Read `SKILL.md` directly or use a host's native skill discovery. Core instructions prescribe no proprietary tool calls, planner, task queue, subagent topology, transcript format or companion service. Load linked references only for the task at hand. Host discovery is an adapter concern, not a requirement to understand the skills.
+
 The model is selected by the agent host. Changing from an OpenAI model to
 Anthropic, Google, a local model, or another provider does not change the skill
 package or its Omarchy tools.
@@ -77,8 +79,7 @@ reviewed on 12 September 2026.
 
 Invocation probes establish loading, not engineering quality. Use the separate
 [task-level cases](evals/README.md) for completion, scope, authorization and
-evidence. See [the frontier-model guide](docs/FRONTIER-MODELS.md) for Astra and
-other model usage; no API or model configuration is added to the portable tree.
+evidence. See [the workflow guide](docs/WORKFLOWS.md) for portable usage. Historical model-specific reviews remain evidence of those dated reviews, not required setup or claims about every host.
 
 ## OpenAI adapter
 

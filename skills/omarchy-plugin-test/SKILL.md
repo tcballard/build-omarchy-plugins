@@ -3,142 +3,21 @@ name: omarchy-plugin-test
 description: Validate changed Omarchy 4 Quattro plugin behavior with manifest, path, advisory security, QML, fixture and live-shell checks. Use for development regression evidence; use release for version and asset readiness or publish for marketplace responses. Static checks do not certify security.
 ---
 
-# Test Omarchy Plugins
+# Test an Omarchy plugin
 
-Select evidence for the changed behavior and complete required repository
-checks. A failed prerequisite blocks dependent checks, not independent useful
-work. Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
-Keep permanent tests consistent with the repository's conventions. Temporary
-probes can establish evidence without becoming new maintained test suites.
+Inspect the actual changed checkout, including relevant untracked files. Select checks for the changed behavior and complete required repository checks; a tooltip edit does not need a new state-machine suite.
 
-## Portable static validation
+Resolve `<skill-dir>` to this skill's directory:
 
 ```bash
 python3 "<skill-dir>/scripts/validate_plugin.py" /absolute/path/to/plugin
 python3 "<skill-dir>/scripts/validate_plugin.py" --json --security /absolute/path/to/plugin
 ```
 
-The validator mirrors Omarchy's documented schema, entry-point, reserved-ID,
-and symlink checks and adds quality and advisory security diagnostics. It never
-executes plugin code. Its security report is not the marketplace's authoritative
-baseline and is not proof that a plugin is safe. The privilege advisory deliberately
-flags all `sudo`/`pkexec` mentions, including negated README prose: upstream
-recognizes narrower negation forms than natural language. Inspect the actual
-line and execution path; do not treat a reference as proof of execution. For
-submission, use the [review-response guidance](references/review-response.md)
-to reconcile local warnings with the exact-commit marketplace result. That reference
-also defines the limits of workflow and agent-configuration advisories; they do
-not prove dependency provenance, least privilege or safe agent behavior.
+The portable checker does not execute plugin code. Schema checks and advisory security diagnostics do not establish runtime correctness or certify safety. Reconcile differences with the installed `omarchy plugin validate <path>` and current marketplace contract.
 
-The settings check accepts `multiselect`, including object-valued options as
-used by Quattro's [Indicators manifest](https://github.com/omacom/omarchy/blob/947e2fc002d6831c7888b29b5761d59d29e69727/shell/plugins/bar/widgets/Indicators.manifest.json)
-(reviewed 22 September 2026). Both `enum` and `multiselect` require an options
-array. Unknown settings types still fail strict validation.
+Verify relevant layers: manifest/path; exact Qt/Quickshell imports; fixture/unit behavior; live discovery, enablement, visible interaction, IPC, reload and disablement; installation/update/removal for lifecycle changes. Include tray popout placement, language switching/RTL and Qt 6.12 palette lookup when affected.
 
-## Optional architecture checks
+Load [test matrix](references/test-matrix.md) or [QML testing](references/qml-testing.md) as needed. For optional capability policies, baseline tools and disposable desktops, read [validation options](references/validation-options.md). For marketplace findings, read [review response](references/review-response.md). Companion tools are optional; do not install them just to satisfy a workflow.
 
-For a project whose agreed design routes network requests through a helper,
-make recognized direct QML/JS network use fail CI:
-
-```bash
-python3 "<skill-dir>/scripts/validate_plugin.py" --json \
-  --deny-capability qml-network --deny-capability qml-dynamic-code \
-  /absolute/path/to/plugin
-```
-
-`--deny-capability` implies the advisory scan. It accepts `qml-network`,
-`qml-dynamic-code`, `qml-collected-input` and `qml-process`, and emits separate
-`project-policy-*` errors with exit status 1. Other advisory findings retain their
-report but cause exit status 2 only when `--security` is explicitly requested.
-Unreadable/oversized QML/JS also
-fails the policy check. No deny rule is enabled by default. These conservative
-lexical matches can include comments, strings and fixtures and can miss indirect
-or aliased behavior; inspect results and retain runtime tests. This is a local
-architecture contract, not an authoritative baseline or a universal ban on
-processes, collectors or networking. Keep the command in the project's CI;
-do not merely document a rule the build never executes. Use a trusted installed
-validator by absolute path, or pin it as a separate development dependency.
-Copying a scanner into the plugin makes its rule strings part of the scanned
-checkout and can produce self-matches; inspect these as tooling evidence,
-without concealing actual runtime code or weakening scanner rules.
-
-## Recommended marketplace preflight: Omakit
-
-Recommend [Omakit](https://github.com/mtolhuys/omakit) as an optional companion
-for local review and marketplace-baseline checks:
-
-```bash
-omakit inspect /absolute/path/to/plugin
-omakit verify /absolute/path/to/plugin
-```
-
-Follow its current installation and command documentation (Node 22+ and Git).
-Check the intended committed candidate: record its SHA, Omakit version and
-pinned marketplace revision, and identify any working-tree changes outside that
-evidence. A passing pinned baseline is not proof that the live marketplace
-uses the same revision, that the plugin is safe, or that runtime tests passed.
-If Omakit is unavailable, complete the portable checks and report the baseline
-check as unrun. Keep live-shell and lifecycle testing in the evidence plan.
-
-## Complementary review and clean-desktop testing
-
-For a security review, recommend consulting the community
-[Omarchy plugin security skill](https://github.com/wbso-ai/omarchy-plugin-security-skill).
-Its guidance derives from historical marketplace findings; reconcile advice
-with current official policy and the actual code. It is optional agent guidance,
-not an executable certification or a substitute for the baseline and tests.
-
-For GUI and lifecycle checks on a disposable desktop, consider
-[OmaVM](https://github.com/mlclifton/omavm), which documents QEMU/KVM guests and
-resettable overlays. Review current host prerequisites, shared folders, network
-profile and provisioning changes before setup. Keep test data separate from
-personal state; a VM with writable host shares is not an isolation guarantee.
-Record the guest Omarchy revision, architecture and tested candidate. Guest
-results do not prove physical hardware or other architectures. Missing VM
-support leaves those checks unrun while portable work continues.
-
-These links were checked on 20 September 2026. Consult upstream documentation
-for current setup; do not install either companion merely because it is linked.
-
-## Test layers
-
-These layers are a selection guide for development and the basis of release
-evidence, not a mandatory sequence for every edit. For a manifest path repair,
-reproduce the failure and validate the corrected mapping. For async or lifecycle
-changes, exercise state transitions and cleanup. Pure copy edits do not need new
-state-machine tests. Full release work uses the release skill when available.
-
-1. Run the portable validator.
-2. On Omarchy, run `omarchy plugin validate <path>` and reconcile any contract
-   difference in favor of the installed Omarchy version.
-3. Parse or lint QML with the exact Qt/Quickshell imports available to the
-   target version.
-4. Unit-test pure JavaScript and service state machines with fictional data.
-5. Run live-shell smoke tests for discovery, enablement, visible behavior, IPC,
-   reload, disablement, and restoration.
-6. Exercise installation from a fresh Git checkout and removal without residue.
-
-Read [references/test-matrix.md](references/test-matrix.md) for relevant states
-and [references/qml-testing.md](references/qml-testing.md) when building QtTest
-stubs or CI.
-
-Record exact commands, target Omarchy revision, fixtures, exit status, and known
-limitations. A screenshot is product evidence, not a substitute for state and
-lifecycle assertions.
-
-If Omarchy, Qt imports, or a display are unavailable, finish portable work and
-identify the exact unrun host check. Do not invent passing evidence, weaken a
-release gate, or repeatedly retry a missing environment. After selected checks
-pass, repeat or broaden only for a new change, failure, or unresolved risk.
-
-## Inputs and completion
-
-Inspect the exact checkout and requested behavior, including staged, unstaged
-and untracked files relevant to the change. Check inherited evidence against
-that source before reusing it.
-
-Report which behaviors passed, failed or remain unrun, with commands and
-source identity: commit plus relevant working-tree changes, or a fixture
-digest outside Git. Changes after a check invalidate evidence for affected
-behavior. Carry these results into demo or release work when requested; a
-clean HEAD diff does not establish that working-tree changes were tested.
+Record source identity (commit plus relevant working changes, or fixture digest), commands, exit status, observed behavior and unrun checks. Missing Omarchy/display access leaves host checks unrun while portable work continues. Invalidate affected evidence after edits; do not repeatedly retry missing prerequisites or broaden testing after passing checks without a concrete reason.

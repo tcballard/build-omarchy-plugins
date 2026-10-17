@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import qs.Commons
+import qs.Commons as Commons
 
 Item {
   id: root
@@ -21,7 +22,7 @@ Item {
         screen: modelData
         anchors { top: true; left: true; right: true }
         implicitHeight: Style.bar.sizeHorizontal
-        color: Color.bar.background
+        color: Commons.Color.bar.background
         WlrLayershell.namespace: "{{NAMESPACE_QML}}"
         WlrLayershell.layer: WlrLayer.Top
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
@@ -30,7 +31,7 @@ Item {
         Text {
           anchors.centerIn: parent
           text: "{{PLUGIN_NAME_QML}}"
-          color: Color.bar.text
+          color: Commons.Color.bar.text
           font.pixelSize: Style.font.body
         }
       }
