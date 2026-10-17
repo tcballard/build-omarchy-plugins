@@ -1,14 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 — 2026-10-17
 
 - Align with the Quattro Agents-panel Plugin starter and built-in guide; add a local clone route.
 - Fix generated Qt 6.12 palette qualification and accept all six current bar sections.
 - Document plugin-owned translations, live language switching, plurals and RTL.
 - Shorten all twelve portable skill entry points; retain conditional mechanics in references and keep agent/harness setup in optional adapters.
 - Refresh reviewed Omarchy pins and add creation-flow, tray and localisation evaluation cases.
-
-All notable changes to Build Omarchy Plugins are documented here.
+- Read generated Unicode fixtures explicitly as UTF-8 on Windows.
+- Update release metadata and installation examples for v0.9.0.
 
 ## 0.8.0 — 2026-10-06
 

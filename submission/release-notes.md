@@ -1,36 +1,20 @@
-# Build Omarchy Plugins v0.8.0 — Start with the repo sorted
+# Build Omarchy Plugins v0.9.0 — Less ceremony. More building.
 
-The plugin repository template now ships inside the skills bundle. Ask your
-agent for a GitHub-ready bar widget and it can create the whole starting point
-offline, with your project name, plugin ID and repository details already set.
+I cut the twelve skill entry points by 58%: 6,884 words down to 2,892. Same skill names. Less context to load before getting to work.
 
-- **The boring setup comes with it.** README, credits, licence, CI, issue and PR
-  templates, release workflow and an optional GitHub policy setup command.
-- **One reviewed starting point.** The bundled template is pinned to an exact
-  commit and checked against file hashes before generation. Each new project
-  records where it came from. Existing directories are never overwritten.
-- **Use the bundle your way.** The starter travels with an individual scaffold
-  skill install and the portable, Claude, OpenAI plugin and skills archives.
-  The existing generator still supports all six plugin kinds.
-- **Works from real install paths.** Generated projects handle folders with
-  spaces and Windows paths. The new route needs Node.js 22+; no npm install or
-  network access is needed to create the project.
+This is a substantial refactor of how the bundle guides an agent through building an Omarchy plugin. Detailed mechanics stay in linked references, ready when the task needs them. The core instructions assume no particular agent, harness, planner or proprietary tools. Pick your own setup.
 
-All 77 toolkit tests and five new scaffold tests passed, with CI green across
-Linux, macOS, and Windows. We also generated plugins from every installable
-archive and ran a fresh-session scaffold exercise. That checks the tooling;
-the plugin you build still needs testing on your Omarchy desktop.
+- **Fits Omarchy's new starting point.** The Agents panel's Plugin button on current Quattro development builds launches your default agent with Omarchy's built-in guide. This release explains how the bundle complements that flow. The button does not automatically load the bundle.
+- **Small tweaks can stay small.** Clone a built-in widget, edit your own copy and stop when it works. A personal customization does not need a public repo or a marketplace submission.
+- **Catches up with Quattro.** Generated palette references now avoid the Qt 6.12 `Color` collision. The generator and validator accept all six bar sections, with guidance for clock-adjacent placement and tray popouts.
+- **Speaks the desktop's language.** New guidance covers plugin-owned translations, live language switching, plurals, number/date formatting and RTL layouts. Check the installed host before adopting newer APIs.
 
-The twelve provider-neutral skills retain OpenCode support, transactional
-updates and an SPDX 2.3 SBOM. Release automation builds verified drafts and
-cannot publish them. Creating a project does not create a remote repository,
-apply GitHub settings or change your desktop.
+The refactor passed 79 toolkit tests and CI on Linux, macOS, and Windows. A fresh-session build also produced a working implementation of a small focus widget and passed its portable checks. Live Qt rendering, tray geometry, language switching and RTL still need testing on an Omarchy desktop; those checks are not claimed here.
 
-Choose the archive for your host and check it against `SHA256SUMS`. For an
-existing CLI installation, preview the update with `--update --diff`, then use
-`--update`, keeping your usual installer target and scope.
+The provider-neutral bundle retains OpenCode support, transactional updates, the offline repository starter and an SPDX 2.3 SBOM. Host packaging stays optional. Release automation builds verified drafts and cannot publish them by itself.
 
-Try: **“Create a GitHub-ready Omarchy bar-widget repository using the bundled
-template.”**
+For an existing CLI install, check out `v0.9.0`, preview `--update --diff`, then apply `--update` using your usual target and scope. Check downloaded archives against `SHA256SUMS`.
 
-[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.7.0...v0.8.0)
+Try: **“Use the installed Omarchy guide and Build Omarchy Plugins skills. Build the smallest useful version, enable it locally and verify the interaction.”**
+
+[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.8.0...v0.9.0)
