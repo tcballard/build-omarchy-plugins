@@ -43,6 +43,12 @@ whenever the relevant source property changes. Use the current first-party
 clock or a maintained community plugin as the local pattern rather than copying
 an old Waybar module.
 
+## Current placement and tray drawer
+
+Reviewed on 17 October 2026 against Quattro `cce8b1c971df64a7610b818ff8819e4bea04584a`. `defaultSection` accepts `left`, `centerBegin`, `center`, `centerEnd`, `right`, `tray`. Automatic insertion treats `center` as `centerEnd` so the centered clock group stays centered. Explicit center placement belongs to users; do not migrate their layout as a side effect of a plugin update. Prefer `omarchy bar` commands discovered on the installed host over replacing its whole layout object.
+
+A widget in `tray` appears inside the tray drawer. Test opening/closing its popout, anchor geometry, keyboard dismissal and closing the drawer with the popout open. Keep the bar instance/anchor injection current rather than calculating a global screen coordinate. Validate edge and vertical placement too. Portable checks establish supported section values, not live geometry.
+
 ## Multi-monitor service lookup
 
 A combined `service` + `bar-widget` plugin should resolve the singleton hosted

@@ -350,8 +350,8 @@ def validate_manifest(root: Path, manifest: dict[str, Any], report: Report, stri
 
 def validate_bar_widget(widget: dict[str, Any], report: Report, path: Path, strict: bool) -> None:
     section = widget.get("defaultSection")
-    if section is not None and section not in {"left", "center", "right"}:
-        report.add("error", "default-section", "barWidget.defaultSection must be left, center, or right.", path)
+    if section is not None and (not isinstance(section, str) or section not in {"left", "centerBegin", "center", "centerEnd", "right", "tray"}):
+        report.add("error", "default-section", "barWidget.defaultSection must be left, centerBegin, center, centerEnd, right, or tray.", path)
     allow_multiple = widget.get("allowMultiple")
     if allow_multiple is not None and type(allow_multiple) is not bool:
         report.add("error", "allow-multiple-type", "barWidget.allowMultiple must be a JSON boolean.", path)

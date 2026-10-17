@@ -51,7 +51,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--description", default="A native Omarchy Quattro shell plugin.")
     parser.add_argument("--version", default="0.1.0")
     parser.add_argument("--output", required=True, type=Path)
-    parser.add_argument("--default-section", choices=("left", "center", "right"), default="right")
+    parser.add_argument("--default-section", choices=("left", "centerBegin", "center", "centerEnd", "right", "tray"), default="right")
     parser.add_argument("--allow-multiple", action="store_true")
     parser.add_argument("--no-git", action="store_true")
     return parser.parse_args(argv)

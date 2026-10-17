@@ -26,7 +26,7 @@ plugin-name/
 --description TEXT      Manifest and README description
 --version SEMVER        Initial version; default 0.1.0
 --output PATH           New empty destination
---default-section SIDE  left, center, or right for bar widgets
+--default-section SIDE  left, centerBegin, center, centerEnd, right, tray
 --allow-multiple        Permit multiple configured widget instances
 --no-git                Do not initialize a Git repository
 ```
@@ -58,6 +58,10 @@ those commands during registration but deliberately leaves them untrusted until
 the user reviews the file and explicitly approves project commands and the
 workflow capability.
 
+
+## Optional Workbench registration
+
+Workbench is a companion, not an agent harness requirement. When requested and installed, register the checkout with `omarchy-plugin-workbench add <path>`. Inspect `.omarchy-workbench.json` commands before `trust <id>` or `check <id>`; reuse existing specific authorization, otherwise obtain it for trusting those commands. Missing Workbench does not block generation, implementation or ordinary validation.
 
 ## README badges and GitHub topics
 

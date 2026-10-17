@@ -27,8 +27,8 @@ related behavior from `BarWidget`. Full bar replacements also receive
 
 ## Scoped host interfaces
 
-Reviewed against Quattro commit `e332dc975d5f635294c497ebb54feb98dc3d89eb`
-(29 September 2026). Check the target host before assuming these APIs exist on
+Reviewed against Quattro commit `cce8b1c971df64a7610b818ff8819e4bea04584a`
+(17 October 2026). Check the target host before assuming these APIs exist on
 an older installation.
 
 The injected names above do not grant third-party code the trusted host objects.
@@ -59,8 +59,11 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.Commons
+import qs.Commons as Commons
 import qs.Ui
 ```
+
+Use `Commons.Color.*` for palette references on Qt 6.12; its QtQuick `Color` type shadows unqualified access. Keep the unqualified import for `Style`, `Util` and `Border`.
 
 `qs.Commons` contains theme and utility singletons. `qs.Ui` contains Omarchy
 components such as `BarWidget`, `WidgetButton`, `Panel`, `BorderSurface`, and
@@ -74,4 +77,4 @@ that makes it testable without a live shell. Keep QML responsible for bindings,
 lifecycle, and view composition.
 
 Authoritative contract:
-[docs/omarchy-shell.md](https://github.com/omacom/omarchy/blob/e332dc975d5f635294c497ebb54feb98dc3d89eb/docs/omarchy-shell.md).
+[docs/omarchy-shell.md](https://github.com/omacom/omarchy/blob/cce8b1c971df64a7610b818ff8819e4bea04584a/docs/omarchy-shell.md).

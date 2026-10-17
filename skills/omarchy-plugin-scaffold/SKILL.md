@@ -3,106 +3,22 @@ name: omarchy-plugin-scaffold
 description: Create a new Omarchy 4 Quattro shell-plugin repository or add its initial supported entry points. Use for manifest, QML, tests, CI, demo, license, and README scaffolding; not for overwriting an established plugin.
 ---
 
-# Omarchy Plugin Scaffold
+# Scaffold an Omarchy plugin
 
-Generate a working repository, then validate the generated result.
+Inspect the destination and retain agreed ID, kinds and scope. For a small built-in customization use `omarchy plugin clone <id>` and edit the user copy instead. Read the installed Omarchy guide first; never edit packaged shell files.
 
-For new ideas, carry forward the design's prior-art decision, distribution
-intent and smallest useful feature. If those decisions are missing, resolve
-only what affects this scaffold; a requested personal customization does not
-need a marketplace submission packet. Prefer adapting an appropriate licensed
-existing plugin when that already meets the requested outcome.
-
-## Create a repository
-
-For a new GitHub-ready bar-widget project, prefer the bundled repository
-template. It includes the shared README, CI, release and repository-policy
-defaults. Read [references/repository-template.md](references/repository-template.md)
-for inputs, provenance, GitHub setup and validation:
-
-```bash
-node "<skill-dir>/scripts/new_repository.mjs" \
-  --output /absolute/path/to/plugin-name \
-  --owner your-account --repo omarchy-plugin-name --slug plugin-name \
-  --id io.github.your_account.plugin_name \
-  --name "Plugin Name" --author "Author Name"
-```
-
-Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md`.
-This offline route requires Node.js 22+, refuses any existing destination and
-does not create a Git repository or configure GitHub. It supplies a bar widget;
-use the existing generator below for other kinds or multi-kind scaffolds.
-
-Resolve `<skill-dir>` to the directory containing this loaded `SKILL.md` and
-run its bundled generator by absolute path:
+Resolve `<skill-dir>` to this skill's directory, independently of the project or agent host. For a minimal plugin:
 
 ```bash
 python3 "<skill-dir>/scripts/new_plugin.py" \
-  --id io.github.owner.plugin-name \
-  --name "Plugin Name" \
-  --kind bar-widget \
-  --author "Author Name" \
-  --output /absolute/path/to/plugin-name
+  --id io.github.owner.plugin-name --name "Plugin Name" \
+  --kind bar-widget --author "Author Name" --output /absolute/path/to/plugin
 ```
 
-Repeat `--kind` for a justified multi-kind plugin. The generator supports
-`bar-widget`, `panel`, `overlay`, `menu`, `service`, and `bar`.
+Repeat `--kind` only for implemented surfaces. Supported kinds: `bar-widget`, `panel`, `overlay`, `menu`, `service`, `bar`. The generator refuses a non-empty destination.
 
-Read [references/generated-layout.md](references/generated-layout.md) when
-selecting optional flags, extending the output, arranging the compact README
-badge row, or pairing badges with GitHub repository topics. For a shell plugin, recommend `omarchy` and
-`omarchy-plugin`; preserve existing relevant topics. Topics are GitHub
-repository metadata and are not set by adding a badge to the README.
+For an optional full GitHub repository starter, read [repository template](references/repository-template.md). It requires Node.js 22+, an unused destination and no network. GitHub configuration is a separate step. Read [generated layout](references/generated-layout.md) for optional flags, badges and companion integrations; none is a prerequisite to building a plugin.
 
-## Guardrails
+Keep external installation explicit, action SHA pins intact, external text plain, and agent configuration outside installed runtime code. Replace sample behavior with the requested feature.
 
-- Inspect the target first. The generators refuse a non-empty destination and
-  never merges into an existing repository.
-- Use a globally unique, lowercase, reverse-domain-style ID. Treat it as
-  permanent once published.
-- Choose the smallest kind set. A common rich widget uses `service` plus
-  `bar-widget`; do not declare kinds without corresponding functionality.
-- Keep external installation outside the shell-plugin scaffold. Document
-  required packages and let users install them explicitly.
-- Preserve generated action SHA pins and explicit CI permissions. Review new
-  actions, executable images and installation dependencies when extending CI.
-  Keep authoring-agent hooks/settings/skills outside the installed plugin tree.
-- Keep generated `Text.PlainText` rendering when replacing sample text with
-  external data, including nested menu delegates and compact views.
-- Generated QML is functional baseline code, not final product design. Replace
-  the sample state and copy while preserving the lifecycle and injection
-  contracts.
-
-Run `./tests/run` from the generated repository and the current toolkit validator
-from `omarchy-plugin-test` when installed. If that skill is unavailable, use the
-generated validator and report the narrower evidence. For a build request,
-continue to the requested functionality; scaffold validation alone does not
-prove the feature is complete.
-
-Generated repositories include the schema-one `.omarchy-workbench.json`
-companion contract. Workbench registration is optional and does not block
-scaffolding. When local registration is requested and Workbench is installed,
-register the checkout. Review the declared commands and obtain the specific
-trust authorization before the trust/check actions unless already supplied:
-
-```bash
-omarchy-plugin-workbench add /absolute/path/to/plugin-name
-omarchy-plugin-workbench trust io.github.owner.plugin-name
-omarchy-plugin-workbench check io.github.owner.plugin-name
-```
-
-On an Omarchy machine also run:
-
-```bash
-omarchy plugin validate /absolute/path/to/plugin-name
-```
-
-## Inputs and completion
-
-Use the agreed ID, kinds, author and destination. Carry forward the design’s
-state and dependency boundaries; inspect the destination before generation.
-
-Return the generated repository path, actual entry-point mappings and
-validation results. For a build request, continue into the selected surface
-skill when available and distinguish generated baseline behavior from the
-requested feature. Pass that same repository to testing.
+Run generated `./tests/run` and the toolkit validator when available. On Omarchy also run `omarchy plugin validate <path>`, then enable and verify the local result when requested. Report the actual entry points, results and unrun host checks. A generated scaffold alone does not complete a feature request.
