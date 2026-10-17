@@ -1,4 +1,3 @@
-"""Behavioral regression checks for generated code and the current host contract."""
 from __future__ import annotations
 import json
 import re

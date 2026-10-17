@@ -19,7 +19,6 @@ TAGS = {
     "AI", "Bar", "Education", "Games", "Hyprland", "Kids", "Launcher", "Media",
     "Power management", "Quickshell", "Security", "System", "VPN", "Workspaces",
 }
-# Retain existing command-line spellings; emit the exact reviewed form labels.
 TAG_ALIASES = {tag.lower().replace(" ", "-"): tag for tag in TAGS}
 
 

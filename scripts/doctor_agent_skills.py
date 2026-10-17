@@ -74,7 +74,6 @@ def nested_roots(repo: Path, families: tuple[str, ...]) -> list[Path]:
             candidate = base / family / "skills"
             if candidate.is_dir() and not candidate.is_symlink():
                 result.append(candidate)
-        # Do not traverse into skill payloads merely to rediscover nested roots.
         if base.parent.name in families and base.name == "skills":
             directories[:] = []
     return sorted(set(result), key=lambda item: str(item))
@@ -125,7 +124,7 @@ def roots_for(host: str, cwd: Path, home: Path, repo: Path) -> tuple[list[Root],
             "enterprise managed skills override personal and project skills but their platform-specific root is not inferred",
             "plugin, --add-dir, and claude.ai synced sources require live host configuration to enumerate completely",
         ])
-    else:  # gemini
+    else:
         roots = [
             Root(str(repo / ".gemini/skills"), "workspace", "gemini", 300),
             Root(str(repo / ".agents/skills"), "workspace", "agents", 301),

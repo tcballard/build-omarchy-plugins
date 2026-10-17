@@ -52,8 +52,6 @@ class ReleasePreflightTests(unittest.TestCase):
                 {"key": "bad", "label": "Unsupported", "type": "unknown-control", "defaultValue": ""},
             ]
             write_json(manifest_path, manifest)
-            # Resolve an explicit relative path from the caller's directory,
-            # even though the validator itself runs in the plugin checkout.
             result = run([
                 sys.executable, str(release_script), "--json", "--validator",
                 str(test_script.relative_to(parent)), str(root),

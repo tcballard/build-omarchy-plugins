@@ -121,7 +121,6 @@ def main(argv: list[str] | None = None) -> int:
             if args.check_heads:
                 item["head"] = remote_head(entry)
                 item["headMoved"] = item["head"] != entry["pinnedCommit"]
-                # Resolve once, then read immutable bytes rather than the moving ref.
                 item["headSha256"] = (
                     hashlib.sha256(fetch(pinned_url({**entry, "pinnedCommit": item["head"]}))).hexdigest()
                     if item["headMoved"] else entry["sha256"]

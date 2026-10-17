@@ -31,9 +31,12 @@ SEMVER = re.compile(
 )
 
 
-def system_root_alias(path: Path, metadata: os.stat_result) -> bool:
-    """Allow immutable root-owned aliases such as macOS /var -> private/var."""
-    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+def is_root_owned_top_level_symlink(path: Path, metadata: os.stat_result) -> bool:
+    return (
+        stat.S_ISLNK(metadata.st_mode)
+        and path.parent == Path(path.anchor)
+        and getattr(metadata, "st_uid", -1) == 0
+    )
 
 
 def same_directory(path_metadata: os.stat_result, current: os.stat_result) -> bool:
@@ -83,7 +86,7 @@ def validate_args(args: argparse.Namespace) -> None:
             metadata = current.lstat()
         except FileNotFoundError:
             break
-        if stat.S_ISLNK(metadata.st_mode) and not system_root_alias(current, metadata):
+        if stat.S_ISLNK(metadata.st_mode) and not is_root_owned_top_level_symlink(current, metadata):
             raise ValueError(f"destination path may not traverse a symlink: {current}")
     if output.exists() and (output.is_symlink() or not output.is_dir() or any(output.iterdir())):
         raise ValueError(f"destination must not exist or must be empty: {output}")
