@@ -94,7 +94,6 @@ try {
       if (!values.output || !path.isAbsolute(values.output)) throw Error('--output must be an absolute, unused path');
       const destination = path.resolve(values.output);
       if (destination === skill || destination.startsWith(skill + path.sep)) throw Error('Destination must be outside the installed skill');
-      // lstat also catches dangling links. Refuse empty directories too.
       if (fs.existsSync(destination) || (() => { try { fs.lstatSync(destination); return true; } catch (e) { if (e.code !== 'ENOENT') throw e; return false; } })()) throw Error('Destination already exists; no files changed');
       if (!fs.statSync(path.dirname(destination)).isDirectory()) throw Error('Destination parent must exist');
       temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'omarchy-repository-'));
@@ -107,8 +106,6 @@ try {
         repository: lock.repository, commit: lock.commit, templateVersion: lock.templateVersion,
         integrationVersion: 1, compatibility: ['posix-relative-paths', 'file-url-entrypoints'],
       }, null, 2) + '\n');
-      // Exclusive creation prevents replacement if another process creates it
-      // during validation. Never clean up a pre-existing destination on failure.
       fs.mkdirSync(destination);
       const modes = new Map(files.map(f => [f.path, f.mode]));
       const generated = inventory(temporary).map(p => ({ path: p, data: fs.readFileSync(path.join(temporary, p)), mode: modes.get(p) || '100644' }));

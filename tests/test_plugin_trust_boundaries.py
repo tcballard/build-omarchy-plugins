@@ -3,11 +3,14 @@ from __future__ import annotations
 import json
 import os
 import re
+import runpy
+import stat
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 REPO = Path(__file__).resolve().parent.parent
@@ -47,6 +50,30 @@ def validate(root: Path, *arguments: str, timeout: int = 10) -> subprocess.Compl
 
 
 class PluginTrustBoundaryTests(unittest.TestCase):
+    def test_symlink_path_policy_requires_root_ownership_and_top_level(self) -> None:
+        installer = runpy.run_path(str(REPO / "scripts/install_agent_skills.py"))
+        generator = runpy.run_path(str(GENERATOR))
+        validator = runpy.run_path(str(VALIDATOR))
+        anchor = Path(Path.cwd().anchor)
+        for relative, uid, allowed in (("alias", 0, True), ("alias", 1000, False),
+                                       ("parent/alias", 0, False), ("parent/alias", 1000, False)):
+            alias = anchor / relative
+            target = alias / "skills"
+
+            def metadata(path):
+                mode = stat.S_IFLNK if path == alias else stat.S_IFDIR
+                return os.stat_result((mode | 0o755, 1, 1, 1, uid, 0, 0, 0, 0, 0))
+
+            with self.subTest(relative=relative, uid=uid), patch.object(Path, "lstat", autospec=True, side_effect=metadata):
+                if allowed:
+                    installer["_reject_symlink_components"](target, "fixture")
+                    self.assertIsNone(validator["path_has_symlink"](target))
+                else:
+                    with self.assertRaisesRegex(ValueError, "reached through symlink"):
+                        installer["_reject_symlink_components"](target, "fixture")
+                    self.assertEqual(alias, validator["path_has_symlink"](target))
+                self.assertEqual(allowed, generator["is_root_owned_top_level_symlink"](alias, metadata(alias)))
+
     def test_workflow_references_are_reviewed_without_execution(self) -> None:
         sha = "a" * 40
         digest = "b" * 64
@@ -89,7 +116,6 @@ class PluginTrustBoundaryTests(unittest.TestCase):
                 workflow = root / ".github/workflows/check.yaml"
                 workflow.parent.mkdir(parents=True)
                 workflow.write_text(setting + "jobs: {}\n", encoding="utf-8")
-                # An example document must not be interpreted as a workflow.
                 (root / "README.md").write_text("uses: actions/checkout@main\npermissions: write-all\n", encoding="utf-8")
                 result = validate(root, "--security")
                 self.assertEqual(0, result.returncode, result.stdout + result.stderr)

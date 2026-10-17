@@ -99,14 +99,13 @@ def validate_release_directory(
     version: str,
     add: object,
 ) -> None:
-    emit = add  # keep the call sites compact while retaining the nested reporter
     documents: dict[str, dict[str, object]] = {}
     for name in ("RELEASE-MANIFEST.json", "SOURCE-MANIFEST.json", "SBOM.spdx.json"):
         path = directory / name
         try:
             documents[name] = strict_object(path)
         except (OSError, ValueError) as error:
-            emit("error", "release-json", f"{name} is missing or invalid.", str(error))
+            add("error", "release-json", f"{name} is missing or invalid.", str(error))
     if len(documents) != 3:
         return
 
@@ -115,35 +114,35 @@ def validate_release_directory(
     sbom = documents["SBOM.spdx.json"]
     for name, document in (("release", release), ("source", source)):
         if document.get("schemaVersion") != 1 or document.get("version") != version or document.get("source") != expected_source:
-            emit("error", f"{name}-identity", f"{name.title()} manifest does not bind the selected version, repository, commit, and tree.")
+            add("error", f"{name}-identity", f"{name.title()} manifest does not bind the selected version, repository, commit, and tree.")
     packages = sbom.get("packages")
     if sbom.get("spdxVersion") != "SPDX-2.3" or not isinstance(packages, list) or len(packages) != 1:
-        emit("error", "sbom-structure", "SBOM must be one SPDX 2.3 package document.")
+        add("error", "sbom-structure", "SBOM must be one SPDX 2.3 package document.")
     else:
         package = packages[0]
         if not isinstance(package, dict) or package.get("versionInfo") != version or not str(package.get("downloadLocation", "")).endswith("@" + expected_source["commit"]):
-            emit("error", "sbom-identity", "SBOM package does not bind the selected version and commit.")
+            add("error", "sbom-identity", "SBOM package does not bind the selected version and commit.")
 
     listed: dict[str, str] = {}
     for group in (release.get("artifacts"), release.get("releaseDocuments")):
         if not isinstance(group, list):
-            emit("error", "release-files", "Release manifest artifact lists must be arrays.")
+            add("error", "release-files", "Release manifest artifact lists must be arrays.")
             continue
         for entry in group:
             if not isinstance(entry, dict) or safe_asset_name(entry.get("name")) is None:
-                emit("error", "release-file-name", "Release manifest contains an unsafe asset name.")
+                add("error", "release-file-name", "Release manifest contains an unsafe asset name.")
                 continue
             name = str(entry["name"])
             if name in listed:
-                emit("error", "release-file-duplicate", "Release manifest repeats an asset name.", name)
+                add("error", "release-file-duplicate", "Release manifest repeats an asset name.", name)
                 continue
             path = directory / name
             if not path.is_file() or path.is_symlink():
-                emit("error", "release-file-missing", "Release asset is missing or not a regular file.", name)
+                add("error", "release-file-missing", "Release asset is missing or not a regular file.", name)
                 continue
             digest = sha256(path)
             if entry.get("bytes") != path.stat().st_size or entry.get("sha256") != digest:
-                emit("error", "release-file-integrity", "Release asset size or digest does not match its manifest.", name)
+                add("error", "release-file-integrity", "Release asset size or digest does not match its manifest.", name)
             listed[name] = digest
     release_digest = sha256(directory / "RELEASE-MANIFEST.json")
     listed["RELEASE-MANIFEST.json"] = release_digest
@@ -157,10 +156,10 @@ def validate_release_directory(
                 raise ValueError("malformed, unsafe, or duplicate checksum entry")
             sums[match.group(2)] = match.group(1)
     except (OSError, UnicodeError, ValueError) as error:
-        emit("error", "checksums-format", "SHA256SUMS is missing or invalid.", str(error))
+        add("error", "checksums-format", "SHA256SUMS is missing or invalid.", str(error))
         return
     if sums != listed:
-        emit("error", "checksums-coverage", "SHA256SUMS must exactly cover every manifested release file.")
+        add("error", "checksums-coverage", "SHA256SUMS must exactly cover every manifested release file.")
 
 
 def main(argv: list[str] | None = None) -> int:

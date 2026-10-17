@@ -31,7 +31,6 @@ class ArchitecturePolicyTests(unittest.TestCase):
         return result, json.loads(result.stdout)
 
     def test_generated_external_text_sinks_are_literal(self):
-        # This checks generated source, not Qt rendering or network behavior.
         for name in ('Panel.qml', 'Menu.qml', 'Overlay.qml'):
             source = (self.root / name).read_text()
             self.assertEqual(source.count('Text {'), source.count('textFormat: Text.PlainText'))
@@ -87,7 +86,6 @@ class ArchitecturePolicyTests(unittest.TestCase):
                                  'all', str(self.root)], capture_output=True, text=True)
         self.assertEqual(result.returncode, 2)
         self.assertIn('invalid choice', result.stderr)
-        # Conservative lexical scope includes comments: do not claim a parser.
         (self.root / 'Comment.qml').write_text('// XMLHttpRequest is not used here\nItem {}\n')
         result, data = self.validate('--deny-capability', 'qml-network')
         self.assertEqual(result.returncode, 1, data)
