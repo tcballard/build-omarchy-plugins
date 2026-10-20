@@ -86,6 +86,20 @@ Record the guest Omarchy revision, architecture and tested candidate. Guest
 results do not prove physical hardware or other architectures. Missing VM
 support leaves those checks unrun while portable work continues.
 
+For checks on a separate Omarchy computer you already own and have paired,
+[ibara](https://ibara.app/docs/agents) exposes its desktop to an MCP agent.
+Use `computer_status` to check availability, `computer_begin` to reserve a ready
+computer with explicit checks, and `computer_observe` / `computer_act` to inspect
+and exercise the plugin. Finish with `computer_finish` and verify cleanup and
+release. Record the source actually installed on that computer, not just the
+local checkout, and use non-private test data. A connected MCP server or a panel
+opening does not prove installation, update/removal, or all plugin behavior.
+This is an optional remote-hardware route, not a disposable desktop or sandbox;
+missing pairing/access leaves those checks unrun. See the
+[first-task guide](https://ibara.app/docs/first-task) for setup and a practice task.
+The ibara references were checked on 20 October 2026; do not install or pair a
+computer merely because it is linked here.
+
 These links were checked on 20 September 2026. Consult upstream documentation
 for current setup; do not install either companion merely because it is linked.
 
