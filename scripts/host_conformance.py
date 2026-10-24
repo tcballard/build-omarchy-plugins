@@ -163,7 +163,6 @@ def opencode_probe(executable: str, cwd: Path, home: Path, model: str | None, ti
             "HOME": str(home),
             "LANG": os.environ.get("LANG", "C.UTF-8"),
             "XDG_CONFIG_HOME": str(config_home),
-            # Preserve OpenCode's normal home-backed authentication store.
             "XDG_DATA_HOME": os.environ.get("XDG_DATA_HOME", str(home / ".local/share")),
             "XDG_CACHE_HOME": str(cache_home),
             "OPENCODE_CONFIG_CONTENT": json.dumps(config, separators=(",", ":")),
@@ -172,7 +171,6 @@ def opencode_probe(executable: str, cwd: Path, home: Path, model: str | None, ti
             "OPENCODE_DISABLE_LSP_DOWNLOAD": "1",
             "OPENCODE_DISABLE_DEFAULT_PLUGINS": "1",
         }
-        # Authentication is intentionally left to OpenCode's normal home-backed store.
         result = bounded_run(command, cwd, environment, timeout)
     parsed = parse_opencode(result.pop("_stdout"), nonce)
     parsed["passed"] = bool(
@@ -260,7 +258,12 @@ def main(argv: list[str] | None = None) -> int:
         }
     except (OSError, ValueError, subprocess.SubprocessError) as error:
         payload = {"schemaVersion": 1, "host": args.host, "error": str(error), "hostVerified": False, "providerVerified": False}
-    print(json.dumps(payload, indent=2, sort_keys=True) if args.json else payload.get("claim", f"error: {payload['error']}"))
+    if args.json:
+        print(json.dumps(payload, indent=2, sort_keys=True))
+    elif "error" in payload:
+        print(f"error: {payload['error']}")
+    else:
+        print(payload["claim"])
     return 2 if "error" in payload else 0
 
 

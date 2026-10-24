@@ -24,6 +24,7 @@ def check(repo: Path, tag: str | None = None) -> list[str]:
 
     json_surfaces = (
         (repo / "plugin.json", "version"),
+        (repo / ".claude-plugin/plugin.json", "version"),
         (repo / "plugins/build-omarchy-plugins/.codex-plugin/plugin.json", "version"),
         (repo / "submission/evals.json", "version"),
     )

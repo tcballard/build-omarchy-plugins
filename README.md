@@ -1,12 +1,48 @@
-# Build Omarchy Plugins
+<h1 align="center">Build Omarchy Plugins</h1>
 
-A model-provider-neutral Agent Plugin for building production-quality
-[Omarchy 4](https://omarchy.org/) Quattro shell plugins.
+<p align="center">
+  <a href="https://github.com/tcballard/omarchy-badges"><img src="https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg" alt="Built for Omarchy: Plugin" height="24"></a>
+</p>
 
-It packages the complete workflow: architecture, repository generation, native
-QML patterns, bar widgets, panels and overlays, services and IPC, validation,
-debugging, deterministic demos, releases, marketplace publishing, and migration
-from older installer-style integrations.
+**Tell your agent what to build. Give it the Omarchy contract.**
+
+A set of twelve agent skills for building Omarchy 4 Quattro shell plugins. They
+help your agent choose the right shell surface, create a working starting point,
+write hosted QML, debug failures, test the result and prepare a release or
+marketplace submission.
+Use the full bundle or install only the skills your project needs.
+
+I built this because a plugin that loads inside Omarchy's long-running shell
+needs more care than a manifest and a few QML examples. The bundle includes
+generators and checks for that work; the plugin you make still needs testing on
+your target Omarchy desktop.
+
+**Start here:** [Install the v0.9.0 skills](#install-the-agent-skills), then
+[choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.9.0).
+
+## Use with Omarchy's Agents panel
+
+On current Quattro development builds, the Agents panel's **Plugin** button launches your default coding agent with Omarchy's built-in plugin guide. This bundle adds focused engineering guidance; the button does not automatically load it.
+
+After installing the skills, tell your agent: “Use the installed Build Omarchy Plugins skills where useful, alongside Omarchy's built-in guide. Build the smallest working version, enable it locally and verify the interaction.” See [the host workflow](skills/omarchy-plugin-design/references/host-workflow.md) for personal tweaks and the exact entry point.
+
+The instructions can be read by any agent or harness with file access. No model API, proprietary tool names, planner, worker topology or companion service is required. Bundled helpers have their own explicit runtimes; provider-specific discovery and packaging remain optional adapters.
+
+## Compatibility
+
+This toolkit targets **Omarchy 4.0.0 and later with Quattro shell-plugin support**.
+The supported range refers to the installed Omarchy version, reported by `omarchy-version`,
+not the ISO image version or the underlying Quickshell engine version.
+That is the scope of the maintained guidance and generators, not a claim that
+every current or future Omarchy release has been tested. The `4.0.0+` label
+has no upper major-version bound; compatibility changes will be documented here. Individual APIs and marketplace
+contracts are pinned in [the contract ledger](contracts/upstream-contracts.json).
+
+The CI workflow reports this repository's `main` checks. Portable tests
+validate tooling and generated output; they do not establish live desktop
+compatibility for every generated plugin. See [acceptance evidence](evals/ACCEPTANCE.md)
+for completed checks and outstanding behavioural or live-host testing.
+Projects built with the bundle must declare and test their own supported range.
 
 ## Why this exists
 
@@ -39,13 +75,22 @@ skills/
 See [PORTABILITY.md](PORTABILITY.md) for the tested host paths and exact
 compatibility boundary.
 
+For agent/harness-independent usage, see the
+[workflow guide](docs/WORKFLOWS.md) and
+[behavioral evaluation cases](evals/README.md). The skills keep model selection
+in the host and scale their workflow to the requested change.
+
 ## Install the Agent Skills
 
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
+These instructions target **v0.9.0**. Use its published tag and checksummed
+assets from [GitHub Releases](https://github.com/tcballard/build-omarchy-plugins/releases).
+A draft release or a newer `main` checkout is not a published release.
+
 ```bash
-git clone --branch v0.2.3 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.9.0 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -72,7 +117,7 @@ every lifecycle change before applying it:
 
 ```bash
 git fetch --tags
-git checkout v0.2.3
+git checkout v0.9.0
 python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
 python3 scripts/install_agent_skills.py --target agents --scope user --update
 ```
@@ -109,24 +154,38 @@ codex plugin add build-omarchy-plugins@tcballard-omarchy
 In ChatGPT, refresh the Plugins Directory after adding the marketplace, then
 install **Build Omarchy Plugins** and start a new conversation.
 
+## Start here
+
+Use the [workflow guide](docs/WORKFLOWS.md) to choose an entry point, follow a
+new build through the skills, or take the shorter path for a fix, demo or
+release. Each skill defines the inputs it uses and the evidence it hands on.
+
 ## Skills
 
 | Skill | Purpose |
 | --- | --- |
-| `omarchy-plugin-design` | Choose kinds, boundaries, state, dependencies, IPC, and evidence before implementation. |
-| `omarchy-plugin-scaffold` | Generate a working Quattro plugin repository for any supported kind. |
-| `omarchy-qml-patterns` | Implement hosted QML with Omarchy theme, component, process, and state conventions. |
-| `omarchy-bar-widget` | Build responsive bar widgets, settings, optional panels, and singleton services. |
-| `omarchy-panel-overlay` | Build panels, overlays, and menus with correct lifecycle, focus, and monitor behavior. |
-| `omarchy-service-ipc` | Build process-wide services and stable IPC contracts without leaking credentials. |
-| `omarchy-plugin-debug` | Diagnose discovery, validation, load, reload, config, and runtime failures. |
-| `omarchy-plugin-test` | Run manifest, static security, QML, fixture, and live-shell test layers. |
-| `omarchy-plugin-demo` | Create reversible demos and marketplace-ready screenshots using fictional data. |
-| `omarchy-plugin-release` | Preflight a clean, documented, reproducible plugin release. |
-| `omarchy-plugin-publish` | Prepare and, after owner approval, submit the exact marketplace issue. |
-| `omarchy-plugin-migrate` | Separate legacy machine integration from the Quattro shell surface and migrate safely. |
+| [omarchy-plugin-design](skills/omarchy-plugin-design/SKILL.md) | Choose kinds, boundaries, state, dependencies, IPC, and evidence before implementation. |
+| [omarchy-plugin-scaffold](skills/omarchy-plugin-scaffold/SKILL.md) | Generate a working Quattro plugin repository for any supported kind. |
+| [omarchy-qml-patterns](skills/omarchy-qml-patterns/SKILL.md) | Implement hosted QML with Omarchy theme, component, process, and state conventions. |
+| [omarchy-bar-widget](skills/omarchy-bar-widget/SKILL.md) | Build responsive bar widgets, settings, optional panels, and singleton services. |
+| [omarchy-panel-overlay](skills/omarchy-panel-overlay/SKILL.md) | Build panels, overlays, and menus with correct lifecycle, focus, and monitor behavior. |
+| [omarchy-service-ipc](skills/omarchy-service-ipc/SKILL.md) | Build process-wide services and stable IPC contracts without leaking credentials. |
+| [omarchy-plugin-debug](skills/omarchy-plugin-debug/SKILL.md) | Diagnose discovery, validation, load, reload, config, and runtime failures. |
+| [omarchy-plugin-test](skills/omarchy-plugin-test/SKILL.md) | Run manifest, static security, QML, fixture, and live-shell test layers. |
+| [omarchy-plugin-demo](skills/omarchy-plugin-demo/SKILL.md) | Create reversible demos and marketplace-ready screenshots using fictional data. |
+| [omarchy-plugin-release](skills/omarchy-plugin-release/SKILL.md) | Preflight a clean, documented, reproducible plugin release. |
+| [omarchy-plugin-publish](skills/omarchy-plugin-publish/SKILL.md) | Prepare and, after owner approval, submit the exact marketplace issue. |
+| [omarchy-plugin-migrate](skills/omarchy-plugin-migrate/SKILL.md) | Separate legacy machine integration from the Quattro shell surface and migrate safely. |
 
 ## Deterministic tools
+
+The scaffold skill now also includes the complete
+[plugin repository template](https://github.com/tcballard/omarchy-plugin-template)
+at a fixed commit. Ask for a new GitHub-ready bar-widget project, or follow the
+[offline starter instructions](skills/omarchy-plugin-scaffold/references/repository-template.md).
+Node.js 22+ generates the project without npm dependencies or network access;
+the existing six-kind generator remains available. The template travels with
+individual skill installs and every plugin/skills archive. The bundled starter is included from v0.8.0.
 
 The portable skills include reusable scripts that:
 
@@ -155,6 +214,42 @@ upload, reviewer materials, strict source/release manifests, an SPDX 2.3 SBOM,
 and one checksum manifest. Artifacts are built from the exact committed Git
 tree rather than ambient working files.
 
+## Recommended companion: Omakit
+
+We recommend [Omakit](https://github.com/mtolhuys/omakit) alongside this bundle
+for reusable Run/Store plumbing and local marketplace preflight. Its `inspect`
+command highlights code worth reviewing, `verify` runs the pinned marketplace
+security baseline, and `submit` prepares submission checks and an issue draft
+without posting it. Omakit requires Node 22+ and Git; follow its
+[installation guide](https://github.com/mtolhuys/omakit/blob/main/docs/INSTALL.md).
+
+Use it against the intended committed candidate and record both that SHA and
+the marketplace baseline revision. Passing checks does not establish desktop
+behavior, security certification or marketplace approval. Omakit is an optional
+companion; this bundle's portable validators remain available without it.
+
+For deeper review, the optional
+[community security skill](https://github.com/wbso-ai/omarchy-plugin-security-skill)
+collects historical reviewer findings. For clean-desktop GUI testing,
+[OmaVM](https://github.com/mlclifton/omavm) provides QEMU/KVM guest workflows.
+Consult their current prerequisites and scope; neither establishes marketplace
+approval. The testing skill explains how to record their evidence and limits.
+
+## Plugin Workbench companion
+
+[Plugin Workbench](https://github.com/tcballard/omarchy-plugin-workbench) is the
+default local lifecycle companion for projects created by this toolkit. New
+scaffolds include a schema-one `.omarchy-workbench.json` definition that points
+to the root plugin, proposes `./tests/run` as an exact-argv check and
+capability-gated validation workflow, and declares Git, Python, and optional
+Omarchy environment probes.
+
+Workbench can then register the checkout for validation, live linking,
+snapshots, rollback, and enable/disable operations. Registration does not trust
+or execute the generated commands; the user must review the definition and
+approve project commands and workflow capabilities explicitly. The Workbench contract is vendored and pinned in
+[`contracts/upstream-contracts.json`](contracts/upstream-contracts.json).
+
 ## Scope
 
 The default target is an Omarchy 4 Quattro shell plugin: a public Git repository
@@ -180,3 +275,31 @@ safe. Review source and dependencies before enabling any plugin.
 ## License
 
 MIT
+
+## Claude Code plugin (v0.9.0)
+
+Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.9.0 checkout,
+validate and try the plugin locally:
+
+```bash
+claude plugin validate .
+claude --plugin-dir .
+```
+
+The repository marketplace tracks the default branch. To install it in Claude
+Code:
+
+```text
+/plugin marketplace add tcballard/build-omarchy-plugins
+/plugin install build-omarchy-plugins@tcballard-omarchy
+```
+
+Use either this plugin or the existing `--target claude` skills installer to
+avoid loading duplicate skills. The v0.9.0 release build includes a separate
+`build-omarchy-plugins-claude-plugin-0.9.0.zip`, with the same twelve canonical
+skills and their helpers. This is a community marketplace, not an official
+Anthropic listing. OpenAI and Anthropic marketplace submissions remain on hold
+while stewardship is discussed.
+
+See [maintenance and adoption](docs/MAINTENANCE.md) for ownership decisions and
+[acceptance evidence](evals/ACCEPTANCE.md) for what has actually been exercised.

@@ -41,6 +41,42 @@ def copy_skill(source: Path, root: Path) -> None:
 
 
 class HostConformanceTests(unittest.TestCase):
+    def test_codex_discovers_ancestor_skills_without_inventing_duplicate_precedence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / ".git").mkdir()
+            source_root = root / "source"
+            source = skill(source_root)
+            cwd = root / "apps/web/src"
+            cwd.mkdir(parents=True)
+            copy_skill(source, root / "apps/.agents/skills")
+            arguments = ("--host", "codex", "--source", str(source_root), "--cwd", str(cwd), "--home", str(root / "home"))
+            result = run(DOCTOR, *arguments)
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            payload = json.loads(result.stdout)
+            self.assertTrue(payload["discoveryReady"])
+            self.assertEqual(str(root / "apps/.agents/skills/fixture-skill"), payload["resolution"]["fixture-skill"]["selectedPath"])
+
+            copy_skill(source, root / "home/.agents/skills")
+            duplicate = json.loads(run(DOCTOR, *arguments).stdout)
+            self.assertFalse(duplicate["discoveryReady"])
+            self.assertTrue(duplicate["resolution"]["fixture-skill"]["ambiguous"])
+            self.assertIsNone(duplicate["resolution"]["fixture-skill"]["selectedPath"])
+
+    def test_conformance_text_output_handles_success_and_error(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source_root = root / "source"
+            skill(source_root)
+            command = [sys.executable, str(CONFORMANCE), "--host", "codex", "--source", str(source_root), "--cwd", str(root), "--home", str(root / "home")]
+            result = subprocess.run(command, text=True, capture_output=True, check=False)
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.assertIn("No verified live-host claim", result.stdout)
+            failure = subprocess.run([*command, "--invoke"], text=True, capture_output=True, check=False)
+            self.assertEqual(2, failure.returncode, failure.stdout + failure.stderr)
+            self.assertIn("error:", failure.stdout)
+            self.assertNotIn("Traceback", failure.stderr)
+
     def test_opencode_walks_to_worktree_and_rejects_duplicate_claims(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
