@@ -53,9 +53,12 @@ def _absolute(path: Path) -> Path:
     return Path(os.path.abspath(path.expanduser()))
 
 
-def _system_root_alias(path: Path, metadata: os.stat_result) -> bool:
-    """Allow immutable root-owned aliases such as macOS /var -> private/var."""
-    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+def _is_root_owned_top_level_symlink(path: Path, metadata: os.stat_result) -> bool:
+    return (
+        stat.S_ISLNK(metadata.st_mode)
+        and path.parent == Path(path.anchor)
+        and getattr(metadata, "st_uid", -1) == 0
+    )
 
 
 def _same_open_file(path_metadata: os.stat_result, opened: os.stat_result) -> bool:
@@ -75,7 +78,7 @@ def _reject_symlink_components(path: Path, label: str) -> None:
             metadata = current.lstat()
         except FileNotFoundError:
             break
-        if stat.S_ISLNK(metadata.st_mode) and not _system_root_alias(current, metadata):
+        if stat.S_ISLNK(metadata.st_mode) and not _is_root_owned_top_level_symlink(current, metadata):
             raise ValueError(f"refusing {label} reached through symlink: {current}")
 
 
@@ -573,7 +576,6 @@ def main(argv: list[str] | None = None) -> int:
             "receipt": str(destination / RECEIPT_NAME) if desired_receipt else None,
             "recovered": recovered,
         }
-        # Backward-compatible install result fields.
         payload["installed"] = sorted(actions) if not args.uninstall and not args.dry_run and not args.show_diff else []
         payload["would_install"] = sorted(actions) if not args.uninstall and (args.dry_run or args.show_diff) else []
     except (OSError, ValueError, RuntimeError) as error:

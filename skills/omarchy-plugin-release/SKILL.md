@@ -1,43 +1,21 @@
 ---
 name: omarchy-plugin-release
-description: Preflight and prepare an Omarchy plugin release from a public Git repository. Use for versioning, clean-tree checks, CI, documentation, preview, dependencies, install/remove instructions, tag boundaries, checksums, and release evidence.
+description: Preflight and prepare a versioned Omarchy plugin release from a public Git repository. Use for readiness, version and tag alignment, CI, install/update/removal evidence, preview, dependencies, checksums and assets; marketplace issue creation belongs to the publish skill.
 ---
 
-# Release Omarchy Plugins
+# Prepare an Omarchy plugin release
 
-Run the deterministic preflight first:
+Reconcile candidate source, version, tests and preview provenance. Resolve `<skill-dir>` to this skill's directory:
 
 ```bash
-python3 scripts/release_preflight.py /absolute/path/to/plugin
+python3 "<skill-dir>/scripts/release_preflight.py" /absolute/path/to/plugin
 ```
 
-Use `--json` for machine-readable output. Read
-[references/release-contract.md](references/release-contract.md) before tagging
-or publishing.
+Read [release contract](references/release-contract.md) before tagging or publishing; read [preflight options](references/preflight-options.md) for renamed skill paths, tagged candidates and historical asset audits. A missing trusted validator remains a failed prerequisite.
 
-For a tagged candidate, pass `--tag vX.Y.Z`. The preflight requires an
-annotated local and remote tag with identical tag objects and peeled commits,
-and binds an unpublished candidate to the remote default-branch HEAD. To audit
-an older published release, add `--published --release-dir /path/to/assets`;
-historical tags are checked for reachability instead of equality with today's
-HEAD. The asset check requires strict release/source manifests, an SPDX 2.3
-SBOM, exact sizes and SHA-256 digests, and complete `SHA256SUMS` coverage.
+- Bind root manifest version, notes, tested commit, tag and assets to the same candidate. Require a clean tree for release; never move a published tag.
+- Verify the core journey, failures/recovery, official validation, live lifecycle, fresh installation, upgrade and removal on claimed Omarchy versions/architectures. Previous config/state fixtures must preserve settings or exercise a documented migration.
+- Document dependencies, authentication, network, processes, writes and removal residue. Keep install/removal instructions symmetric and UI previews reproducible.
+- Block readiness on unresolved security, data-loss or core-function failures. Describe tolerable non-core limitations and restrict support claims to observed evidence; no arbitrary waiting period or preview exemption applies.
 
-## Release boundary
-
-- The root `manifest.json` version, release notes, tested commit, and tag must
-  describe the same source.
-- Require a clean tree and record the full commit SHA after all release changes
-  merge. Never move a published tag.
-- Run portable and official validation, fixture/unit tests, live-shell lifecycle,
-  install-from-Git, update, and removal on the intended Omarchy version.
-- Document external packages, authentication, network access, files written,
-  processes launched, and anything deliberately left behind on removal.
-- Keep installation and removal commands copyable and symmetric.
-- Include a current root preview and reproducible capture instructions when the
-  plugin has UI.
-
-Do not claim the release is secure because a static scan passed. Report tested
-scope and limitations precisely. Publishing a Git tag, GitHub release, or
-marketplace issue is an external mutation and requires explicit authorization
-at that boundary.
+Finish authorized preparation even when a host gate remains unrun. Publish only within the user's authorization; preparation does not imply publication. Report exact candidate/version/tag/asset identities, completed deliverables and unresolved gates. Preflight success alone does not mean a tag or release was published.

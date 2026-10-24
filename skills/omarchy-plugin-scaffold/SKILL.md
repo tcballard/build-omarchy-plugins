@@ -3,46 +3,22 @@ name: omarchy-plugin-scaffold
 description: Create a new Omarchy 4 Quattro shell-plugin repository or add its initial supported entry points. Use for manifest, QML, tests, CI, demo, license, and README scaffolding; not for overwriting an established plugin.
 ---
 
-# Omarchy Plugin Scaffold
+# Scaffold an Omarchy plugin
 
-Generate a working repository, then validate the generated result.
+Inspect the destination and retain agreed ID, kinds and scope. For a small built-in customization use `omarchy plugin clone <id>` and edit the user copy instead. Read the installed Omarchy guide first; never edit packaged shell files.
 
-## Create a repository
-
-Run the bundled generator from this skill directory:
+Resolve `<skill-dir>` to this skill's directory, independently of the project or agent host. For a minimal plugin:
 
 ```bash
-python3 scripts/new_plugin.py \
-  --id io.github.owner.plugin-name \
-  --name "Plugin Name" \
-  --kind bar-widget \
-  --author "Author Name" \
-  --output /absolute/path/to/plugin-name
+python3 "<skill-dir>/scripts/new_plugin.py" \
+  --id io.github.owner.plugin-name --name "Plugin Name" \
+  --kind bar-widget --author "Author Name" --output /absolute/path/to/plugin
 ```
 
-Repeat `--kind` for a justified multi-kind plugin. The generator supports
-`bar-widget`, `panel`, `overlay`, `menu`, `service`, and `bar`.
+Repeat `--kind` only for implemented surfaces. Supported kinds: `bar-widget`, `panel`, `overlay`, `menu`, `service`, `bar`. The generator refuses a non-empty destination.
 
-Read [references/generated-layout.md](references/generated-layout.md) when
-selecting optional flags or extending the output.
+For an optional full GitHub repository starter, read [repository template](references/repository-template.md). It requires Node.js 22+, an unused destination and no network. GitHub configuration is a separate step. Read [generated layout](references/generated-layout.md) for optional flags, badges and companion integrations; none is a prerequisite to building a plugin.
 
-## Guardrails
+Keep external installation explicit, action SHA pins intact, external text plain, and agent configuration outside installed runtime code. Replace sample behavior with the requested feature.
 
-- Inspect the target first. The generator refuses a non-empty destination and
-  never merges into an existing repository.
-- Use a globally unique, lowercase, reverse-domain-style ID. Treat it as
-  permanent once published.
-- Choose the smallest kind set. A common rich widget uses `service` plus
-  `bar-widget`; do not declare kinds without corresponding functionality.
-- Keep external installation outside the shell-plugin scaffold. Document
-  required packages and let users install them explicitly.
-- Generated QML is functional baseline code, not final product design. Replace
-  the sample state and copy while preserving the lifecycle and injection
-  contracts.
-
-After generation, run the generated `./tests/run` and the current toolkit
-validator from `omarchy-plugin-test`. On an Omarchy machine also run:
-
-```bash
-omarchy plugin validate /absolute/path/to/plugin-name
-```
+Run generated `./tests/run` and the toolkit validator when available. On Omarchy also run `omarchy plugin validate <path>`, then enable and verify the local result when requested. Report the actual entry points, results and unrun host checks. A generated scaffold alone does not complete a feature request.

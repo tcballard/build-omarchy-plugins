@@ -31,9 +31,12 @@ SEMVER = re.compile(
 )
 
 
-def system_root_alias(path: Path, metadata: os.stat_result) -> bool:
-    """Allow immutable root-owned aliases such as macOS /var -> private/var."""
-    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+def is_root_owned_top_level_symlink(path: Path, metadata: os.stat_result) -> bool:
+    return (
+        stat.S_ISLNK(metadata.st_mode)
+        and path.parent == Path(path.anchor)
+        and getattr(metadata, "st_uid", -1) == 0
+    )
 
 
 def same_directory(path_metadata: os.stat_result, current: os.stat_result) -> bool:
@@ -51,7 +54,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--description", default="A native Omarchy Quattro shell plugin.")
     parser.add_argument("--version", default="0.1.0")
     parser.add_argument("--output", required=True, type=Path)
-    parser.add_argument("--default-section", choices=("left", "center", "right"), default="right")
+    parser.add_argument("--default-section", choices=("left", "centerBegin", "center", "centerEnd", "right", "tray"), default="right")
     parser.add_argument("--allow-multiple", action="store_true")
     parser.add_argument("--no-git", action="store_true")
     return parser.parse_args(argv)
@@ -83,7 +86,7 @@ def validate_args(args: argparse.Namespace) -> None:
             metadata = current.lstat()
         except FileNotFoundError:
             break
-        if stat.S_ISLNK(metadata.st_mode) and not system_root_alias(current, metadata):
+        if stat.S_ISLNK(metadata.st_mode) and not is_root_owned_top_level_symlink(current, metadata):
             raise ValueError(f"destination path may not traverse a symlink: {current}")
     if output.exists() and (output.is_symlink() or not output.is_dir() or any(output.iterdir())):
         raise ValueError(f"destination must not exist or must be empty: {output}")
@@ -154,6 +157,34 @@ def build_manifest(args: argparse.Namespace) -> dict[str, object]:
     return manifest
 
 
+def build_workbench_definition() -> dict[str, object]:
+    return {
+        "schemaVersion": 1,
+        "pluginPath": ".",
+        "checks": [
+            {
+                "name": "project-tests",
+                "argv": ["./tests/run"],
+                "timeoutSeconds": 300,
+            }
+        ],
+        "environment": [
+            {"name": "git", "argv": ["git", "--version"], "required": True},
+            {"name": "python", "argv": ["python3", "--version"], "required": True},
+            {"name": "omarchy", "argv": ["omarchy", "--version"], "required": False},
+        ],
+        "workflows": [
+            {
+                "name": "portable-tests",
+                "capability": "validate",
+                "argv": ["./tests/run"],
+                "timeoutSeconds": 300,
+                "requires": [],
+            }
+        ],
+    }
+
+
 def populate(root: Path, args: argparse.Namespace) -> None:
     repository = inferred_repository(args.plugin_id, args.output.name)
     namespace = re.sub(r"[^a-z0-9-]", "-", args.plugin_id.replace(".", "-"))
@@ -176,6 +207,11 @@ def populate(root: Path, args: argparse.Namespace) -> None:
         "KINDS": ", ".join(args.kind),
     }
     write_text(root, "manifest.json", json.dumps(build_manifest(args), indent=2, ensure_ascii=False) + "\n")
+    write_text(
+        root,
+        ".omarchy-workbench.json",
+        json.dumps(build_workbench_definition(), indent=2, ensure_ascii=False) + "\n",
+    )
     for kind in args.kind:
         _, filename = KINDS[kind]
         write_text(root, filename, render(filename + ".tpl", values))
@@ -232,7 +268,12 @@ def main(argv: list[str] | None = None) -> int:
         "id": args.plugin_id,
         "kinds": args.kind,
         "manifest": str(output / "manifest.json"),
-        "next": [str(output / "tests" / "run"), f"omarchy plugin validate {output}"],
+        "workbench": str(output / ".omarchy-workbench.json"),
+        "next": [
+            str(output / "tests" / "run"),
+            f"omarchy plugin validate {output}",
+            f"omarchy-plugin-workbench add {output}",
+        ],
     }, indent=2))
     return 0
 
