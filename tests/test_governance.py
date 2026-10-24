@@ -72,7 +72,7 @@ class GovernanceTests(unittest.TestCase):
         for version in ('"3.11"', '"3.12"', '"3.13"'):
             self.assertIn(version, text)
         self.assertIn("name: Validate workflows", text)
-        self.assertIn("actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16", text)
+        self.assertIn("actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e", text)
         self.assertIn("actionlint/cmd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca", text)
         self.assertIn('actionlint" .github/workflows/*.yml', text)
         self.assertIn("name: CI / Required", text)
