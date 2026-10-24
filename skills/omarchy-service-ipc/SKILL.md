@@ -1,39 +1,17 @@
 ---
 name: omarchy-service-ipc
-description: Build or review an Omarchy Quattro headless service and its IPC contract. Use for singleton polling, process execution, shared state, authenticated CLI integration, timers, retries, or `IpcHandler`; not for generic systemd services.
+description: Build or review a process-wide Omarchy Quattro QML service and IPC contract. Use when state, polling or command execution must survive a panel closing or be shared across widgets; use QML patterns for shared implementation details, not for generic systemd services.
 ---
 
-# Omarchy Service and IPC
+# Build an Omarchy service and IPC
 
-A `service` entry point is one process-wide QML object hosted by
-`omarchy-shell`. Use it for state that must be shared by widgets on multiple
-monitors or must survive a panel being closed.
+Use one hosted `service` for shared state or work that survives a panel closing. Preserve the existing consumers and IPC API unless the request changes them. Read [service contract](references/service-contract.md); read [process safety](references/process-safety.md) when launching commands.
 
-Read [references/service-contract.md](references/service-contract.md) for host
-injection, service lookup, and IPC patterns. Read
-[references/process-safety.md](references/process-safety.md) whenever the
-service launches an external command.
+- Distinguish missing, unsupported, unauthenticated, loading, ready, empty, partial, offline and failed states when users need different actions.
+- Make refresh idempotent. Bind asynchronous results to their owning request/generation so late completion cannot overwrite newer state or revive a disabled service.
+- Bound polling, duration, response size, retries and error output. Stop or back off when prerequisites are absent.
+- Keep credentials in the external program's store; query its status without copying or logging tokens.
+- Put process/network/private-state operations behind narrow methods with explicit errors and cancellation. Avoid wrappers that expose arbitrary executables or destinations.
+- Name IPC targets after the plugin ID. Expose small documented methods and bounded results; use the canonical shell target for shell lifecycle operations.
 
-## State machine
-
-- Model installed, supported, authenticated, loading, ready, partial, empty,
-  offline, and failed states separately when they can lead to different user
-  actions.
-- Make refresh idempotent and reject overlapping process chains unless
-  concurrency is deliberate.
-- Associate asynchronous results with the request or generation that owns them;
-  a late completion must not overwrite newer state or resurrect a disabled
-  service. Verify this when changing refresh, retry, or shutdown behavior.
-- Bound polling frequency, command duration, response size, retry rate, and
-  error text. Stop or back off when prerequisites are absent.
-- Keep credentials in the external CLI's credential store. Ask the CLI for
-  status and data; do not read, copy, persist, or log its tokens.
-- Apply optimistic updates only when rollback or a clear failure state exists.
-
-## IPC
-
-Name the `IpcHandler` target after the plugin ID. Expose a small stable surface
-such as `refresh`, `status`, `open`, or a domain action. Return bounded,
-documented results and avoid credential-bearing debug payloads. Shell-wide
-lifecycle operations should go through the canonical `omarchy-shell shell`
-target rather than reimplementing Quickshell socket calls.
+For external data, HTTP helpers, cancellation or mutable state, consult [reviewer boundaries](references/reviewer-boundaries.md). Verify affected ordering, failure, retry and cleanup paths against the actual code. Report any untested command or live integration.

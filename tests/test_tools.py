@@ -62,6 +62,46 @@ def generate(output: Path, kinds: tuple[str, ...] = ("bar-widget",), git: bool =
 
 
 class ToolTests(unittest.TestCase):
+    def test_standalone_skills_share_review_references_without_drift(self) -> None:
+        pairs = (
+            ("omarchy-qml-patterns", "omarchy-service-ipc", "reviewer-boundaries.md"),
+            ("omarchy-plugin-test", "omarchy-plugin-publish", "review-response.md"),
+        )
+        for first, second, filename in pairs:
+            with self.subTest(first=first, second=second):
+                left = (SKILLS / first / "references" / filename).read_bytes()
+                right = (SKILLS / second / "references" / filename).read_bytes()
+                self.assertEqual(left, right)
+
+    def test_multiselect_contract_accepts_object_options_and_keeps_strict_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "fixture"
+            generated = generate(output)
+            self.assertEqual(0, generated.returncode, generated.stdout + generated.stderr)
+            manifest_path = output / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            upstream = json.loads((REPO / "contracts/omarchy-indicators.manifest.json").read_text(encoding="utf-8"))
+            field = upstream["barWidget"]["schema"][0]
+            field["defaultValue"] = []
+            manifest["barWidget"]["schema"] = [field]
+            for field_type, options, expected in (
+                ("multiselect", field["options"], None),
+                ("multiselect", None, "settings-options"),
+                ("enum", None, "settings-options"),
+                ("unknown-control", [], "settings-type"),
+            ):
+                with self.subTest(field_type=field_type, expected=expected):
+                    field["type"] = field_type
+                    field["options"] = options
+                    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+                    result = run([sys.executable, str(VALIDATOR), "--json", "--strict", str(output)])
+                    codes = {item["code"] for item in json.loads(result.stdout)["errors"]}
+                    if expected is None:
+                        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                    else:
+                        self.assertNotEqual(0, result.returncode)
+                        self.assertIn(expected, codes)
+
     def test_portable_agent_plugin_and_openai_adapter_are_valid_and_in_sync(self) -> None:
         portable = run([sys.executable, str(PORTABLE_VALIDATE), "--json", str(REPO)])
         self.assertEqual(0, portable.returncode, portable.stdout + portable.stderr)
@@ -333,6 +373,33 @@ class ToolTests(unittest.TestCase):
             self.assertEqual(positions, sorted(positions))
             self.assertEqual(5, payload["body"].count("- [x]"))
 
+    def test_submission_accepts_pinned_form_tags_and_preserves_rejections(self) -> None:
+        form = (REPO / "contracts/marketplace-submit-plugin.yml").read_text(encoding="utf-8")
+        options = form.split("id: tags", 1)[1].split("options:", 1)[1].split("validations:", 1)[0]
+        tags = [line.strip()[2:] for line in options.splitlines() if line.strip().startswith("- ")]
+        self.assertIn("VPN", tags)
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "fixture"
+            self.assertEqual(0, generate(output).returncode)
+            command = [
+                sys.executable, str(PUBLISH), "--plugin-dir", str(output),
+                "--repository", "https://github.com/example/fixture",
+                "--category", "System", "--json",
+            ]
+            for tag in tags:
+                for spelling in (tag, tag.lower().replace(" ", "-")):
+                    with self.subTest(tag=spelling):
+                        result = run(command + ["--tag", spelling])
+                        self.assertEqual(0, result.returncode, result.stderr)
+                        payload = json.loads(result.stdout)
+                        self.assertIn(f"### Tags\n\n{tag}\n", payload["body"])
+                        self.assertFalse(payload["submitted"])
+            for rejected in (("VPN", "vpn"), ("unlisted-tag",), ("vpn", "bar", "system", "security")):
+                with self.subTest(rejected=rejected):
+                    args = [value for tag in rejected for value in ("--tag", tag)]
+                    result = run(command + args)
+                    self.assertEqual(2, result.returncode, result.stdout)
+
     def test_release_preflight_accepts_committed_generated_plugin(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "fixture"
@@ -365,7 +432,7 @@ class ToolTests(unittest.TestCase):
             checksums = run(["sha256sum", "-c", "SHA256SUMS"], cwd=first)
             self.assertEqual(0, checksums.returncode, checksums.stdout + checksums.stderr)
 
-            portable = first / "build-omarchy-plugins-agent-plugin-0.3.1.zip"
+            portable = first / "build-omarchy-plugins-agent-plugin-0.9.0.zip"
             self.assertTrue(portable.is_file())
             import zipfile
             with zipfile.ZipFile(portable) as archive:

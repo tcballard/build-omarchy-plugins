@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-08-31",
+  "reviewedAt": "2026-10-17",
   "contracts": [
     {
       "name": "Agent Skills specification",
@@ -18,7 +18,7 @@
       "name": "Codex skill discovery",
       "repository": "https://github.com/openai/codex",
       "trackedRef": "HEAD",
-      "pinnedCommit": "a9519cbcdd2d664530edb2469224ee03c1056799",
+      "pinnedCommit": "c248f6d48b97eb4a2aa56147a0b11b7d763278b9",
       "path": "docs/skills.md",
       "sha256": "e59789d09692310bbf94e2ef8db0aaf00d97f2226982c8c5330d2d260583a97d",
       "assumptions": [
@@ -28,21 +28,25 @@
     },
     {
       "name": "Omarchy Quattro shell contract",
-      "repository": "https://github.com/basecamp/omarchy",
+      "repository": "https://github.com/omacom/omarchy",
       "trackedRef": "refs/heads/quattro",
-      "pinnedCommit": "b686ed892d9c3020c3336203f6d34cc75b544e2b",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
       "path": "docs/omarchy-shell.md",
-      "sha256": "7868ad487f349d773e0ff8eb41191e0fa28669ef1d3a0349e2dbfe12e6dc0d08",
+      "sha256": "35e8da707317954fd9deb2b401f70e287416c4da4646c65805626fabc6fc184b",
       "assumptions": [
         "Quattro plugins use a root manifest.json and hosted QML entry points.",
-        "Third-party plugin code executes inside the long-running shell process."
+        "Third-party plugin code executes inside the long-running shell process.",
+        "Reviewed 2026-09-29: third-party entry points receive capability-scoped facades and detached configuration snapshots, not trusted host objects; these are not same-process QML sandboxes.",
+        "Service-backed third-party widgets retain full own-service integration under the trusted built-in bar; replacement bars provide service-less entry facades.",
+        "keepLoaded services survive plugin hot-reload and require a shell restart for code changes.",
+        "Reviewed 2026-10-17 against current Quattro; installed host support remains authoritative."
       ]
     },
     {
       "name": "Omarchy Plugin Workbench project definition",
       "repository": "https://github.com/tcballard/omarchy-plugin-workbench",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "48e211becaf7fa5df7676b1315ca26b0cab3fedc",
+      "pinnedCommit": "eee779c060d8567687128c205cd8fb357c607217",
       "path": "contracts/project-definition.schema.json",
       "sha256": "c9b003c9810a653ac2da0febca9277d880c8f1a4369b7d3de94d824bdc830e00",
       "vendoredPath": "contracts/workbench-project-definition.schema.json",
@@ -56,13 +60,133 @@
       "name": "Omarchy marketplace submission form",
       "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
       "trackedRef": "refs/heads/main",
-      "pinnedCommit": "8201d231688c0c8366bce4edf0dbf253cb4b5eb5",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
       "path": ".github/ISSUE_TEMPLATE/submit-plugin.yml",
-      "sha256": "d88415fd8fa3992bfb56f084088ef60514076573b207c813e9b5d127feb229bd",
+      "sha256": "c1ad7232142853395352386b32b0cdaf9529b5372aa4182938297d26085cdea7",
       "vendoredPath": "contracts/marketplace-submit-plugin.yml",
       "assumptions": [
-        "Reviewed 2026-09-12: Kids is an accepted category.",
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
         "Tags use form display labels; preserve exact headings and five acknowledgments."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace security review semantics",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": "SECURITY.md",
+      "sha256": "87beed5e57813bb9efdb02ae3bd50cbbdfdecb4ed5beba67a8573dbd4202ec5f",
+      "assumptions": [
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
+        "New listing/update selective disposition may accept exact non-blocking findings; existing-snapshot maintainer-verified remains capability-only.",
+        "The portable advisory does not reproduce the authoritative baseline or prove runtime safety."
+      ]
+    },
+    {
+      "name": "Omarchy Quattro multiselect settings example",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "shell/plugins/bar/widgets/Indicators.manifest.json",
+      "sha256": "b192e657959b2d5639cbccb2d59045723adc626a7760d358ed9df53643657228",
+      "vendoredPath": "contracts/omarchy-indicators.manifest.json",
+      "assumptions": [
+        "Reviewed 2026-09-22: Quattro uses multiselect in barWidget.schema.",
+        "Multiselect options may be objects with value, label and description; an options array is required by this portable checker.",
+        "Reviewed 2026-10-17 against current Quattro; installed host support remains authoritative."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace verification form",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": ".github/ISSUE_TEMPLATE/verify-plugin.yml",
+      "sha256": "7d31318916ad5afcf6029ea7744a69898c9f1111ca0405abeb56a685fff0bc0c",
+      "assumptions": [
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
+        "The standard-installation acknowledgment applies only to removal of a manual override."
+      ],
+      "vendoredPath": "contracts/marketplace-verify-plugin.yml"
+    },
+    {
+      "name": "Omarchy marketplace verification workflow",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": "VERIFICATION.md",
+      "sha256": "4679f3b49feef166588dd61107f7d9e311059ba5c87032fa1332f14f1c343ee9",
+      "assumptions": [
+        "Reviewed 2026-10-03: content is unchanged from the 24 September pin; implementation-level intake, migration and refresh changes are recorded separately.",
+        "Publication, verified snapshot and mutable current-upstream installation are separate states."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace CLI intake",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": "scripts/submission.mjs",
+      "sha256": "d77d59d106662e97ca861936f7cb83c01382074c6ebe6313dc4b79aff40ba511",
+      "assumptions": [
+        "Malformed [Plugin]: requests are labeled for form-error reporting; this does not establish validation or approval."
+      ]
+    },
+    {
+      "name": "Omarchy marketplace canonical verification subject",
+      "repository": "https://github.com/omacom/omarchy-plugin-marketplace",
+      "trackedRef": "refs/heads/main",
+      "pinnedCommit": "3e38844761e5a4045243fd1c9ca272e4c6b61c12",
+      "path": "scripts/verification-subject.mjs",
+      "sha256": "e1ce6507ce91aa963ef302aea3a08e51e1e130bd84807ce9d5b2c3cf0b694ae4",
+      "assumptions": [
+        "A recorded former repository resolves only for its own existing listing; later scans and approval use the canonical repository."
+      ]
+    },
+    {
+      "name": "Omarchy Agents panel plugin starter",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "shell/plugins/agents/Panel.qml",
+      "sha256": "5d2d36bef5552e04da13bc94043a73ee6116d5544b78870ebd83f2b8514e59e1",
+      "assumptions": [
+        "Plugin starter launches the default agent through omarchy-agent-prompt and requests the built-in plugin guide; it does not load this bundle."
+      ]
+    },
+    {
+      "name": "Omarchy installed plugin guide",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "default/agents/skills/omarchy/plugins.md",
+      "sha256": "b69f240c7ea091bd6a86a098bc0ab2ba6055c90ce50c3217315c98842525fa95",
+      "assumptions": [
+        "Personal customization clones built-ins; user plugin code reloads on save.",
+        "Plugin-owned Commons.Translations catalogs support live switching, pluralization and RTL.",
+        "Layout includes centerBegin, centerEnd and tray; center placement must preserve clock geometry."
+      ]
+    },
+    {
+      "name": "Omarchy bar placement contract",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "shell/services/PluginRegistry.qml",
+      "sha256": "277a4a8db6769f1a71ae893a78da9d903de456fc759bb8eb57062099787b39a7",
+      "assumptions": [
+        "defaultSection accepts all Util.barSections; automatic center placement maps to centerEnd."
+      ]
+    },
+    {
+      "name": "Omarchy Qt import contract",
+      "repository": "https://github.com/omacom/omarchy",
+      "trackedRef": "refs/heads/quattro",
+      "pinnedCommit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "path": "agents/skills/shell-dev.md",
+      "sha256": "a0e5a63519256c5a7ea7756dac1b48b67226741e78c2354c93bf6f695d414251",
+      "assumptions": [
+        "Qt 6.12 Color shadows unqualified palette references; use Commons.Color with an aliased import."
       ]
     }
   ]

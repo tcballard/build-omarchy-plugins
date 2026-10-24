@@ -1,48 +1,19 @@
 ---
 name: omarchy-qml-patterns
-description: Build or refactor QML hosted inside the Omarchy 4 Quattro shell. Use for injected properties, Omarchy components, theme tokens, responsive layout, process execution, state, or multi-monitor behavior; not for standalone Quickshell applications.
+description: Apply shared hosted-QML patterns to Omarchy 4 Quattro plugin code, including theme tokens, layout, process execution and local state. Use alongside the relevant bar, panel or service skill for implementation; use theme skills for shared palette or shell.toml styling.
 ---
 
-# Omarchy QML Patterns
+# Write hosted Omarchy QML
 
-Work inside Omarchy's existing shell process and preserve local repository
-conventions.
+Inspect the installed host and closest working component. Use its contract rather than assuming the pinned examples fit every version.
 
-## Core rules
+- Use hosted `Item`/UI entry points, never a second `ShellRoot` or Quickshell process. Give late-injected host properties safe defaults rather than `required` declarations.
+- Use `qs.Ui` components and semantic tokens. Import `qs.Commons as Commons` and qualify `Commons.Color.*`: Qt 6.12 adds a conflicting `Color` type. Keep the unqualified import too when using `Style`, `Util` or `Border`.
+- Keep hover/selection/open state per visual instance; share polling and remote state through a service where needed.
+- Set `Text.PlainText` for external text at every sink, including tooltips and nested delegates. Bound external data before displaying or saving it.
+- Launch commands with argument arrays. If a shell is necessary, quote external values with `Util.shellQuote`. Keep secrets out of display properties, logs and environment dumps.
+- Keep repeated network/process/storage policy in a narrow adapter with explicit errors and tests for its actual production path.
 
-- Entry points are QML `Item`s or Omarchy UI base components, never
-  `ShellRoot`. Do not launch a second Quickshell instance.
-- Declare host-injected properties with safe initial values for third-party
-  entry points. The host assigns `omarchyPath`, `shell`, `manifest`, and the
-  relevant registries after loading; `required` properties can fail before
-  late injection on dynamically loaded components.
-- Use `qs.Commons` tokens and `qs.Ui` components instead of copying first-party
-  colors, dimensions, controls, or popup chrome.
-- Treat one visual widget per monitor as normal. Keep shared polling and remote
-  state in a service; keep hover, selection, and open state local to the visual
-  instance.
-- Run processes with argument arrays. Avoid `bash -c`; when a shell is truly
-  required, quote every external value with Omarchy's `Util.shellQuote` and
-  explain the boundary.
-- Never put access tokens, complete environment dumps, or credential-bearing
-  command output in QML properties that may be logged or displayed.
+Load only relevant references: [host injection and facades](references/hosted-qml.md), [theme/orientation/monitors](references/theme-and-layout.md), [plugin translations](references/translations.md), [process and state](references/process-and-state.md), or [external-data review boundaries](references/reviewer-boundaries.md).
 
-Read [references/hosted-qml.md](references/hosted-qml.md) for injected-property
-and component patterns. Read
-[references/theme-and-layout.md](references/theme-and-layout.md) for theme,
-orientation, and monitor behavior. Read
-[references/process-and-state.md](references/process-and-state.md) when QML
-launches commands or owns asynchronous state.
-
-For external data, automatic execution or mutable state, consult
-[reviewer boundaries](references/reviewer-boundaries.md) for concrete failure
-paths and relevant adversarial checks from marketplace reviews.
-
-## Verification
-
-For a new data-driven surface, exercise loading, empty, success, partial failure,
-authentication-required, and retry behavior when those states exist. For a
-targeted change, verify the affected state or interaction with fictional
-fixtures. Run required repository checks and relevant QML tests; record live
-shell behavior only when observed on Omarchy. Do not block a portable patch on
-an unavailable display or treat stubs as proof of host integration.
+For a theme problem, fix the consumer or shared theme source that owns it. Verify affected behavior with fixtures and required repository checks; report Qt imports and live lifecycle as unrun unless observed on the target host.

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,49 @@ def sha256(path: Path) -> str:
 
 
 class ReleaseArtifactTests(unittest.TestCase):
+    def generate_repository(self, skill: Path, output: Path) -> None:
+        result = subprocess.run([
+            shutil.which("node") or "node", str(skill / "scripts/new_repository.mjs"),
+            "--output", str(output), "--owner", "tester", "--repo", "example",
+            "--slug", "example", "--name", "Example", "--author", "Test",
+        ], cwd=output.parent, text=True, capture_output=True)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertIn("PASS: plugin", result.stdout)
+        self.assertTrue((output / ".template/source.json").is_file())
+        self.assertTrue((output / ".github/workflows/ci.yml").is_file())
+        validation = subprocess.run([
+            sys.executable, str(REPO / "skills/omarchy-plugin-test/scripts/validate_plugin.py"),
+            str(output),
+        ], text=True, capture_output=True)
+        self.assertEqual(0, validation.returncode, validation.stdout + validation.stderr)
+
+    def test_repository_template_runs_from_every_installable_archive(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="bundle archives ") as temporary:
+            root = Path(temporary)
+            report = self.build(root / "dist")
+            for artifact in report["artifacts"]:
+                if artifact["kind"] == "submission":
+                    continue
+                with self.subTest(kind=artifact["kind"]):
+                    extracted = root / artifact["kind"]
+                    with zipfile.ZipFile(root / "dist" / artifact["name"]) as archive:
+                        archive.extractall(extracted)
+                    helpers = list(extracted.rglob("scripts/new_repository.mjs"))
+                    self.assertEqual(1, len(helpers))
+                    self.generate_repository(helpers[0].parent.parent, root / (artifact["kind"] + " project"))
+
+    def test_individual_skill_install_includes_template_and_lock(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="bundle install ") as temporary:
+            root = Path(temporary)
+            destination = root / "skills"
+            result = subprocess.run([
+                sys.executable, str(REPO / "scripts/install_agent_skills.py"),
+                "--target", "generic", "--destination", str(destination),
+                "--skill", "omarchy-plugin-scaffold",
+            ], cwd=REPO, text=True, capture_output=True)
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.generate_repository(destination / "omarchy-plugin-scaffold", root / "installed project")
+
     def build(self, output: Path) -> dict[str, object]:
         result = subprocess.run(
             [sys.executable, str(PACKAGER), "--output-dir", str(output), "--git-tree", "HEAD"],

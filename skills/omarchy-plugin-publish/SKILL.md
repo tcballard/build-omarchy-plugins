@@ -1,53 +1,24 @@
 ---
 name: omarchy-plugin-publish
-description: Prepare and submit a public Omarchy plugin to omarchyplugins.com through the HANCORE marketplace issue workflow. Use for category, tags, exact issue body, owner attestations, validation feedback, verification, or updates; requires explicit owner approval before issue creation.
+description: Prepare or submit an Omarchy plugin marketplace issue, and respond to listing review or updates. Use for current form, category, tags, exact issue body, owner attestations and reviewed SHA; use release for versioned assets and test for validation evidence.
 ---
 
-# Publish Omarchy Plugins
+# Prepare or submit an Omarchy marketplace listing
 
-This workflow was verified against the marketplace repository on 12 September
-2026. Read [references/marketplace-submission.md](references/marketplace-submission.md)
-for the pinned contract. Before an actual submission or update, verify the
-current upstream form, destination, and target commit. If upstream is
-unavailable, prepare a draft and mark its contract as unverified; do not claim
-the dated snapshot is current.
+Read [marketplace submission](references/marketplace-submission.md) for the pinned contract. Before a remote submission/update, verify the current official destination, form, trigger and target SHA. If upstream is unavailable, prepare a draft and mark the contract unverified.
 
-## Prepare
+Inspect the root manifest, README, licence, preview and release evidence. Require public source, permanent non-`omarchy.*` ID, dependencies and install/removal instructions. Reconcile release preflight findings with actual code; compatibility checks do not settle security review.
 
-1. Read the plugin's root `manifest.json`, README, license, preview, and release
-   evidence.
-2. Confirm the public repository contains exactly one root plugin, install and
-   removal instructions, documented dependencies, a unique non-`omarchy.*` ID,
-   and an optional root `preview` image.
-3. Run release preflight and resolve structural or selectively blocking security
-   findings before submission.
-4. Generate the issue body without publishing it. Resolve `<skill-dir>` to the
-   directory containing this loaded `SKILL.md`:
+Resolve `<skill-dir>` to this skill's directory to draft without publishing:
 
 ```bash
 python3 "<skill-dir>/scripts/prepare_submission.py" \
-  --plugin-dir /absolute/path/to/plugin \
-  --category "Developer Tools" \
-  --tag quickshell \
-  --tag bar
+  --plugin-dir /absolute/path/to/plugin --category "Developer Tools" \
+  --tag quickshell --tag bar
 ```
 
-When responding to review or preparing the final snapshot, read
-[review-response guidance](references/review-response.md). It covers evidence
-that closes findings, exact-SHA consistency, duplicates and distributed payloads.
+Read [review response](references/review-response.md) for findings, exact-SHA consistency, duplicates and distributed payloads. Read [submission options](references/submission-options.md) for optional baseline tooling and update distinctions. Use existing authenticated capabilities; never extract or copy credentials.
 
-## Approval boundary
+Show the exact title/body, destination and candidate. Obtain owner confirmation of checklist attestations unless explicitly supplied already; preparing a listing does not establish ownership or authorize posting. Follow the maintainer's update/resubmission mechanism rather than opening duplicates or guessing triggers.
 
-Show the completed issue title and body to the plugin owner. The owner must
-confirm every checklist statement, especially ownership of code and preview
-assets. Reuse explicit approval already given for this body and its attestations;
-otherwise obtain it before an authenticated GitHub client creates the issue.
-Do not infer approval from a request to prepare the plugin or invent owner
-attestations. Explain any material change to an approved body before submitting.
-
-After submission, respond to an active existing issue rather than opening duplicates.
-For a closed request, follow the maintainer’s explicit resubmission direction.
-Validation and the automated baseline are exact-commit checks, not security
-audits. A new listing still requires an authorized maintainer's
-`approved-and-verified` decision. Later upstream commits become unverified until
-the guarded update workflow promotes their full SHA.
+For preparation, return the draft and unresolved evidence/attestations. For authorized submission, read back the issue and report URL/status. Listing, exact-snapshot verification and current upstream are separate states; submission is not approval or a security audit.

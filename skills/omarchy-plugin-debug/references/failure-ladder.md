@@ -36,6 +36,19 @@ config before changing it, then restart the shell only with authorization.
 
 ## Reload behavior
 
+On Quattro reviewed 29 September 2026, `keepLoaded: true` also keeps a service
+instance mounted across plugin hot-reload. Editing that service does not replace
+it; its new code requires a shell restart. Check the manifest before diagnosing
+stale output as a failed file watcher or starting a duplicate service. Obtain
+restart authorization and account for active session-lock state.
+
+If a widget loses its service only under a replacement bar, inspect the injected
+interface before changing the poller: replacement bars give hosted widgets a
+service-less entry facade. Compare with the trusted built-in bar and handle the
+unavailable state; do not bypass the boundary via QML parent traversal.
+
+Source: [reviewed shell contract](https://github.com/omacom/omarchy/blob/e332dc975d5f635294c497ebb54feb98dc3d89eb/docs/omarchy-shell.md).
+
 Files under `~/.config/omarchy/plugins/` are watched. A reload can destroy and
 recreate QML instances, so stale external processes, timers, and persistent
 properties may expose bugs that a first load does not. When changing reload or

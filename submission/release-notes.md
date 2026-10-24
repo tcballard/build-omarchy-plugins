@@ -1,57 +1,20 @@
-# Build Omarchy Plugins v0.3.1
+# Build Omarchy Plugins v0.9.0 — Less ceremony. More building.
 
-This patch release turns recurring Omarchy marketplace review feedback into
-targeted authoring guidance, and adds native Claude Code plugin packaging.
-The same twelve canonical skills remain provider-neutral across Codex, Claude
-Code, Cursor, Gemini CLI and OpenCode. Existing transactional installation and
-update safeguards are retained.
+I cut the twelve skill entry points by 58%: 6,884 words down to 2,892. Same skill names. Less context to load before getting to work.
 
-## What's changed
+This is a substantial refactor of how the bundle guides an agent through building an Omarchy plugin. Detailed mechanics stay in linked references, ready when the task needs them. The core instructions assume no particular agent, harness, planner or proprietary tools. Pick your own setup.
 
-- Native Claude plugin and community-marketplace manifests, a dedicated Claude
-  archive, and strict official Claude CLI validation in required CI.
-- Guidance for limiting data before collection, rendering external QML text as
-  plain text, preserving file and executable identity, cleaning up child
-  processes, and keeping credentials out of arguments and logs.
-- Advisory discovery checks for QML inputs and agent-control payloads, plus a
-  reviewer-response table connecting findings to fixes, reproductions and the
-  exact submitted commit. Static checks do not certify plugin security.
-- Updated Omacom submission forms, including Kids/Education and current tag
-  labels, with compatibility for existing CLI spellings.
-- Installation and stewardship documentation, aligned version metadata, and a
-  release workflow that can create a new annotated tag after verifying the
-  expected main commit and its required CI result.
+- **Fits Omarchy's new starting point.** The Agents panel's Plugin button on current Quattro development builds launches your default agent with Omarchy's built-in guide. This release explains how the bundle complements that flow. The button does not automatically load the bundle.
+- **Small tweaks can stay small.** Clone a built-in widget, edit your own copy and stop when it works. A personal customization does not need a public repo or a marketplace submission.
+- **Catches up with Quattro.** Generated palette references now avoid the Qt 6.12 `Color` collision. The generator and validator accept all six bar sections, with guidance for clock-adjacent placement and tray popouts.
+- **Speaks the desktop's language.** New guidance covers plugin-owned translations, live language switching, plurals, number/date formatting and RTL layouts. Check the installed host before adopting newer APIs.
 
-## Research and verification
+The refactor passed 79 toolkit tests and CI on Linux, macOS, and Windows. A fresh-session build also produced a working implementation of a small focus widget and passed its portable checks. Live Qt rendering, tray geometry, language switching and RTL still need testing on an Omarchy desktop; those checks are not claimed here.
 
-The [marketplace findings report](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.1/docs/reviews/2026-09-12-marketplace-findings.md)
-draws on 6,531 issue/PR records and 30,036 comments, including 6,286 comments by
-HANCORE-linux across 3,589 threads. Every collected record was indexed and
-representative reviews were read in depth. This was not an independent source
-audit of every plugin; overlapping topic counts include resolved findings.
+The provider-neutral bundle retains OpenCode support, transactional updates, the offline repository starter and an SPDX 2.3 SBOM. Host packaging stays optional. Release automation builds verified drafts and cannot publish them by itself.
 
-Portable validation covers 54 unit tests, generated-plugin tooling, synchronized
-adapters and deterministic archive builds. Required CI includes nine
-OS/Python combinations across Linux, macOS, and Windows, workflow lint and
-strict Claude packaging validation.
-Release automation builds twice, checks byte equality, generates provenance and
-verifies downloaded draft assets before owner publication. The workflow cannot publish
-a release; publication remains owner-controlled.
+For an existing CLI install, check out `v0.9.0`, preview `--update --diff`, then apply `--update` using your usual target and scope. Check downloaded archives against `SHA256SUMS`.
 
-Fresh Astra/Fable behavioral sessions and live Omarchy desktop acceptance remain
-outstanding. Packaging validation does not establish model performance or live
-desktop compatibility. See the
-[acceptance record](https://github.com/tcballard/build-omarchy-plugins/blob/v0.3.1/evals/ACCEPTANCE.md).
+Try: **“Use the installed Omarchy guide and Build Omarchy Plugins skills. Build the smallest useful version, enable it locally and verify the interaction.”**
 
-## Installation
-
-Choose the skills, portable Agent Plugin, OpenAI adapter or Claude plugin archive
-for your host; verify it against `SHA256SUMS`. Use either the Claude plugin or
-the Claude skills installer to avoid duplicate skill loading. The submission
-archive contains reviewer materials. Source manifests and the SPDX 2.3 SBOM bind
-the archives to the release source tree.
-
-Existing installations can preview and apply the update from a v0.3.1 checkout
-with `install_agent_skills.py --update --diff` and then `--update`, preserving
-their existing target and scope. Locally modified managed files require explicit
-resolution. No official OpenAI or Anthropic marketplace listing is implied.
+[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.8.0...v0.9.0)

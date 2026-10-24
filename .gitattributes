@@ -1,2 +1,4 @@
 contracts/*.json text eol=lf
 contracts/*.yml text eol=lf
+skills/omarchy-plugin-scaffold/assets/repository-template/** text eol=lf
+plugins/build-omarchy-plugins/skills/omarchy-plugin-scaffold/assets/repository-template/** text eol=lf

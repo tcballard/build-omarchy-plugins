@@ -1,41 +1,19 @@
 ---
 name: omarchy-bar-widget
-description: Build or refactor an Omarchy Quattro bar widget, including settings, vertical layouts, optional popout panels, multiple instances, and shared services. Use when `kinds` includes `bar-widget`; not for replacing the entire bar.
+description: Build or refactor an Omarchy Quattro bar-widget implementation, including settings, orientation, popouts, instances and shared services. Use for widget QML or behaviour; global bar styling belongs to theme skills, and replacing the entire bar is outside this skill.
 ---
 
-# Omarchy Bar Widget
+# Build an Omarchy bar widget
 
-Use Omarchy's `BarWidget` and `WidgetButton` primitives so placement,
-orientation, theme, tooltips, and popout behavior remain coherent with the
-active bar.
+Inspect the existing manifest, widget and installed host. Use `BarWidget` and `WidgetButton`; preserve settings and behavior outside the requested change.
 
-For an existing widget, preserve its API and settings unless the request changes
-them. Apply the relevant contract below; a label or tooltip correction does not
-require redesigning state ownership or adding a service.
+- Map `entryPoints.barWidget` to the real file and set `moduleName` to the plugin ID.
+- Use `root.bar`, `root.settings` and `setting(key, fallback)`. Store ordinary options inline in `shell.json`, not in a nested `config` or separate settings file.
+- Support horizontal and vertical bars. Keep selection, hover and open state per instance; share polling and cross-monitor data through a service only when needed.
+- For a popout, expose `opened`, `open()` and `close()` and preserve anchor/settings injection. Check placement from the tray drawer as well as bar edges.
+- Set `allowMultiple` only when independent concurrent instances make sense.
+- Current Quattro accepts `left`, `centerBegin`, `center`, `centerEnd`, `right`, `tray` as `defaultSection`. Automatic placement maps `center` to `centerEnd`; use the side sections to sit beside the clock without shifting it. Check older hosts before relying on new sections.
 
-## Workflow
+Read [widget contract](references/widget-contract.md) for QML shape and [settings schema](references/settings-schema.md) when adding options. Use QML patterns for theme, translations and shared implementation; change global theme tokens through the theme workflow.
 
-1. Confirm `manifest.json` declares `bar-widget` and maps
-   `entryPoints.barWidget` to the real QML file.
-2. Set `moduleName` to the exact plugin ID. Use `root.bar` for bar-owned actions
-   and `root.settings` / `setting(key, fallback)` for inline configuration.
-3. Design both horizontal and vertical forms. A vertical bar should not merely
-   rotate a long horizontal label.
-4. Keep one visual instance's transient state local. Put shared polling,
-   authentication probes, and cross-monitor data in a `service` entry point.
-5. If the widget opens a panel, expose `opened`, `open()`, and `close()` on the
-   widget root and keep its anchor and settings injection synchronized.
-6. Validate pointer, keyboard, tooltip, empty, error, and retry behavior.
-
-Read [references/widget-contract.md](references/widget-contract.md) for the QML
-shape. Read [references/settings-schema.md](references/settings-schema.md) when
-adding `barWidget.defaults` or `barWidget.schema`.
-
-## Manifest decisions
-
-- `allowMultiple` is `false` unless independent concurrent instances are
-  genuinely useful and state is selector-safe.
-- `defaultSection` is one of `left`, `center`, or `right` and is only a default;
-  users remain free to move the widget.
-- Put user settings directly on the `shell.json` entry. Do not invent a nested
-  `config` object or a parallel settings file for ordinary widget options.
+Verify affected pointer, keyboard, orientation, placement and failure paths. Report which live-host checks were observed and which remain unrun; portable validation alone does not prove popup geometry.

@@ -9,6 +9,10 @@ decision; repository installation remains available.
 
 - Keep the twelve canonical skills in `skills/`; generate the OpenAI adapter.
   Claude consumes the canonical tree with host-specific metadata at the root.
+- The QML/service reviewer-boundaries and test/publish review-response references
+  are deliberately duplicated: selected skills install independently. Keep each
+  pair identical and run the parity check; put surface-specific detail in its
+  own reference instead of silently diverging a shared copy.
 - For marketplace changes, verify current forms and dated reviewer evidence.
   Update affected guidance and useful checks; preserve advisory versus blocking
   distinctions. Do not turn every reviewer preference into a universal rule.
@@ -37,3 +41,13 @@ A handover is complete only when the receiving maintainer can install the bundle
 run the tests, reproduce the archives and prepare a verified draft release.
 Neither a repository transfer nor a public marketplace submission is performed
 by this document.
+
+## Contract monitoring
+
+`check_contracts.py --check-heads` verifies the reviewed pinned document and
+resolves each tracked head to an immutable commit before fetching its document.
+A newer commit with identical bytes is informational (`headsMoved` / `headMoved`);
+changed bytes are reported as `drifted` and fail the check. Missing documents,
+fetch failures and corrupt pinned bytes also fail. `headSha256` records the
+observed digest. Monitoring never rewrites pins or substitutes upstream content
+in a release. Update the ledger only after reviewing the affected contract.

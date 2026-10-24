@@ -2,10 +2,10 @@
 
 ## Theme tokens
 
-Prefer semantic roles to literal colors and dimensions:
+Import `qs.Commons as Commons` and qualify `Commons.Color.*` to avoid the Qt 6.12 type collision. Keep `import qs.Commons` when using unqualified `Style`, `Util` or `Border`. Prefer semantic roles to literal colors and dimensions:
 
-- `Color.foreground`, `Color.background`, `Color.accent`, `Color.urgent`;
-- surface roles such as `Color.bar.*`, `Color.popups.*`, and `Color.menu.*`;
+- `Commons.Color.foreground`, `Commons.Color.background`, `Commons.Color.accent`, `Commons.Color.urgent`;
+- surface roles such as `Commons.Color.bar.*`, `Commons.Color.popups.*`, and `Commons.Color.menu.*`;
 - `Style.space(px)`, `Style.spacing.*`, `Style.font.*`, and `Style.cornerRadius`;
 - `Border.surfaceSpec(...)` plus `BorderSurface` for theme-aware borders.
 

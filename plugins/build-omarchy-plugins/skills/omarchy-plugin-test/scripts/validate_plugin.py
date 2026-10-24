@@ -54,6 +54,9 @@ MAX_FILE_BYTES = 64 * 1024 * 1024
 MAX_TREE_BYTES = 512 * 1024 * 1024
 MAX_TREE_FILES = 20_000
 MAX_TREE_DEPTH = 64
+DENIABLE_CAPABILITIES = (
+    "qml-network", "qml-dynamic-code", "qml-collected-input", "qml-process",
+)
 
 
 @dataclass(frozen=True)
@@ -145,9 +148,12 @@ def is_plain_object(value: Any) -> bool:
     return isinstance(value, dict)
 
 
-def system_root_alias(path: Path, metadata: os.stat_result) -> bool:
-    """Allow immutable root-owned aliases such as macOS /var -> private/var."""
-    return path.parent == Path(path.anchor) and getattr(metadata, "st_uid", -1) == 0
+def is_root_owned_top_level_symlink(path: Path, metadata: os.stat_result) -> bool:
+    return (
+        stat.S_ISLNK(metadata.st_mode)
+        and path.parent == Path(path.anchor)
+        and getattr(metadata, "st_uid", -1) == 0
+    )
 
 
 def same_open_file(path_metadata: os.stat_result, opened: os.stat_result) -> bool:
@@ -167,7 +173,7 @@ def path_has_symlink(path: Path) -> Path | None:
             metadata = current.lstat()
         except FileNotFoundError:
             return None
-        if stat.S_ISLNK(metadata.st_mode) and not system_root_alias(current, metadata):
+        if stat.S_ISLNK(metadata.st_mode) and not is_root_owned_top_level_symlink(current, metadata):
             return current
     return None
 
@@ -346,8 +352,8 @@ def validate_manifest(root: Path, manifest: dict[str, Any], report: Report, stri
 
 def validate_bar_widget(widget: dict[str, Any], report: Report, path: Path, strict: bool) -> None:
     section = widget.get("defaultSection")
-    if section is not None and section not in {"left", "center", "right"}:
-        report.add("error", "default-section", "barWidget.defaultSection must be left, center, or right.", path)
+    if section is not None and (not isinstance(section, str) or section not in {"left", "centerBegin", "center", "centerEnd", "right", "tray"}):
+        report.add("error", "default-section", "barWidget.defaultSection must be left, centerBegin, center, centerEnd, right, or tray.", path)
     allow_multiple = widget.get("allowMultiple")
     if allow_multiple is not None and type(allow_multiple) is not bool:
         report.add("error", "allow-multiple-type", "barWidget.allowMultiple must be a JSON boolean.", path)
@@ -373,12 +379,12 @@ def validate_bar_widget(widget: dict[str, Any], report: Report, path: Path, stri
                     report.add("error", "settings-key-duplicate", f"Duplicate settings key '{key}'.", path)
                 else:
                     keys.add(key)
-                if field_type not in {"boolean", "enum", "integer", "path", "string"}:
+                if field_type not in {"boolean", "enum", "integer", "multiselect", "path", "string"}:
                     report.add("error" if strict else "warning", "settings-type", f"Unrecognized current settings type '{field_type}'.", path)
                 if not isinstance(label, str) or not label:
                     report.add("warning", "settings-label", f"barWidget.schema[{index}] should have a readable label.", path)
-                if field_type == "enum" and not isinstance(field.get("options"), list):
-                    report.add("error", "settings-options", f"Enum setting '{key}' requires an options array.", path)
+                if field_type in {"enum", "multiselect"} and not isinstance(field.get("options"), list):
+                    report.add("error", "settings-options", f"{field_type.title()} setting '{key}' requires an options array.", path)
                 if is_plain_object(defaults) and isinstance(key, str) and key not in defaults and "defaultValue" not in field:
                     report.add("warning", "settings-default", f"Setting '{key}' has no declared default.", path)
 
@@ -480,6 +486,29 @@ def validate_publish_surface(root: Path, report: Report, strict: bool) -> None:
             report.add("error", "preview-size", "Preview exceeds the current 50 MB marketplace limit.", preview)
 
 
+def scan_workflow(path: Path, text: str, report: Report) -> None:
+    """Discover common workflow forms, without interpreting YAML or running it.
+
+    These are advisory signals, not a complete parser or proof of dependency
+    provenance. Comments and unrelated script bodies can still need inspection.
+    """
+    for match in re.finditer(r"(?:^[ \t]*(?:-[ \t]*)?|[,{][ \t]*)[\"']?uses[\"']?[ \t]*:[ \t]*[\"']?([^\s\"',}]+)", text, re.MULTILINE):
+        target = match.group(1)
+        if target.startswith("./"):
+            report.capability("workflow-local-action", "Review the local action and its own executable dependencies; a local path is not a provenance check.", path)
+        elif target.startswith("docker://"):
+            if not re.fullmatch(r"docker://[^@]+@sha256:[0-9a-fA-F]{64}", target):
+                report.capability("workflow-mutable-action", "Container action is not bound to an immutable sha256 digest; inspect and pin the reviewed image.", path)
+        elif not re.fullmatch(r"[^@]+@[0-9a-fA-F]{40}", target):
+            report.capability("workflow-mutable-action", "Action or reusable workflow is not pinned to a full commit SHA; inspect the cited workflow. This advisory does not establish upstream provenance.", path)
+
+    permissions = re.findall(r"^[ \t]*[\"']?permissions[\"']?[ \t]*:[ \t]*([^\n]*)", text, re.MULTILINE)
+    if not permissions:
+        report.capability("workflow-permissions-review", "No explicit permissions block was recognized; review effective permissions for every job and declare the minimum required.", path)
+    elif any(re.match(r"[\"']?write-all\b", value) for value in permissions):
+        report.capability("workflow-permissions-review", "Broad write-all permissions require review; scope permissions to each job's actual needs.", path)
+
+
 def scan_security(root: Path, report: Report) -> None:
     for path in iter_files(root):
         data = read_regular(path, MAX_FILE_BYTES)
@@ -494,8 +523,11 @@ def scan_security(root: Path, report: Report) -> None:
             report.capability("bundled-executable-binary", "Bundled executable binary requires manual review.", path)
 
         name = path.name.lower()
+        relative = path.relative_to(root)
         if name in {"agents.md", "claude.md", "handoff.md"}:
             report.capability("agent-control-payload", "Agent/session control filename in distributed plugin: inspect its contents and remove instructional payloads before marketplace review.", path)
+        if any(part in {".claude", ".codex", ".agents"} for part in relative.parts[:-1]):
+            report.capability("agent-configuration-payload", "Agent configuration, hook or skill directory in the distributed desktop plugin: inspect automatic loading/execution and keep development-only payloads outside the installed tree. Ordinary docs are not inherently executable.", path)
         if re.search(r"(?:^|[-_.])(install|installer|setup|uninstall)(?:$|[-_.])", name):
             report.capability("installer", "Installer/setup/uninstall surface requires manual review.", path)
 
@@ -505,6 +537,8 @@ def scan_security(root: Path, report: Report) -> None:
         if text is None:
             continue
         lower = text.lower()
+        if relative.parts[:2] == (".github", "workflows") and path.suffix.lower() in {".yml", ".yaml"}:
+            scan_workflow(path, text, report)
 
         if re.search(r"\b(?:curl|wget)\b[^\n]{0,500}(?:\||&&|;)\s*(?:sudo\s+|pkexec\s+)?(?:/\S*/)?(?:ba)?sh\b", text, re.IGNORECASE):
             report.finding("curl-pipe-shell", "Downloaded content is passed directly to a shell.", path)
@@ -530,10 +564,9 @@ def scan_security(root: Path, report: Report) -> None:
         privilege_lines = [
             line for line in text.splitlines()
             if re.search(r"\b(?:sudo|pkexec)\b", line, re.IGNORECASE)
-            and not re.search(r"\b(?:no|not|without|does not|doesn't|never)\b[^\n]{0,30}\b(?:sudo|pkexec)\b", line, re.IGNORECASE)
         ]
         if privilege_lines:
-            report.capability("privilege", "Non-negated sudo or pkexec behavior requires review.", path)
+            report.capability("privilege", "Privilege-tool reference requires inspection, including negated documentation; this advisory match does not prove execution or predict marketplace approval.", path)
 
         if re.search(r"\bNOPASSWD\s*:\s*(?:ALL|.*\b(?:bash|sh|zsh|fish|python\d*|perl|ruby)\b|.*\b(?:kill|systemctl|rm|cp|mv)\b.*\*)", text, re.IGNORECASE):
             report.finding("sudoers-dangerous-passwordless-command", "Broad or interpreter-capable NOPASSWD sudoers rule detected.", path)
@@ -547,15 +580,32 @@ def scan_security(root: Path, report: Report) -> None:
         if "sudoers" in lower or "/etc/sudoers" in lower:
             report.capability("sudoers-modification", "Sudoers policy behavior requires complete manual review.", path)
 
-        if path.suffix.lower() == ".qml":
+        if path.suffix.lower() in {".qml", ".js"}:
             if re.search(r"\b(?:eval|Function|Qt\.createQmlObject)\s*\(", text):
                 report.capability("qml-dynamic-code", "Dynamic QML/JavaScript code construction requires manual review.", path)
             if re.search(r"\b(?:XMLHttpRequest|WebSocket)\b", text):
-                report.capability("qml-network", "QML network access requires manual review.", path)
+                report.capability("qml-network", "QML/JavaScript network access requires manual review.", path)
             if re.search(r"\b(?:StdioCollector|FileView)\s*\{", text):
                 report.capability("qml-collected-input", "Review producer-side byte limits before collection, plus deadlines and mutable-file identity where applicable; this pattern alone is not a defect.", path)
             if re.search(r"\bProcess\s*\{", text):
                 report.capability("qml-process", "QML process execution requires manual review.", path)
+
+
+def enforce_project_policy(root: Path, report: Report, denied: list[str]) -> None:
+    """Promote selected lexical matches, without changing baseline-like facts."""
+    for capability in report.capabilities:
+        if capability.code in denied:
+            report.add(
+                "error", "project-policy-" + capability.code,
+                "Project policy forbids this recognized pattern; use the agreed adapter "
+                "or review the architecture rule. This is not a marketplace finding.",
+                root / capability.path,
+            )
+    if denied:
+        for path in iter_files(root):
+            if path.suffix.lower() in {".qml", ".js"} and read_text(path) is None:
+                report.add("error", "project-policy-unreadable",
+                           "Cannot check QML/JS source within the text scan limit.", path)
 
 
 def print_text(result: dict[str, Any]) -> None:
@@ -581,11 +631,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--security", action="store_true", help="Run advisory deterministic security checks.")
     parser.add_argument("--strict", action="store_true", help="Promote publish-surface and compatibility warnings to errors where defined.")
     parser.add_argument("--publish", action="store_true", help="Check root README, license, install/remove docs, and preview limits.")
+    parser.add_argument("--deny-capability", action="append", default=[],
+                        choices=DENIABLE_CAPABILITIES,
+                        help="Fail on a selected QML/JS pattern as a project architecture rule; runs advisory scan. Repeat as needed.")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
+    security_requested = args.security
+    args.security = args.security or bool(args.deny_capability)
     root = Path(os.path.abspath(args.plugin_dir.expanduser()))
     report = Report(root)
     linked = path_has_symlink(root)
@@ -603,14 +658,16 @@ def main(argv: list[str] | None = None) -> int:
                 validate_publish_surface(root, report, args.strict)
             if args.security:
                 scan_security(root, report)
+                enforce_project_policy(root, report, args.deny_capability)
     result = report.result(args.security)
+    result["projectPolicy"] = {"deniedCapabilities": sorted(set(args.deny_capability))}
     if args.as_json:
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
         print_text(result)
     if report.errors:
         return 1
-    if args.security and report.findings:
+    if security_requested and report.findings:
         return 2
     return 0
 

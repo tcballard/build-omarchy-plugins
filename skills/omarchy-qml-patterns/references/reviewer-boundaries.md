@@ -5,6 +5,21 @@ Derived from HANCORE-linux's public reviews in
 reviewed 12 September 2026. These are recurring review concerns, not a substitute
 for the current marketplace contract or an assertion that every concern applies
 to every plugin. Apply the relevant boundary while implementing the feature.
+Read the final section for the 3 October dispositions, including withdrawn
+resource-only listing blockers; earlier examples are historical evidence.
+
+
+## Navigation
+
+- External data and the shared shell
+- Execution and lifetime
+- Files, credentials and privileged helpers
+- Image and aggregate limits
+- Independent privileged trust
+- Local HTTP and agent endpoints
+- Cancellation and identity regressions
+- Presentation and action fidelity
+- Concrete authority and consent checks (3 October dispositions)
 
 ## External data and the shared shell
 
@@ -69,3 +84,117 @@ See [review #2766](https://github.com/omacom/omarchy-plugin-marketplace/issues/2
 Do not elevate a script from a user-writable checkout. A privileged helper needs
 a trusted installation and immutable executable identity; a path check before
 `pkexec` is insufficient. Review downloaded executable provenance separately.
+
+## Image and aggregate limits
+
+Reviews checked 20 September 2026 make these producer boundaries explicit.
+MPRIS/API artwork is external input: avoid assigning arbitrary URLs directly to
+QML `Image.source`. Fetch through a bounded helper, validate schemes/redirects,
+bytes, format, decoded pixel dimensions and total duration, then expose only the
+validated local artifact. If the required decoder is absent, fail closed instead
+of passing unvalidated bytes through. Declare the validating dependency.
+See [artwork review](https://github.com/omacom/omarchy-plugin-marketplace/issues/7180#issuecomment-5735649258).
+
+Bound aggregate retained events/bytes and total stream duration, not just each
+line or an inactivity timer. For transfers, reserve an aggregate budget across
+active work, enforce conservative per-file/concurrency limits and available-disk
+constraints, and clean up partials on overflow/cancellation. Test many individually
+valid inputs as well as a single oversized input.
+See [stream accumulation](https://github.com/omacom/omarchy-plugin-marketplace/issues/7047#issuecomment-5735500611)
+and [transfer budgets](https://github.com/omacom/omarchy-plugin-marketplace/issues/6068#issuecomment-5735045519).
+
+## Independent privileged trust
+
+A checksum supplied by the same mutable checkout as the elevated program does
+not authenticate that program. Use a separately installed trusted verifier or
+package path with independently authenticated expected identities before root
+executes or installs any payload. Inline `pkexec` shell strings and importing a
+signing key from that checkout retain the same problem. Authenticate final
+package bytes through installation, not just downloaded source.
+See [bootstrap re-review](https://github.com/omacom/omarchy-plugin-marketplace/issues/5371#issuecomment-5745040622).
+
+## Local HTTP and agent endpoints
+
+For browser-facing local helpers, binding to loopback does not establish request
+identity. Authenticate sensitive reads, mutations and paid actions; validate
+allowed Host authorities and browser Origins as appropriate, and reject invalid
+requests before side effects. CORS response headers alone are not authentication.
+For local-only outbound endpoints, parse the URL and IP address instead of
+accepting a hostname prefix such as `127.`; `127.attacker.example` is not a
+loopback literal. Handle redirects and resolved destinations under the same
+policy. Remote use requires the agreed explicit opt-in.
+See [local API review](https://github.com/omacom/omarchy-plugin-marketplace/issues/8352#issuecomment-5819807404)
+and [local-only leak](https://github.com/omacom/omarchy-plugin-marketplace/issues/8434#issuecomment-5819147536),
+checked 24 September 2026. Test allowed clients, unauthenticated requests,
+hostile Host/Origin values and deceptive endpoint names without real credentials.
+
+## Cancellation and identity regressions
+
+A deadline checked only after a blocking read returns is not a total deadline.
+Test a peer that continuously trickles bytes without completing the requested
+read; enforce cancellation at the operation boundary, including transport children.
+On overflow or cancellation, make terminal queue writes non-blocking or bounded,
+close responses on every exit and join/reap readers within a bounded wait.
+Repeat cancellation with a full queue to expose retained threads and resources.
+See [slow reads](https://github.com/omacom/omarchy-plugin-marketplace/issues/8371#issuecomment-5819019831),
+[git children](https://github.com/omacom/omarchy-plugin-marketplace/issues/8392#issuecomment-5819774887)
+and [queue shutdown](https://github.com/omacom/omarchy-plugin-marketplace/issues/5619#issuecomment-5784771145).
+
+For stop actions, retain process identity from launch through signaling. Reading
+a reused PID's current start time twice does not bind it to the original service;
+a pathname check followed by numeric-PID signaling can race. Prefer a suitable
+user service/cgroup or a race-free process handle and avoid elevating user-process
+cleanup. See [DevWatch](https://github.com/omacom/omarchy-plugin-marketplace/issues/7927#issuecomment-5815441990)
+and [Phonecam](https://github.com/omacom/omarchy-plugin-marketplace/issues/7497#issuecomment-5795173133).
+
+## Presentation and action fidelity
+
+Keep bounded display previews separate from canonical action data. Truncating a
+clipboard row for display must not silently replace what gets pasted; reject
+oversized stored input explicitly if needed. Trace remote strings through
+persistence and shared child controls, bounding stored fields and setting each
+external Text sink to PlainText. Verify every visible button and IPC invocation
+uses the actual manifest ID, especially after a rename.
+See [Clipbar](https://github.com/omacom/omarchy-plugin-marketplace/issues/8478#issuecomment-5819340291),
+[persisted location](https://github.com/omacom/omarchy-plugin-marketplace/issues/8395#issuecomment-5819055337)
+and [panel target](https://github.com/omacom/omarchy-plugin-marketplace/issues/8463#issuecomment-5819309888).
+
+## Concrete authority and consent checks — 3 October 2026
+
+Read current reviewer disposition before calling a concern a listing blocker.
+[Touch Bar](https://github.com/omacom/omarchy-plugin-marketplace/issues/9262#issuecomment-5970593063)
+and [OmaRead](https://github.com/omacom/omarchy-plugin-marketplace/issues/9174#issuecomment-5970439231)
+withdraw earlier resource-allocation blockers. Retain proportional robustness
+budgets, but distinguish those from actual credential, command or write authority.
+
+Bind a DNS-based local-only/consent decision to the addresses actually used by
+the transport before private content is sent. Resolving once for a precheck and
+again in the HTTP client permits rebinding. Preserve TLS hostname verification;
+apply the policy to redirects and proxy routing too. For credential-bearing
+requests, prefer refusing redirects; never forward secrets to a new origin.
+See [Sift](https://github.com/omacom/omarchy-plugin-marketplace/issues/9858#issuecomment-5970803404)
+and [TMOS](https://github.com/omacom/omarchy-plugin-marketplace/issues/8574#issuecomment-5823505773).
+
+Treat an unreadable existing configuration as an error, not an absent file;
+initialization must not destroy unrelated settings. Recheck sensitive command
+state in the backend immediately before forwarding input; a masked UI field
+or polled password-prompt state cannot protect secrets in argv/scrollback.
+See [Pianobar](https://github.com/omacom/omarchy-plugin-marketplace/issues/8898#issuecomment-5855383375)
+and its [stale prompt check](https://github.com/omacom/omarchy-plugin-marketplace/issues/8898#issuecomment-5858550108).
+
+For an approval broker, kernel peer credentials and stable PID identify a
+process, not its authority to receive a reusable password. Bind the displayed
+operation, trusted helper and secret recipient to the same verified flow; names,
+caller-supplied command text and an arbitrary child of real sudo are insufficient.
+See [Doorman](https://github.com/omacom/omarchy-plugin-marketplace/issues/9558#issuecomment-5961920299).
+Loopback alone also does not isolate private history from other local accounts;
+authenticate those reads or use a suitably protected Unix socket.
+See [Umbra](https://github.com/omacom/omarchy-plugin-marketplace/issues/8928#issuecomment-5928250307).
+
+Validate restored IDs and immutable checkout references before deriving paths
+or invoking Git; reject backup-supplied symlinks before writes. A restore must
+stay within the authorized plugin set. See
+[Settings Sync](https://github.com/omacom/omarchy-plugin-marketplace/issues/9849#issuecomment-5970334443).
+Ensure success describes the full promised state across all active providers;
+checking only resolved cannot establish discovery is disabled if Avahi still
+publishes. See [Network Persona](https://github.com/omacom/omarchy-plugin-marketplace/issues/9854#issuecomment-5970652519).
