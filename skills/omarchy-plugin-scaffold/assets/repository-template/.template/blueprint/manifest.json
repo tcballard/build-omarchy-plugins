@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": @@ID_JSON@@,
+  "name": @@NAME_JSON@@,
+  "version": "0.1.0",
+  "author": @@AUTHOR_JSON@@,
+  "license": "MIT",
+  "description": @@DESCRIPTION_JSON@@,
+  "kinds": ["bar-widget"],
+  "entryPoints": {"barWidget": "StarterWidget.qml"},
+  "barWidget": {
+    "displayName": @@NAME_JSON@@,
+    "description": @@DESCRIPTION_JSON@@,
+    "category": "Other",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {},
+    "schema": []
+  }
+}

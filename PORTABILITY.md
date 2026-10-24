@@ -12,11 +12,20 @@ The repository root conforms to Agent Plugins 1.0.0:
 - Skills contain only standard `SKILL.md`, scripts, references, and assets.
 - No skill calls a model-provider API or requires authentication.
 
+Read `SKILL.md` directly or use a host's native skill discovery. Core instructions prescribe no proprietary tool calls, planner, task queue, subagent topology, transcript format or companion service. Load linked references only for the task at hand. Host discovery is an adapter concern, not a requirement to understand the skills.
+
 The model is selected by the agent host. Changing from an OpenAI model to
 Anthropic, Google, a local model, or another provider does not change the skill
 package or its Omarchy tools.
 
 ## Host adapters
+
+The optional full repository scaffold needs Node.js 22+; it creates projects
+offline from its bundled, checksummed assets. Generated `./tests/run` also
+requires Bash, or run the two Node commands documented in the scaffold
+reference. GitHub configuration is a separate explicit step requiring GitHub
+CLI and administration access. These requirements do not change the existing
+Python generator or the bundle installer's prerequisites.
 
 | Host | Project location | User location | Repository verification |
 | --- | --- | --- | --- |
@@ -60,6 +69,17 @@ not define a winner. Claude enterprise, plugin, added-directory, and synced
 sources are reported as blind spots instead of being silently ignored. The same
 positive and negative cases in `submission/evals.json` remain the baseline for
 behavioral host testing.
+
+For Codex, the doctor inspects `.agents/skills` from the working directory up to
+the repository root, plus the user location. Duplicate names remain ambiguous;
+no winner is inferred. Codex-supported symlinked skills are outside this
+portable copy audit and are reported as a blind spot. These boundaries follow
+[Codex's skill discovery documentation](https://learn.chatgpt.com/docs/build-skills),
+reviewed on 12 September 2026.
+
+Invocation probes establish loading, not engineering quality. Use the separate
+[task-level cases](evals/README.md) for completion, scope, authorization and
+evidence. See [the workflow guide](docs/WORKFLOWS.md) for portable usage. Historical model-specific reviews remain evidence of those dated reviews, not required setup or claims about every host.
 
 ## OpenAI adapter
 

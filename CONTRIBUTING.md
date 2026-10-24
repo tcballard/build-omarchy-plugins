@@ -17,6 +17,12 @@ Do not copy whole upstream manuals into references. Preserve progressive
 disclosure: routing and invariants belong in `SKILL.md`; substantial conditional
 detail belongs in a linked reference; deterministic mechanics belong in scripts.
 
+When a skill changes its purpose, inputs, completion criteria or place in a
+workflow, update `docs/WORKFLOWS.md` and the relevant behavioral cases under
+`evals/`. Keep the workflow guide as navigation; the skill owns its detailed
+contract. Exercise handoffs when a change affects what the next skill consumes,
+and distinguish a documented case from an executed result.
+
 Changes to marketplace rules or Omarchy schema assumptions must identify the
 upstream source and verification date. Security findings must remain
 deterministic, documented, and clearly distinguished from proof of safety.

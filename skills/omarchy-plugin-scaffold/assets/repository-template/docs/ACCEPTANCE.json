@@ -1,0 +1,12 @@
+{
+  "status": "not-run",
+  "input_commit": null,
+  "date": null,
+  "platform": null,
+  "omarchy_version": null,
+  "commands": [],
+  "results": [],
+  "limitations": [
+    "No live Omarchy desktop acceptance recorded."
+  ]
+}
