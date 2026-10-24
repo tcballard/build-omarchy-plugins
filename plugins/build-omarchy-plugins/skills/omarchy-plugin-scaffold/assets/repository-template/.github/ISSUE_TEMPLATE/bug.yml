@@ -1,0 +1,22 @@
+name: Bug report
+description: Report a reproducible problem
+body:
+  - type: textarea
+    id: behaviour
+    attributes:
+      label: Expected and actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions and environment
+      description: Include omarchy-version output, project revision and relevant hardware. Remove secrets from logs.
+    validations:
+      required: true

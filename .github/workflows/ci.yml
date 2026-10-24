@@ -9,6 +9,21 @@ permissions:
   contents: read
 
 jobs:
+  workflow-lint:
+    name: Validate workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: "1.25.14"
+      - name: Install pinned actionlint
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca
+      - name: Validate GitHub Actions workflows
+        run: |
+          "$(go env GOPATH)/bin/actionlint" .github/workflows/*.yml
+
   test:
     name: Test (${{ matrix.os }}, Python ${{ matrix.python }})
     strategy:
@@ -21,10 +36,13 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.4.0
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
       - name: Provide python3 command on Windows
         if: runner.os == 'Windows'
         run: |
@@ -34,13 +52,28 @@ jobs:
           printf '%s\n' "$RUNNER_TEMP/python-shim" >> "$GITHUB_PATH"
       - run: ./scripts/test
 
+  claude-package:
+    name: Validate Claude packaging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Validate with pinned official Claude CLI
+        run: |
+          npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate . --strict
+          npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate .claude-plugin/plugin.json --strict
+
   required:
     name: CI / Required
     if: always()
-    needs: [test]
+    needs: [test, workflow-lint, claude-package]
     runs-on: ubuntu-latest
     steps:
-      - name: Require every matrix job
+      - name: Require matrix and workflow validation
         env:
+          CLAUDE_RESULT: ${{ needs.claude-package.result }}
           MATRIX_RESULT: ${{ needs.test.result }}
-        run: test "$MATRIX_RESULT" = success
+          WORKFLOW_LINT_RESULT: ${{ needs.workflow-lint.result }}
+        run: |
+          test "$CLAUDE_RESULT" = success
+          test "$MATRIX_RESULT" = success
+          test "$WORKFLOW_LINT_RESULT" = success

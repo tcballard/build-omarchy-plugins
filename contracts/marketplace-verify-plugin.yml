@@ -1,0 +1,64 @@
+name: Verify or update a listed plugin
+description: Verify the recorded snapshot or validate and publish a newer exact commit.
+title: "[Verify]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Choose whether to verify the exact snapshot already recorded by the marketplace or to validate and publish a newer repository commit. Community code is never executed. Verification is not a security audit, certification, warranty, or endorsement.
+
+  - type: dropdown
+    id: verification-action
+    attributes:
+      label: Verification action
+      description: A newer commit uses the guarded update and atomic promotion workflow. Standard installation requests are limited to an exact listed root plugin, require a passing baseline or an existing valid installer-only review with a matching rescan, and must be approved by applying the standard-installation-approved maintainer label.
+      options:
+        - Verify the currently listed snapshot
+        - Verify the listed snapshot and enable standard installation
+        - Verify and publish a newer upstream commit
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-id
+    attributes:
+      label: Plugin ID
+      description: Exact marketplace plugin ID shown by the existing listing. Multi-plugin sources are handled source-wide.
+      placeholder: example.plugin
+    validations:
+      required: true
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository URL
+      description: Existing public GitHub repository root URL for this listing.
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+
+  - type: input
+    id: target-commit
+    attributes:
+      label: Target commit
+      description: Full 40-character listed snapshot SHA, or the current repository HEAD SHA when publishing a newer commit.
+      placeholder: 0123456789abcdef0123456789abcdef01234567
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acknowledgment
+    attributes:
+      label: Verification acknowledgment
+      options:
+        - label: I understand that only the exact target commit can become a verified marketplace snapshot and that verification is not a security audit.
+          required: true
+
+  - type: checkboxes
+    id: standard-installation-acknowledgment
+    attributes:
+      label: Standard installation acknowledgment
+      description: Required only when requesting removal of a manual installation override.
+      options:
+        - label: I confirm that this listed root plugin supports the standard Omarchy installation path and does not require manual setup.
+          required: false

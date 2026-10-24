@@ -4,6 +4,13 @@ Verified against Omarchy `quattro` source on 29 August 2026.
 
 ## Select the load model
 
+First decide whether this is a shell interaction. Sustained reading, editing,
+document management, or a workspace with independent navigation may belong in
+a native app, with an optional bar status/launcher. Explain that recommendation
+when relevant; preserve an explicitly chosen plugin scope and do not silently
+build an app instead. A standalone app is outside this toolkit's hosted-QML
+contract.
+
 | Kind | Choose it when | Lifetime | Required entry-point key |
 | --- | --- | --- | --- |
 | `bar-widget` | Compact information or action belongs in the active bar | One visual instance per configured placement/monitor | `barWidget` |
@@ -23,6 +30,9 @@ Do not add a kind only to make a component reachable. A bar widget may load a
 private sibling panel internally without claiming a top-level `panel` kind.
 
 ## Design record template
+
+Use the fields relevant to the feature; adapt an existing specification instead
+of requiring a second document. A small change needs only its affected decisions.
 
 ```markdown
 # Plugin design

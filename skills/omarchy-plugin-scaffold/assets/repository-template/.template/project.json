@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "templateVersion": "0.1.0",
+  "kind": "plugin",
+  "owner": "tcballard",
+  "repo": "omarchy-plugin-template",
+  "slug": "omarchy-plugin-starter",
+  "name": "Omarchy Plugin Starter",
+  "author": "Tom Ballard",
+  "id": "io.github.tcballard.plugin_starter",
+  "description": "A small Quattro bar widget to extend into your own plugin.",
+  "year": "2026",
+  "inspiration": "",
+  "initialized": false
+}

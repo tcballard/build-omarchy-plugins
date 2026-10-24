@@ -1,8 +1,16 @@
 # {{PLUGIN_NAME}}
 
+[![Built for Omarchy: Plugin](https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg)](https://github.com/tcballard/omarchy-badges)
+
 {{DESCRIPTION}}
 
 Kinds: {{KINDS}}
+
+## GitHub topics
+
+Pair this badge with `omarchy` and `omarchy-plugin` in your GitHub repository's
+About topics. The badge does not set topics automatically. Keep other relevant
+topics too. This is a community discovery convention, not marketplace approval.
 
 ## Requirements
 
