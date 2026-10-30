@@ -70,6 +70,10 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
+      - name: Install Qt runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libxkbcommon0
       - run: |
           python3 -m pip install --only-binary=:all: --require-hashes -r tests/qt-requirements.txt
       - run: python3 -m unittest discover -s tests -p test_qt_text_rendering.py -v
