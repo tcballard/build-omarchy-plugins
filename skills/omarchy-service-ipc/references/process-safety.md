@@ -4,6 +4,7 @@
 
 - Prefer a purpose-built CLI with JSON output.
 - Pass arguments as an array, not a constructed command string.
+- Keep private content out of argv, including notifications and filenames; use the [stdin pattern](private-content.md).
 - Require an explicit CLI version when behavior depends on a minimum contract.
 - Probe installed, supported, and authenticated separately.
 - Cap stdout/stderr retained in memory and user-facing error text.

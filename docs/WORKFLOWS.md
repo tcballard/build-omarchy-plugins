@@ -22,4 +22,8 @@ Helpers use the loaded skill's absolute directory, not the current project direc
 
 Carry forward existing decisions, actual changed files and source-bound results in the project's own format. Evidence may refer to commit plus working changes or a fixture digest. Later source edits invalidate affected results. Never turn scaffold validation, a prepared harness or an issue submission into a claim of runtime correctness, release publication or marketplace approval.
 
+Private-content changes use the service skill's stdin pattern; persistent-state
+fixes carry affected-version fixtures into testing. The test skill's optional
+plain-text policy keeps reviewed rich-text exceptions tied to named objects.
+
 For substantial changes, use the [behavioral cases](../evals/README.md) and [handoff cases](../evals/HANDOFFS.md). Their criteria describe outcomes, not tool-call sequences.

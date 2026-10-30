@@ -17,6 +17,8 @@ Process {
 
 Do not interpolate data into `bash -c`. If a shell is unavoidable, constrain the
 script literal and quote each external value with `Util.shellQuote`.
+Argument arrays still expose private messages, tasks and filenames. Send those
+through bounded stdin or private IPC; inspect helper subprocesses as well.
 
 ## State discipline
 

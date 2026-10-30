@@ -41,6 +41,7 @@ test('generates initialized project, identity, provenance and executable tests i
   assert(fs.readFileSync(path.join(output, 'StarterWidget.qml'), 'utf8').includes('io.github.tester.example'));
   assert.equal(read(path.join(output, '.template/project.json')).initialized, true);
   assert.equal(read(path.join(output, '.template/source.json')).commit, 'f99681e69937d21c2d4414ac9f65a0fd01fea714');
+  assert.equal(read(path.join(output, '.template/source.json')).integrationVersion, 2);
   assert(!fs.existsSync(path.join(output, '.git')));
   assert.equal(read(path.join(output, 'docs/ACCEPTANCE.json')).status, 'not-run');
   if (process.platform !== 'win32') assert(fs.statSync(path.join(output, 'tests/run')).mode & 0o111);
@@ -54,6 +55,26 @@ test('generates initialized project, identity, provenance and executable tests i
   assert.match(policy.note, /Dry run/);
   fs.unlinkSync(path.join(output, 'manifest.json'));
   assert.notEqual(run(['scripts/check.mjs'], output).status, 0, 'check CLI must execute even when its path contains spaces');
+});
+
+test('installed checkout omits agent instructions and still passes its checks', t => {
+  const output = generate(t);
+  const paths = fs.readdirSync(output, {recursive:true}).map(p => String(p).split(path.sep).join('/'));
+  assert(!paths.some(p => /(^|\/)(AGENTS|CLAUDE|HANDOFF)\.md$/.test(p)));
+  assert(!Object.hasOwn(read(path.join(output, '.template/receipt.json')), 'AGENTS.md'));
+  const git = args => {
+    const result = spawnSync('git', args, {cwd:output, encoding:'utf8'});
+    assert.equal(result.status, 0, result.stderr);
+  };
+  git(['init']);
+  git(['add', '.']);
+  git(['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-m', 'Fixture']);
+  const installed = path.join(path.dirname(output), 'installed');
+  git(['clone', '--quiet', output, installed]);
+  assert.equal(run(['scripts/check.mjs'], installed).status, 0);
+  const checked = spawnSync('python3', [path.join(repo, 'skills/omarchy-plugin-test/scripts/validate_plugin.py'), '--json', '--security', installed], {encoding:'utf8'});
+  assert.equal(checked.status, 0, checked.stdout + checked.stderr);
+  assert(!JSON.parse(checked.stdout).security.capabilities.some(c => c.code.startsWith('agent-')));
 });
 
 test('existing empty directory, edited project, file and dangling symlink are preserved', t => {

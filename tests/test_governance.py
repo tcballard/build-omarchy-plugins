@@ -76,7 +76,9 @@ class GovernanceTests(unittest.TestCase):
         self.assertIn("actionlint/cmd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca", text)
         self.assertIn('actionlint" .github/workflows/*.yml', text)
         self.assertIn("name: CI / Required", text)
-        self.assertIn("needs: [test, workflow-lint, claude-package]", text)
+        self.assertIn("needs: [test, workflow-lint, claude-package, qt-text]", text)
+        self.assertIn('test "$QT_TEXT_RESULT" = success', text)
+        self.assertIn('OMARCHY_REQUIRE_QT: "1"', text)
 
     def test_release_automation_is_draft_only_and_rechecks_remote_identity(self) -> None:
         workflow = (WORKFLOWS / "release-draft.yml").read_text(encoding="utf-8")

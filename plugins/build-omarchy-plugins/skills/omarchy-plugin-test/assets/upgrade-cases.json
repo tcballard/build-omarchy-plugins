@@ -1,0 +1,23 @@
+{
+  "private-state": {
+    "files": {
+      "legacy/call-cache.json": {"mode": "0644", "text": "{\"title\":\"Fixture private call\"}\n"},
+      "state/history.json": {"mode": "0644", "text": "{\"message\":\"Fixture private message\"}\n"},
+      "unrelated/keep.txt": {"mode": "0644", "text": "User-owned fixture; preserve me.\n"}
+    },
+    "expect": ["Private directories/files become 0700/0600 before use", "Owned legacy cache is removed", "Unrelated files and symlink targets stay unchanged", "Second migration is harmless"]
+  },
+  "saved-profile": {
+    "files": {
+      "profiles/enterprise.json": {"mode": "0600", "text": "{\"id\":\"fixture-network\",\"eap\":\"peap\",\"ca\":null,\"serverDomain\":null}\n"}
+    },
+    "expect": ["Existing insecure profile cannot reconnect before repair or explicit reconfiguration", "Do not invent a trusted server domain", "Unrelated profiles are preserved"]
+  },
+  "managed-service": {
+    "files": {
+      "services/managed.service": {"mode": "0644", "text": "[Service]\nExecStart=/fixture/server --listen 0.0.0.0\n"},
+      "services/user.service": {"mode": "0644", "text": "[Service]\nExecStart=/fixture/user-owned-server\n"}
+    },
+    "expect": ["Owned obsolete listener cannot remain active after upgrade", "Missing required bind support refuses enablement", "User-owned service is preserved and conflicts are reported", "Second migration is harmless"]
+  }
+}

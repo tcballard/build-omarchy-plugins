@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add bounded private-content stdin guidance and upgrade-state fixtures.
+- Add an opt-in QML plain-text check with named rich-text exceptions and Qt rendering tests.
+- Omit authoring-agent instructions from generated desktop-plugin checkouts.
+
 ## 0.9.0 — 2026-10-17
 
 - Align with the Quattro Agents-panel Plugin starter and built-in guide; add a local clone route.
