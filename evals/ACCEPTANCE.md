@@ -1,5 +1,25 @@
 # Acceptance evidence and remaining host checks
 
+## Marketplace hardening — 30 October 2026
+
+- Base: `ee5a8e49646186097559946dffb91bb7a7368577`. Marketplace forms and
+  SUBMISSION.md, SECURITY.md and VERIFICATION.md match the 3 October pin.
+- Portable suite: 89 Python cases (the optional Qt case runs separately),
+  six Node scaffold cases, adapter parity, contract checks and packaging.
+  The review follow-up adds a multiline-binding regression (90 Python cases),
+  checks rich-text ID uniqueness across all objects, and exercises cloned
+  scaffold reinitialisation and its own tests.
+- Qt 6.8.3 offscreen fixtures rendered Text, Label, TextEdit, TextArea and
+  explicit ToolTip without image requests; a rich-text control triggered the
+  loopback observer. This tests Qt behavior, not an installed plugin. The
+  unchanged fixture remains optional; the extra required Qt job was removed
+  during review to preserve the existing CI dependency surface.
+- A fresh read-only agent exercise ran the updated test skill against a
+  fictional plugin. It found the Label/tooltip issues, scoped the fixed licence
+  exception, and identified that the fixture component was not instantiated.
+- Upgrade files are reusable test inputs, not evidence of a production
+  migration. Live Omarchy and Quickshell process lifecycle remain unrun.
+
 ## Bundled repository template — 6 October 2026
 
 - Implementation candidate: `94b0e749c07929de08854cd30af3d7c07f477b52` on base

@@ -11,6 +11,7 @@ Use one hosted `service` for shared state or work that survives a panel closing.
 - Make refresh idempotent. Bind asynchronous results to their owning request/generation so late completion cannot overwrite newer state or revive a disabled service.
 - Bound polling, duration, response size, retries and error output. Stop or back off when prerequisites are absent.
 - Keep credentials in the external program's store; query its status without copying or logging tokens.
+- For messages, tasks or other private content crossing a process boundary, use the [stdin pattern](references/private-content.md); inspect descendant commands too.
 - Put process/network/private-state operations behind narrow methods with explicit errors and cancellation. Avoid wrappers that expose arbitrary executables or destinations.
 - Name IPC targets after the plugin ID. Expose small documented methods and bounded results; use the canonical shell target for shell lifecycle operations.
 

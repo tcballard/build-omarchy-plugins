@@ -35,11 +35,13 @@ inspect it before removing or retrying.
 ## Included defaults and validation
 
 The starter includes a root manifest and stateless `StarterWidget.qml`, a
-centered README with the Plugin badge and credits, MIT licence, project
-instructions, Workbench definition, development and acceptance documents,
+centered README with the Plugin badge and credits, MIT licence,
+Workbench definition, development and acceptance documents,
 issue/PR forms, pinned CI, draft source-release workflow, and GitHub setup tool.
 MIT is the starter default; establish licences for new code and reused assets.
 It has no real screenshots, desktop acceptance or marketplace listing.
+Agents no longer auto-load starter instructions: read `README.md`,
+`ARCHITECTURE.md` and `docs/DEVELOPMENT.md` explicitly.
 
 The manifest maps `bar-widget` to `StarterWidget.qml`. Run `./tests/run` from the
 generated repository (Bash required). For portable Node checks, including from
@@ -73,10 +75,11 @@ and Git mode of every file. `new_repository.mjs --check` detects added, missing
 or changed files and rejects symlinks. This checks the reviewed local lock; it
 is not a signature or an online assertion about upstream's current branch.
 
-Integration version 1 makes two explicit compatibility adjustments in the
+Integration version 2 makes explicit compatibility adjustments in the
 generated copy: normalize relative paths to `/`, and use `fileURLToPath` for
-the check/setup CLI entry points. These keep initialization and checks working
-on Windows and in paths containing spaces. The source snapshot remains intact;
+the check/setup CLI entry points; omit root and blueprint `AGENTS.md` and its
+receipt/check requirement. Authoring-agent instructions must stay outside the
+checkout installed by Omarchy. The pinned source snapshot remains intact;
 `.template/source.json` in each generated project records the pin and adjustments.
 
 To update, review a specific upstream commit, replace the snapshot from its

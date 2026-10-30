@@ -53,7 +53,7 @@ function copy(files, destination) {
 }
 
 // The pinned upstream snapshot is kept byte-for-byte. Apply these documented
-// authoring compatibility fixes only to the new checkout (integration version 1).
+// authoring compatibility fixes only to the new checkout (integration version 2).
 function portablePaths(directory) {
   function replace(relative, before, after) {
     const file = path.join(directory, relative);
@@ -66,6 +66,20 @@ function portablePaths(directory) {
     replace(relative, "import path from 'node:path';", "import path from 'node:path';\nimport { fileURLToPath } from 'node:url';");
     replace(relative, 'new URL(import.meta.url).pathname', 'fileURLToPath(import.meta.url)');
   }
+}
+
+function omitAgentInstructions(directory) {
+  for (const relative of ['AGENTS.md', '.template/blueprint/AGENTS.md']) {
+    fs.unlinkSync(path.join(directory, relative));
+  }
+  const receiptPath = path.join(directory, '.template/receipt.json');
+  const receipt = JSON.parse(fs.readFileSync(receiptPath, 'utf8'));
+  delete receipt['AGENTS.md'];
+  fs.writeFileSync(receiptPath, JSON.stringify(receipt, null, 2) + '\n');
+  const checkPath = path.join(directory, 'scripts/check.mjs');
+  const check = fs.readFileSync(checkPath, 'utf8');
+  if (check.split("'AGENTS.md',").length !== 2) throw Error('Agent-file check no longer matches');
+  fs.writeFileSync(checkPath, check.replace("'AGENTS.md',", ''));
 }
 
 function run(directory, args) {
@@ -101,10 +115,11 @@ try {
       portablePaths(temporary);
       const identity = Object.entries(values).filter(([key]) => key !== 'output').flatMap(([key, value]) => ['--' + key, value]);
       run(temporary, ['scripts/init.mjs', ...identity]);
+      omitAgentInstructions(temporary);
       const result = run(temporary, ['scripts/check.mjs']);
       fs.writeFileSync(path.join(temporary, '.template/source.json'), JSON.stringify({
         repository: lock.repository, commit: lock.commit, templateVersion: lock.templateVersion,
-        integrationVersion: 1, compatibility: ['posix-relative-paths', 'file-url-entrypoints'],
+        integrationVersion: 2, compatibility: ['posix-relative-paths', 'file-url-entrypoints', 'omit-agent-instructions'],
       }, null, 2) + '\n');
       fs.mkdirSync(destination);
       const modes = new Map(files.map(f => [f.path, f.mode]));
