@@ -1,20 +1,16 @@
-# Build Omarchy Plugins v0.9.0 — Less ceremony. More building.
+# Build Omarchy Plugins v0.10.0: Keep private data private
 
-I cut the twelve skill entry points by 58%: 6,884 words down to 2,892. Same skill names. Less context to load before getting to work.
+I pulled another round of marketplace lessons into the skills: handling private text, testing upgrades and checking what QML actually displays. The skill entry points grow by three lines. The detail stays in linked references.
 
-This is a substantial refactor of how the bundle guides an agent through building an Omarchy plugin. Detailed mechanics stay in linked references, ready when the task needs them. The core instructions assume no particular agent, harness, planner or proprietary tools. Pick your own setup.
+- **Send private text through stdin.** A copyable reader accepts bounded JSON and rejects malformed input without echoing it. The guidance follows messages and filenames through helper subprocesses too.
+- **Exercise upgrades from affected state.** Small fixtures cover private files, saved network profiles and managed services. Adapt them to your plugin's production migration and check that unrelated user data survives.
+- **Make plain-text rendering explicit.** An optional QML check requires literal PlainText bindings, with named exceptions for reviewed rich text such as a bundled licence. It rejects expressions masquerading as literal PlainText and ambiguous exception IDs.
+- **Generate leaner checkouts.** New repositories omit agent instruction files from both the checkout and retained blueprint. Developer docs remain, and cloning or rerunning initialization still works.
 
-- **Fits Omarchy's new starting point.** The Agents panel's Plugin button on current Quattro development builds launches your default agent with Omarchy's built-in guide. This release explains how the bundle complements that flow. The button does not automatically load the bundle.
-- **Small tweaks can stay small.** Clone a built-in widget, edit your own copy and stop when it works. A personal customization does not need a public repo or a marketplace submission.
-- **Catches up with Quattro.** Generated palette references now avoid the Qt 6.12 `Color` collision. The generator and validator accept all six bar sections, with guidance for clock-adjacent placement and tray popouts.
-- **Speaks the desktop's language.** New guidance covers plugin-owned translations, live language switching, plurals, number/date formatting and RTL layouts. Check the installed host before adopting newer APIs.
+Validation passed: 89 Python tests and six Node scaffold cases, with one optional Qt test skipped. Required CI covers Linux, macOS, and Windows. The separate Qt 6.8.3 rendering fixture passed and remains optional. The lexical check cannot prove safety; live Omarchy and Quickshell lifecycle acceptance remains unrun.
 
-The refactor passed 79 toolkit tests and CI on Linux, macOS, and Windows. A fresh-session build also produced a working implementation of a small focus widget and passed its portable checks. Live Qt rendering, tray geometry, language switching and RTL still need testing on an Omarchy desktop; those checks are not claimed here.
+Same twelve provider-neutral skills, OpenCode support, transactional updates and SPDX 2.3 SBOM. The pinned starter and marketplace contracts are unchanged. Release automation prepares verified drafts and cannot publish them.
 
-The provider-neutral bundle retains OpenCode support, transactional updates, the offline repository starter and an SPDX 2.3 SBOM. Host packaging stays optional. Release automation builds verified drafts and cannot publish them by itself.
+For an existing CLI install, check out `v0.10.0`, preview `--update --diff`, then apply `--update` with your usual target and scope. Check downloaded archives against `SHA256SUMS`.
 
-For an existing CLI install, check out `v0.9.0`, preview `--update --diff`, then apply `--update` using your usual target and scope. Check downloaded archives against `SHA256SUMS`.
-
-Try: **“Use the installed Omarchy guide and Build Omarchy Plugins skills. Build the smallest useful version, enable it locally and verify the interaction.”**
-
-[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.8.0...v0.9.0)
+[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.9.0...v0.10.0)

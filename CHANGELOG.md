@@ -1,10 +1,16 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 — 2026-10-30
 
 - Add bounded private-content stdin guidance and upgrade-state fixtures.
 - Add an opt-in QML plain-text check with named rich-text exceptions and Qt rendering tests.
-- Omit authoring-agent instructions from generated desktop-plugin checkouts.
+- Omit authoring-agent instructions from generated desktop-plugin checkouts;
+  preserve developer docs and verify cloning and repeated initialization.
+- Reject multiline PlainText expressions and ambiguous rich-text exception IDs.
+- Keep the Qt rendering fixture optional and the existing required CI jobs unchanged.
+- Document optional live testing on an already paired Omarchy computer.
+- Refresh pinned CI actions and clarify existing path-policy code.
+- Align manifests, installation examples and submission materials with v0.10.0.
 
 ## 0.9.0 — 2026-10-17
 
