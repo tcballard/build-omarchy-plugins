@@ -31,6 +31,16 @@ class PlainTextTests(unittest.TestCase):
                 self.assertTrue(scan(f'{kind} {{ textFormat: trusted ? Text.PlainText : Text.RichText }}'))
                 self.assertTrue(scan(f'{kind} {{ textFormat: Text.PlainText + 1 }}'))
 
+    def test_multiline_expressions_cannot_satisfy_literal_policy(self):
+        scan = module(CHECK).scan
+        for suffix in ("+ 1", "? Text.RichText : Text.RichText", "\n/* comment */ | 1",
+                       "[0]", ".value", "(remote)", "instanceof Object", "in formats"):
+            with self.subTest(suffix=suffix):
+                self.assertTrue(scan(f'Text {{ textFormat: Text.PlainText\n{suffix}\ntext: remote }}'))
+        self.assertFalse(scan('Text { textFormat: Text.PlainText\ntext: remote }'))
+        self.assertFalse(scan('Text { textFormat: Text.PlainText\n; text: remote }'))
+        self.assertFalse(scan('Text { textFormat: Text.PlainText\n}'))
+
     def test_comments_and_strings_cannot_satisfy_policy(self):
         scan = module(CHECK).scan
         for body in ('// textFormat: Text.PlainText\ntext: remote',
@@ -62,6 +72,9 @@ class PlainTextTests(unittest.TestCase):
             self.assertEqual(run(*allowed).returncode, 0)
             self.assertIn("Bundled licence only", run(*allowed).stdout)
             path.write_text('Item { Text { id: credits } Text { id: credits } }')
+            self.assertIn("Ambiguous exception", run(*allowed).stderr)
+            path.write_text('Item { Component { Text { id: credits; textFormat: Text.PlainText } } '
+                            'Component { Text { id: credits; textFormat: Text.RichText } } }')
             self.assertIn("Ambiguous exception", run(*allowed).stderr)
             path.write_text(path.read_text() + '\nText { id: other; text: remote }')
             self.assertEqual(run(*allowed).returncode, 1)

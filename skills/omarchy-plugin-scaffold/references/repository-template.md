@@ -40,6 +40,8 @@ Workbench definition, development and acceptance documents,
 issue/PR forms, pinned CI, draft source-release workflow, and GitHub setup tool.
 MIT is the starter default; establish licences for new code and reused assets.
 It has no real screenshots, desktop acceptance or marketplace listing.
+Agents no longer auto-load starter instructions: read `README.md`,
+`ARCHITECTURE.md` and `docs/DEVELOPMENT.md` explicitly.
 
 The manifest maps `bar-widget` to `StarterWidget.qml`. Run `./tests/run` from the
 generated repository (Bash required). For portable Node checks, including from

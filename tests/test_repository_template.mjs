@@ -71,7 +71,14 @@ test('installed checkout omits agent instructions and still passes its checks', 
   git(['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-m', 'Fixture']);
   const installed = path.join(path.dirname(output), 'installed');
   git(['clone', '--quiet', output, installed]);
+  const reinitialized = run(['scripts/init.mjs', ...identity], installed);
+  assert.equal(reinitialized.status, 0, reinitialized.stderr);
+  assert.match(reinitialized.stdout, /Already initialized/);
+  assert(!fs.existsSync(path.join(installed, 'AGENTS.md')));
+  assert(!fs.existsSync(path.join(installed, '.template/blueprint/AGENTS.md')));
   assert.equal(run(['scripts/check.mjs'], installed).status, 0);
+  const installedTests = run(['--test', 'tests/template.test.mjs'], installed);
+  assert.equal(installedTests.status, 0, installedTests.stdout + installedTests.stderr);
   const checked = spawnSync('python3', [path.join(repo, 'skills/omarchy-plugin-test/scripts/validate_plugin.py'), '--json', '--security', installed], {encoding:'utf8'});
   assert.equal(checked.status, 0, checked.stdout + checked.stderr);
   assert(!JSON.parse(checked.stdout).security.capabilities.some(c => c.code.startsWith('agent-')));

@@ -63,3 +63,17 @@ real desktop or external-provider run.
 
 Initial smoke-test observations are in the
 [12 September review](../docs/reviews/2026-09-12-frontier-skills.md).
+
+## Optional Qt rendering fixture
+
+The 30 October fixture checks Qt controls, not the lexical checker or a live
+plugin. It is not a required CI dependency. To reproduce it on Linux x86_64 in
+a disposable Python environment with Qt runtime libraries available:
+
+```bash
+python3 -m pip install --only-binary=:all: --require-hashes -r tests/qt-requirements.txt
+OMARCHY_REQUIRE_QT=1 python3 -m unittest discover -s tests -p test_qt_text_rendering.py -v
+```
+
+The pinned wheels reproduce Qt 6.8.3 only; test the actual component and target
+Qt/Quickshell version before claiming runtime acceptance.

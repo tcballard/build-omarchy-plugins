@@ -15,7 +15,7 @@ TOKEN = re.compile(
 )
 
 
-def scan(source):
+def scan(source, reviewed_ids=()):
     tokens = []
     line = 1
     for match in TOKEN.finditer(source):
@@ -72,10 +72,18 @@ def scan(source):
                 tail = tail[1:]
             if not tail or not re.fullmatch(r"(?:\w+\.)?(?:Text|TextEdit)\.PlainText", tail[0][0]):
                 return False
-            return len(tail) == 1 or tail[1][0] in {";", "\n"}
+            if len(tail) == 1 or tail[1][0] == ";":
+                return True
+            if tail[1][0] != "\n":
+                return False
+            following = [value for value, _ in tail[2:] if value != "\n"]
+            return not following or following[0] == ";" or (
+                re.fullmatch(r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*", following[0]) is not None
+                and following[0] not in {"in", "instanceof", "as"}
+            )
         return False
 
-    problems = []
+    problems, seen_ids = [], set()
     for start, end in sorted(pairs.items()):
         previous = start - 1
         while previous >= 0 and tokens[previous][0] == "\n":
@@ -84,6 +92,10 @@ def scan(source):
         items = direct(start)
         ids = bindings(items, "id")
         object_id = ids[0] if len(ids) == 1 else ""
+        if object_id in reviewed_ids:
+            if object_id in seen_ids:
+                raise ValueError(f"Ambiguous exception: {object_id}")
+            seen_ids.add(object_id)
         reasons = []
         if kind in TEXT_TYPES and not plain(items):
             reasons.append(f"{kind} needs an explicit literal PlainText format")
@@ -146,11 +158,10 @@ def main():
                 data = stream.read(2 * 1024 * 1024 + 1)
             if len(data) > 2 * 1024 * 1024:
                 raise ValueError("QML exceeds the 2 MiB scan limit")
-            for line, identifier, reason in scan(data.decode("utf-8")):
+            reviewed_ids = {key.rpartition(":")[2] for key in allowances if key.rpartition(":")[0] == relative}
+            for line, identifier, reason in scan(data.decode("utf-8"), reviewed_ids):
                 key = f"{relative}:{identifier}"
                 if identifier and key in allowances:
-                    if key in used:
-                        errors.append(f"Ambiguous exception: {key}")
                     used.add(key)
                     print(f"REVIEWED {key}: {allowances[key]}")
                 else:

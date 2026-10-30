@@ -62,30 +62,10 @@ jobs:
           npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate . --strict
           npx --yes @anthropic-ai/claude-code@2.1.269 plugin validate .claude-plugin/plugin.json --strict
 
-  qt-text:
-    name: Qt text rendering
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
-        with:
-          python-version: "3.12"
-      - name: Install Qt runtime libraries
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libxkbcommon0
-      - run: |
-          python3 -m pip install --only-binary=:all: --require-hashes -r tests/qt-requirements.txt
-      - run: python3 -m unittest discover -s tests -p test_qt_text_rendering.py -v
-        env:
-          OMARCHY_REQUIRE_QT: "1"
-          QT_QPA_PLATFORM: offscreen
-          QT_QUICK_BACKEND: software
-
   required:
     name: CI / Required
     if: always()
-    needs: [test, workflow-lint, claude-package, qt-text]
+    needs: [test, workflow-lint, claude-package]
     runs-on: ubuntu-latest
     steps:
       - name: Require matrix and workflow validation
@@ -93,9 +73,7 @@ jobs:
           CLAUDE_RESULT: ${{ needs.claude-package.result }}
           MATRIX_RESULT: ${{ needs.test.result }}
           WORKFLOW_LINT_RESULT: ${{ needs.workflow-lint.result }}
-          QT_TEXT_RESULT: ${{ needs.qt-text.result }}
         run: |
           test "$CLAUDE_RESULT" = success
           test "$MATRIX_RESULT" = success
           test "$WORKFLOW_LINT_RESULT" = success
-          test "$QT_TEXT_RESULT" = success
