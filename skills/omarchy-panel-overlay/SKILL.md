@@ -11,6 +11,7 @@ Preserve the existing surface, payload and monitor contract for a targeted chang
 - Release temporary requests, timers and exclusive focus on Escape, outside click, action completion and host hide. Hidden windows must not steal focus.
 - Use overlay layer/exclusion behavior only where required. Choose the focused monitor or all monitors deliberately.
 - Provide keyboard navigation and visible dismissal. Keep hit regions within the card and prevent backdrop click-through.
+- Reuse host panel/popup motion. For custom transitions, use the QML-patterns motion guidance and test reduced motion, interrupted opening and late content.
 - Use host UI components, semantic theme tokens and plugin-owned translations. Keep slow work off the visible open path when a service already owns it.
 
 Verify changed open, repeated-open, dismissal, focus and monitor behavior. Record unobserved host checks without treating stubs as live window evidence.

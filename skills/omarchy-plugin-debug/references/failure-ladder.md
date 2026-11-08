@@ -54,3 +54,36 @@ recreate QML instances, so stale external processes, timers, and persistent
 properties may expose bugs that a first load does not. When changing reload or
 resource ownership, test both edit reload and full shell restart on an authorized
 Omarchy host; otherwise record those checks as unrun.
+
+## Supervised shell and journal
+
+On Quattro reviewed 8 November 2026, `omarchy-launch-shell` launches the shell
+under `systemd-cat`, supervises abnormal exits and disables Quickshell's own
+whole-shell file watcher. That does not disable PluginRegistry's separate user
+plugin watcher. Avoid launching a second Quickshell instance to recover a plugin.
+Inspect bounded session logs, then redact private content before sharing:
+
+```bash
+journalctl -b -t omarchy-shell --since "10 minutes ago" -n 200 --no-pager
+```
+
+Use the installed `omarchy-restart-shell` when a restart is authorized. It uses
+the session environment and protects an active lock; do not bypass a refusal
+with a raw kill. A successful shell ping alone does not establish notification
+service recovery or a secured lock. Inspect command exit status and the affected
+interaction after recovery. Older installations may not have journal logging.
+
+The current plugin watcher ignores Python `__pycache__` writes. On an older
+host, repeated helper imports may cause a reload loop; compare the installed
+registry before blaming the process adapter. Keep other runtime output outside
+the watched plugin source tree.
+
+For combined bar-widget/service/panel plugins, inspect both `bar.layout` and
+`plugins[]`. Current upstream restores a missing bar entry even when a non-bar
+record survives, and removes both records when reverting a multi-kind clone.
+Test disable → enable and clone → revert on the actual host. Do not silently
+rewrite user configuration or claim the host fix is present on older versions.
+
+Sources: [launcher](https://github.com/omacom/omarchy/blob/d9cc361cddf5d75dcb880de3c7fb8b5542ae6e39/bin/omarchy-launch-shell),
+[restart](https://github.com/omacom/omarchy/blob/d9cc361cddf5d75dcb880de3c7fb8b5542ae6e39/bin/omarchy-restart-shell),
+[registry](https://github.com/omacom/omarchy/blob/d9cc361cddf5d75dcb880de3c7fb8b5542ae6e39/shell/services/PluginRegistry.qml).

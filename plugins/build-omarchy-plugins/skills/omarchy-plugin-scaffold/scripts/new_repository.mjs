@@ -53,7 +53,7 @@ function copy(files, destination) {
 }
 
 // The pinned upstream snapshot is kept byte-for-byte. Apply these documented
-// authoring compatibility fixes only to the new checkout (integration version 2).
+// authoring compatibility fixes only to the new checkout (integration version 3).
 function portablePaths(directory) {
   function replace(relative, before, after) {
     const file = path.join(directory, relative);
@@ -80,6 +80,33 @@ function omitAgentInstructions(directory) {
   const check = fs.readFileSync(checkPath, 'utf8');
   if (check.split("'AGENTS.md',").length !== 2) throw Error('Agent-file check no longer matches');
   fs.writeFileSync(checkPath, check.replace("'AGENTS.md',", ''));
+}
+
+function omitWorkbench(directory) {
+  for (const prefix of ['', '.template/blueprint/']) {
+    fs.unlinkSync(path.join(directory, prefix + '.omarchy-workbench.json'));
+    for (const [relative, before, after] of [
+      ['docs/DEVELOPMENT.md', 'Use your current Omarchy plugin development/linking workflow or Plugin Workbench after inspecting its current commands. The included `.omarchy-workbench.json` proposes checks; it does not grant trust or execute them automatically.', 'Use the installed Omarchy plugin development/linking workflow and run ./tests/run before live acceptance.'],
+      ['ARCHITECTURE.md', ' Workbench registration and command trust remain explicit user actions.', ''],
+    ]) {
+      const file = path.join(directory, prefix + relative);
+      const text = fs.readFileSync(file, 'utf8');
+      if (text.split(before).length !== 2) throw Error(`Workbench patch no longer matches: ${relative}`);
+      fs.writeFileSync(file, text.replace(before, after));
+    }
+  }
+  const receiptPath = path.join(directory, '.template/receipt.json');
+  const receipt = JSON.parse(fs.readFileSync(receiptPath, 'utf8'));
+  delete receipt['.omarchy-workbench.json'];
+  for (const relative of ['docs/DEVELOPMENT.md', 'ARCHITECTURE.md']) {
+    receipt[relative] = crypto.createHash('sha256').update(fs.readFileSync(path.join(directory, relative))).digest('hex');
+  }
+  fs.writeFileSync(receiptPath, JSON.stringify(receipt, null, 2) + '\n');
+  const checkPath = path.join(directory, 'scripts/check.mjs');
+  const check = fs.readFileSync(checkPath, 'utf8');
+  const requirement = "    assert.equal(readJSON(path.join(base,'.omarchy-workbench.json')).schemaVersion,1);\n";
+  if (check.split(requirement).length !== 2) throw Error('Workbench check no longer matches');
+  fs.writeFileSync(checkPath, check.replace(requirement, ''));
 }
 
 function run(directory, args) {
@@ -116,10 +143,11 @@ try {
       const identity = Object.entries(values).filter(([key]) => key !== 'output').flatMap(([key, value]) => ['--' + key, value]);
       run(temporary, ['scripts/init.mjs', ...identity]);
       omitAgentInstructions(temporary);
+      omitWorkbench(temporary);
       const result = run(temporary, ['scripts/check.mjs']);
       fs.writeFileSync(path.join(temporary, '.template/source.json'), JSON.stringify({
         repository: lock.repository, commit: lock.commit, templateVersion: lock.templateVersion,
-        integrationVersion: 2, compatibility: ['posix-relative-paths', 'file-url-entrypoints', 'omit-agent-instructions'],
+        integrationVersion: 3, compatibility: ['posix-relative-paths', 'file-url-entrypoints', 'omit-agent-instructions', 'omit-workbench'],
       }, null, 2) + '\n');
       fs.mkdirSync(destination);
       const modes = new Map(files.map(f => [f.path, f.mode]));

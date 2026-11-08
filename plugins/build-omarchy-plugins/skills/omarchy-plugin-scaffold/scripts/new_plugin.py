@@ -157,34 +157,6 @@ def build_manifest(args: argparse.Namespace) -> dict[str, object]:
     return manifest
 
 
-def build_workbench_definition() -> dict[str, object]:
-    return {
-        "schemaVersion": 1,
-        "pluginPath": ".",
-        "checks": [
-            {
-                "name": "project-tests",
-                "argv": ["./tests/run"],
-                "timeoutSeconds": 300,
-            }
-        ],
-        "environment": [
-            {"name": "git", "argv": ["git", "--version"], "required": True},
-            {"name": "python", "argv": ["python3", "--version"], "required": True},
-            {"name": "omarchy", "argv": ["omarchy", "--version"], "required": False},
-        ],
-        "workflows": [
-            {
-                "name": "portable-tests",
-                "capability": "validate",
-                "argv": ["./tests/run"],
-                "timeoutSeconds": 300,
-                "requires": [],
-            }
-        ],
-    }
-
-
 def populate(root: Path, args: argparse.Namespace) -> None:
     repository = inferred_repository(args.plugin_id, args.output.name)
     namespace = re.sub(r"[^a-z0-9-]", "-", args.plugin_id.replace(".", "-"))
@@ -207,11 +179,6 @@ def populate(root: Path, args: argparse.Namespace) -> None:
         "KINDS": ", ".join(args.kind),
     }
     write_text(root, "manifest.json", json.dumps(build_manifest(args), indent=2, ensure_ascii=False) + "\n")
-    write_text(
-        root,
-        ".omarchy-workbench.json",
-        json.dumps(build_workbench_definition(), indent=2, ensure_ascii=False) + "\n",
-    )
     for kind in args.kind:
         _, filename = KINDS[kind]
         write_text(root, filename, render(filename + ".tpl", values))
@@ -268,11 +235,9 @@ def main(argv: list[str] | None = None) -> int:
         "id": args.plugin_id,
         "kinds": args.kind,
         "manifest": str(output / "manifest.json"),
-        "workbench": str(output / ".omarchy-workbench.json"),
         "next": [
             str(output / "tests" / "run"),
             f"omarchy plugin validate {output}",
-            f"omarchy-plugin-workbench add {output}",
         ],
     }, indent=2))
     return 0

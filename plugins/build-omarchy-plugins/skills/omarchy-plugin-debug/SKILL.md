@@ -15,6 +15,8 @@ python3 "<skill-dir>/scripts/doctor.py" /absolute/path/to/plugin
 
 Use `--live` only on an Omarchy host for read-only IPC probes. Read [failure ladder](references/failure-ladder.md) to trace manifest/path → official validation → discovery → enabled state → QML load/injection → summon/IPC → external data → interaction/monitors.
 
+For shell exits or reload loops, inspect bounded `omarchy-shell` journal logs and distinguish supervised whole-shell restart from the plugin watcher; see the failure ladder.
+
 For colour failures inspect `Commons.Color` qualification on Qt 6.12, then distinguish incorrect plugin bindings from shared palette/theme failures.
 
 Preserve user configuration. Clone built-ins or edit third-party user code; never patch packaged shell files for a customization. Recover a broken replacement bar by restoring `omarchy.bar` or removing custom `bar.id`, retaining a backup. Prefer supported plugin removal; handmade directories may be backed up by the host.
