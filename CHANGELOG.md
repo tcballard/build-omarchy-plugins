@@ -1,6 +1,17 @@
 # Changelog
 
-## 0.10.0 — 2026-10-30
+## 0.11.0 (unreleased)
+
+- Refresh reviewed Omarchy and marketplace pins through 8 November 2026.
+- Add shared motion and reduced-motion guidance, including stopping infinite animation loops.
+- Document journal diagnostics, supervised shell restart and multi-kind plugin lifecycle checks.
+- Remove deprecated Workbench recommendations and generated setup from both scaffold paths.
+- Preserve the pinned starter while recording integration version 3 in generated projects.
+- Centre the Coffee badge on its own README row below the Omarchy badge.
+- Keep README installation commands on published v0.9.0 while preparing this candidate.
+- Align manifests, submission materials and version checks with v0.11.0.
+
+## 0.10.0 (draft, prepared 2026-10-30)
 
 - Add bounded private-content stdin guidance and upgrade-state fixtures.
 - Add an opt-in QML plain-text check with named rich-text exceptions and Qt rendering tests.
