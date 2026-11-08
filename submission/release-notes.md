@@ -1,16 +1,23 @@
-# Build Omarchy Plugins v0.10.0: Keep private data private
+# Build Omarchy Plugins v0.11.0: Current host guidance, simpler scaffolds
 
-I pulled another round of marketplace lessons into the skills: handling private text, testing upgrades and checking what QML actually displays. The skill entry points grow by three lines. The detail stays in linked references.
+Release candidate. Not published yet.
 
-- **Send private text through stdin.** A copyable reader accepts bounded JSON and rejects malformed input without echoing it. The guidance follows messages and filenames through helper subprocesses too.
-- **Exercise upgrades from affected state.** Small fixtures cover private files, saved network profiles and managed services. Adapt them to your plugin's production migration and check that unrelated user data survives.
-- **Make plain-text rendering explicit.** An optional QML check requires literal PlainText bindings, with named exceptions for reviewed rich text such as a bundled licence. It rejects expressions masquerading as literal PlainText and ambiguous exception IDs.
-- **Generate leaner checkouts.** New repositories omit agent instruction files from both the checkout and retained blueprint. Developer docs remain, and cloning or rerunning initialization still works.
+New plugin projects no longer include Workbench setup. Workbench is deprecated, so both scaffold paths now leave you with the project's own checks and the installed Omarchy validator.
 
-Validation passed: 89 Python tests and six Node scaffold cases, with one optional Qt test skipped. Required CI covers Linux, macOS, and Windows. The separate Qt 6.8.3 rendering fixture passed and remains optional. The lexical check cannot prove safety; live Omarchy and Quickshell lifecycle acceptance remains unrun.
+The twelve skills also catch up with Quattro's motion and shell lifecycle:
 
-Same twelve provider-neutral skills, OpenCode support, transactional updates and SPDX 2.3 SBOM. The pinned starter and marketplace contracts are unchanged. Release automation prepares verified drafts and cannot publish them.
+- **Respect reduced motion.** Reuse Omarchy's panel and popup animations, route custom durations through the host setting, and stop infinite animations when motion is disabled.
+- **Diagnose the right layer.** Use bounded shell journal logs, distinguish plugin reload from a full shell restart, and check host fixes for combined bar-widget/service plugins.
+- **Keep generated projects lean.** Workbench files, registration steps and recommendations are removed from generated projects and their retained blueprints. The pinned source template remains intact.
 
-For an existing CLI install, check out `v0.10.0`, preview `--update --diff`, then apply `--update` with your usual target and scope. Check downloaded archives against `SHA256SUMS`.
+Since the last published release, v0.9.0, this also includes the privacy improvements prepared in the unpublished v0.10.0 draft: bounded stdin for private text, upgrade-state fixtures, optional QML plain-text checks, and generated checkouts without authoring-agent instruction files.
 
-[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.9.0...v0.10.0)
+The bundle retains twelve provider-neutral skills, OpenCode support, transactional updates and an SPDX 2.3 SBOM. Release automation prepares verified drafts and cannot publish them.
+
+The README's Coffee badge now sits centred on its own row below the Built for Omarchy badge.
+
+Validation: the refresh passed 89 Python tests, six Node cases and required CI across Linux, macOS, and Windows, with CodeQL green. The local optional Qt fixture was skipped. The release candidate gets its own checks and reproducible package build before tagging. Live Omarchy motion, CPU use, lock/notification recovery and multi-kind lifecycle acceptance remain unrun here; portable checks do not establish those behaviours.
+
+After publication, existing CLI installs can check out `v0.11.0`, preview `--update --diff`, then apply `--update` with their usual target and scope. Verify downloaded archives against `SHA256SUMS`. Until then, the README's install commands use published v0.9.0.
+
+[Changes since the last published release](https://github.com/tcballard/build-omarchy-plugins/compare/v0.9.0...main)

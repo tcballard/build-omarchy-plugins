@@ -39,7 +39,7 @@ reinitialization, adapter parity, packaging and existing regressions. The Qt
 rendering fixture is optional. Live Omarchy motion, CPU usage, lock recovery,
 notification recovery and multi-kind enable/revert remain unrun here. Newer
 Quattro APIs do not retroactively establish compatibility on older installations.
-Versions remain at the published v0.10.0 baseline; this PR prepares source changes,
+At review time, versions remained at the v0.10.0 draft baseline; the refresh prepared source changes,
 not a tagged release or an update to separately installed personal skills.
 
 ## Executed checks
