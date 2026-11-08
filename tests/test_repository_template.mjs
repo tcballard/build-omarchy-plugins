@@ -41,7 +41,7 @@ test('generates initialized project, identity, provenance and executable tests i
   assert(fs.readFileSync(path.join(output, 'StarterWidget.qml'), 'utf8').includes('io.github.tester.example'));
   assert.equal(read(path.join(output, '.template/project.json')).initialized, true);
   assert.equal(read(path.join(output, '.template/source.json')).commit, 'f99681e69937d21c2d4414ac9f65a0fd01fea714');
-  assert.equal(read(path.join(output, '.template/source.json')).integrationVersion, 2);
+  assert.equal(read(path.join(output, '.template/source.json')).integrationVersion, 3);
   assert(!fs.existsSync(path.join(output, '.git')));
   assert.equal(read(path.join(output, 'docs/ACCEPTANCE.json')).status, 'not-run');
   if (process.platform !== 'win32') assert(fs.statSync(path.join(output, 'tests/run')).mode & 0o111);
@@ -62,6 +62,13 @@ test('installed checkout omits agent instructions and still passes its checks', 
   const paths = fs.readdirSync(output, {recursive:true}).map(p => String(p).split(path.sep).join('/'));
   assert(!paths.some(p => /(^|\/)(AGENTS|CLAUDE|HANDOFF)\.md$/.test(p)));
   assert(!Object.hasOwn(read(path.join(output, '.template/receipt.json')), 'AGENTS.md'));
+  assert(!paths.some(p => p.endsWith('.omarchy-workbench.json')));
+  assert(!Object.hasOwn(read(path.join(output, '.template/receipt.json')), '.omarchy-workbench.json'));
+  for (const prefix of ['', '.template/blueprint/']) {
+    for (const relative of ['ARCHITECTURE.md', 'docs/DEVELOPMENT.md']) {
+      assert(!/workbench/i.test(fs.readFileSync(path.join(output, prefix + relative), 'utf8')));
+    }
+  }
   const git = args => {
     const result = spawnSync('git', args, {cwd:output, encoding:'utf8'});
     assert.equal(result.status, 0, result.stderr);
@@ -75,6 +82,8 @@ test('installed checkout omits agent instructions and still passes its checks', 
   assert.equal(reinitialized.status, 0, reinitialized.stderr);
   assert.match(reinitialized.stdout, /Already initialized/);
   assert(!fs.existsSync(path.join(installed, 'AGENTS.md')));
+  assert(!fs.existsSync(path.join(installed, '.omarchy-workbench.json')));
+  assert(!fs.existsSync(path.join(installed, '.template/blueprint/.omarchy-workbench.json')));
   assert(!fs.existsSync(path.join(installed, '.template/blueprint/AGENTS.md')));
   assert.equal(run(['scripts/check.mjs'], installed).status, 0);
   const installedTests = run(['--test', 'tests/template.test.mjs'], installed);

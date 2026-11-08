@@ -18,7 +18,7 @@ Keep ordinary widget options inline in `shell.json`. Shared theme styling belong
 
 See [the host workflow](../skills/omarchy-plugin-design/references/host-workflow.md) for the exact Agents-panel prompt and companion-skill usage. That button launches the configured default agent with the built-in guide; it does not automatically load this bundle.
 
-Helpers use the loaded skill's absolute directory, not the current project directory. Python 3 is required for the bundled Python tools; the optional full repository starter requires Node.js 22+. Reading the instructions requires neither runtime. Workbench, Omakit, VM tooling and provider adapters are optional integrations, not prerequisites for plugin development.
+Helpers use the loaded skill's absolute directory, not the current project directory. Python 3 is required for the bundled Python tools; the optional full repository starter requires Node.js 22+. Reading the instructions requires neither runtime. Omakit, VM tooling and provider adapters are optional integrations, not prerequisites for plugin development.
 
 Carry forward existing decisions, actual changed files and source-bound results in the project's own format. Evidence may refer to commit plus working changes or a fixture digest. Later source edits invalidate affected results. Never turn scaffold validation, a prepared harness or an issue submission into a claim of runtime correctness, release publication or marketplace approval.
 
@@ -27,3 +27,11 @@ fixes carry affected-version fixtures into testing. The test skill's optional
 plain-text policy keeps reviewed rich-text exceptions tied to named objects.
 
 For substantial changes, use the [behavioral cases](../evals/README.md) and [handoff cases](../evals/HANDOFFS.md). Their criteria describe outcomes, not tool-call sequences.
+
+## Host refresh checks
+
+For custom animation, load QML-patterns' motion reference and test the host's
+reduced-motion toggle. For shell exits, debug's failure ladder covers journal
+logging and supported restart. Combined-kind plugins need disable/enable and
+clone/revert acceptance on the target host. Scaffold output uses its own checks
+and installed Omarchy validation; it no longer generates Workbench integration.

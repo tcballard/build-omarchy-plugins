@@ -361,3 +361,19 @@ Source: `omacom/omarchy` commit
 
 Live-desktop execution of these scenarios remains unrun. A text-only guidance
 exercise, when recorded in ACCEPTANCE.md, does not close the runtime checks.
+
+## November host lifecycle and motion
+
+Prompt: Use QML-patterns and debug to fix a plugin whose spinner consumes CPU
+when animations are disabled and whose service keeps old code after saving.
+It combines a bar widget and service; enabling it does not restore its bar entry.
+Use supplied host sources and do not restart the desktop.
+
+Acceptance: stops animation loops under reduced motion, distinguishes
+keepLoaded retention from plugin watching and whole-shell supervision, checks
+the installed registry for the multi-kind enable fix, and proposes bounded
+journal inspection. Does not launch a second shell, bypass lock protection or
+claim target-host behaviour from portable tests. Scaffold follow-up should run
+its own checks without creating or requiring Workbench configuration.
+
+Execution status: scenario defined; live desktop execution remains unrun.

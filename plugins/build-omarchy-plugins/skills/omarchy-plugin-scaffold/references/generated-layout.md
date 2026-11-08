@@ -5,7 +5,6 @@ The generator creates a standalone public Git repository with this baseline:
 ```text
 plugin-name/
 ├── .github/workflows/test.yml
-├── .omarchy-workbench.json
 ├── demo/fixtures/example.json
 ├── scripts/validate_manifest.py
 ├── tests/run
@@ -49,19 +48,6 @@ instructions, and license.
 The generated validator is a portable structural check for CI. On the target
 machine, `omarchy plugin validate .` remains authoritative for the installed
 Omarchy revision.
-
-The Workbench definition declares the root plugin and the exact
-`["./tests/run"]` argument vector as both a portable check and a
-capability-gated validation workflow. It also declares Git and Python as
-required environment probes and Omarchy as optional. Plugin Workbench reads
-those commands during registration but deliberately leaves them untrusted until
-the user reviews the file and explicitly approves project commands and the
-workflow capability.
-
-
-## Optional Workbench registration
-
-Workbench is a companion, not an agent harness requirement. When requested and installed, register the checkout with `omarchy-plugin-workbench add <path>`. Inspect `.omarchy-workbench.json` commands before `trust <id>` or `check <id>`; reuse existing specific authorization, otherwise obtain it for trusting those commands. Missing Workbench does not block generation, implementation or ordinary validation.
 
 ## README badges and GitHub topics
 
