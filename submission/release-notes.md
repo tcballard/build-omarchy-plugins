@@ -1,23 +1,15 @@
-# Build Omarchy Plugins v0.11.0: Current host guidance, simpler scaffolds
+# Build Omarchy Plugins v0.11.1: Installation docs catch up
 
-Release candidate. Not published yet.
+This maintenance release fixes stale installation and release documentation after v0.11.0 shipped.
 
-New plugin projects no longer include Workbench setup. Workbench is deprecated, so both scaffold paths now leave you with the project's own checks and the installed Omarchy validator.
+- README checkout commands and archive examples now use the published v0.11.0 baseline instead of v0.9.0, including the Claude Code plugin instructions.
+- The changelog records v0.11.0 as published on 8 November 2026.
+- Distribution manifests and submission metadata agree on v0.11.1.
 
-The twelve skills also catch up with Quattro's motion and shell lifecycle:
+The twelve provider-neutral skills, generators, validators and reviewed upstream contract pins are unchanged from v0.11.0. The bundle retains OpenCode support, transactional updates and an SPDX 2.3 SBOM. Required CI covers Linux, macOS, and Windows. Release automation prepares verified drafts and cannot publish them.
 
-- **Respect reduced motion.** Reuse Omarchy's panel and popup animations, route custom durations through the host setting, and stop infinite animations when motion is disabled.
-- **Diagnose the right layer.** Use bounded shell journal logs, distinguish plugin reload from a full shell restart, and check host fixes for combined bar-widget/service plugins.
-- **Keep generated projects lean.** Workbench files, registration steps and recommendations are removed from generated projects and their retained blueprints. The pinned source template remains intact.
+Validation for this candidate must come from its own CI and release workflow. Publication requires successful CI / Required, two byte-identical builds, provenance attestations and downloaded-asset verification. No fresh live desktop or model-behaviour testing is claimed.
 
-Since the last published release, v0.9.0, this also includes the privacy improvements prepared in the unpublished v0.10.0 draft: bounded stdin for private text, upgrade-state fixtures, optional QML plain-text checks, and generated checkouts without authoring-agent instruction files.
+Existing CLI installs can check out `v0.11.1` after publication, preview `--update --diff`, then apply `--update` with their usual target and scope. Verify downloaded archives against `SHA256SUMS`.
 
-The bundle retains twelve provider-neutral skills, OpenCode support, transactional updates and an SPDX 2.3 SBOM. Release automation prepares verified drafts and cannot publish them.
-
-The README's Coffee badge now sits centred on its own row below the Built for Omarchy badge.
-
-Validation: the refresh passed 89 Python tests, six Node cases and required CI across Linux, macOS, and Windows, with CodeQL green. The local optional Qt fixture was skipped. The release candidate gets its own checks and reproducible package build before tagging. Live Omarchy motion, CPU use, lock/notification recovery and multi-kind lifecycle acceptance remain unrun here; portable checks do not establish those behaviours.
-
-After publication, existing CLI installs can check out `v0.11.0`, preview `--update --diff`, then apply `--update` with their usual target and scope. Verify downloaded archives against `SHA256SUMS`. Until then, the README's install commands use published v0.9.0.
-
-[Changes since the last published release](https://github.com/tcballard/build-omarchy-plugins/compare/v0.9.0...main)
+[Full changes](https://github.com/tcballard/build-omarchy-plugins/compare/v0.11.0...v0.11.1)

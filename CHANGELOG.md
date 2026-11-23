@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.11.0 (unreleased)
+## 0.11.1 (unreleased)
+
+- Point README installation commands and archive examples at published v0.11.0.
+- Record the v0.11.0 publication date and replace stale candidate release copy.
+- Align distribution manifests and submission metadata with v0.11.1.
+
+## 0.11.0 — 2026-11-08
 
 - Refresh reviewed Omarchy and marketplace pins through 8 November 2026.
 - Add shared motion and reduced-motion guidance, including stopping infinite animation loops.
