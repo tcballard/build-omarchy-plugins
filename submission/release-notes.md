@@ -6,7 +6,7 @@ This maintenance release fixes stale installation and release documentation afte
 - The changelog records v0.11.0 as published on 8 November 2026.
 - Distribution manifests and submission metadata agree on v0.11.1.
 
-The twelve skills, generators, validators and reviewed upstream contract pins are unchanged from v0.11.0.
+The twelve provider-neutral skills, generators, validators and reviewed upstream contract pins are unchanged from v0.11.0. The bundle retains OpenCode support, transactional updates and an SPDX 2.3 SBOM. Required CI covers Linux, macOS, and Windows. Release automation prepares verified drafts and cannot publish them.
 
 Validation for this candidate must come from its own CI and release workflow. Publication requires successful CI / Required, two byte-identical builds, provenance attestations and downloaded-asset verification. No fresh live desktop or model-behaviour testing is claimed.
 
