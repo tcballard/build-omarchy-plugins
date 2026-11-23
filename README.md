@@ -21,8 +21,8 @@ needs more care than a manifest and a few QML examples. The bundle includes
 generators and checks for that work; the plugin you make still needs testing on
 your target Omarchy desktop.
 
-**Start here:** [Install the v0.9.0 skills](#install-the-agent-skills), then
-[choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.9.0).
+**Start here:** [Install the v0.11.0 skills](#install-the-agent-skills), then
+[choose a workflow](docs/WORKFLOWS.md). [Release downloads and checksums](https://github.com/tcballard/build-omarchy-plugins/releases/tag/v0.11.0).
 
 ## Use with Omarchy's Agents panel
 
@@ -84,19 +84,19 @@ For agent/harness-independent usage, see the
 [behavioral evaluation cases](evals/README.md). The skills keep model selection
 in the host and scale their workflow to the requested change.
 
-The next release, **v0.11.0**, is in preparation. Read the [candidate release notes](submission/release-notes.md); the installation commands below stay on published v0.9.0 until publication.
+The next release, **v0.11.1**, is in preparation. Read the [candidate release notes](submission/release-notes.md); the installation commands below stay on published v0.11.0 until publication.
 
 ## Install the Agent Skills
 
 Clone a reviewed release, then install the skills into the shared interoperable
 location used by Codex, Cursor, Gemini CLI, and OpenCode:
 
-These instructions target **v0.9.0**. Use its published tag and checksummed
+These instructions target **v0.11.0**. Use its published tag and checksummed
 assets from [GitHub Releases](https://github.com/tcballard/build-omarchy-plugins/releases).
 A draft release or a newer `main` checkout is not a published release.
 
 ```bash
-git clone --branch v0.9.0 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
+git clone --branch v0.11.0 --depth 1 https://github.com/tcballard/build-omarchy-plugins.git
 cd build-omarchy-plugins
 python3 scripts/install_agent_skills.py --target agents --scope user
 ```
@@ -123,7 +123,7 @@ every lifecycle change before applying it:
 
 ```bash
 git fetch --tags
-git checkout v0.9.0
+git checkout v0.11.0
 python3 scripts/install_agent_skills.py --target agents --scope user --update --diff
 python3 scripts/install_agent_skills.py --target agents --scope user --update
 ```
@@ -267,9 +267,9 @@ safe. Review source and dependencies before enabling any plugin.
 
 MIT
 
-## Claude Code plugin (v0.9.0)
+## Claude Code plugin (v0.11.0)
 
-Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.9.0 checkout,
+Native Claude Code packaging was introduced in v0.3.1. From a reviewed v0.11.0 checkout,
 validate and try the plugin locally:
 
 ```bash
@@ -286,8 +286,8 @@ Code:
 ```
 
 Use either this plugin or the existing `--target claude` skills installer to
-avoid loading duplicate skills. The v0.9.0 release build includes a separate
-`build-omarchy-plugins-claude-plugin-0.9.0.zip`, with the same twelve canonical
+avoid loading duplicate skills. The v0.11.0 release build includes a separate
+`build-omarchy-plugins-claude-plugin-0.11.0.zip`, with the same twelve canonical
 skills and their helpers. This is a community marketplace, not an official
 Anthropic listing. OpenAI and Anthropic marketplace submissions remain on hold
 while stewardship is discussed.
